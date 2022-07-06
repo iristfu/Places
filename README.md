@@ -156,7 +156,7 @@ Place
 | Property | Type | Description |
 | --- | --- | --- |
 | placeID | String | ID associated with Google Places SDK |
-| favoritedBy | Array of users | users who have favorited the location |
+| favoritedBy | Array of Users | users who have favorited the location |
 
 User
 | Property | Type | Description |
