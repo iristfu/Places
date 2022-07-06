@@ -136,10 +136,90 @@ An app that helps you plan, track, and share the places you go.
 
 
 ## Schema 
-[This section will be completed in Unit 9]
 ### Models
-[Add table of models]
+Itinerary
+| Property | Type | Description |
+| --- | --- | --- |
+| name | String | name for the itinerary |
+| author | pointer to User | who created the itinerary |
+| thumbnail | File | thumbnail image for itinerary |
+| startDate | DateTime | when itinerary begins |
+| endDate | DateTime | when itinerary ends |
+| lodgingDetails | String | any details about lodging |
+| travelDetails | String | any details about transportation |
+| lodgingPrice | Number | price of lodging |
+| travelPrice | Number | price of transportation |
+| totalCost | Number | estimated total cost of itinerary |
+| placesToGo | Array of Pointers to Place | the places that are planned in this itinerary |
+
+Place
+| Property | Type | Description |
+| --- | --- | --- |
+| placeID | String | ID associated with Google Places SDK |
+| favoritedBy | Array of users | users who have favorited the location |
+
+User
+| Property | Type | Description |
+| --- | --- | --- |
+| name | String | name of account holder |
+| username | String | username for accoount |
+| profile picture | File | proifle picture |
+| bio | String | user bio |
+
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+#### Parse network requests
+* Login Screen
+    * (Read/GET) Get user information based on login information
+* Register Screen
+    * (Create/POST) Create a new User object
+* Itineraries Screen
+    * (Read/GET) List out logged in user's itineraries
+        ```
+        PFQuery *query = [PFQuery queryWithClassName:@"Itinerary"];
+        [query orderByDescending:@"createdAt"];
+        [query includeKey:@"author"];
+        [query whereKey:@"author" equalTo:self.user];
+
+        // fetch data asynchronously
+        [query findObjectsInBackgroundWithBlock:^(NSArray *itineraries, NSError *error) {
+            if (itineraries != nil) {
+                NSLog(@"This is what we got from the query: %@", itineraries);
+                for (PFObject *itinerary in itierarires) {
+                    NSLog(@"Got itinerary %@", itinerary);
+                    // TODO: do something with itinerary
+                }
+            } else {
+                NSLog(@"%@", error.localizedDescription);
+            }
+        }];
+        ```
+    * (Create/POST) Create a new itinerary
+      ```
+        Itinerary *newItinerary = [Itinerary new];
+        // TODO: set thumbnailImage with a default behavior like the first place-to-go's image
+        newItinerary.thumbnail = [self getPFFileFromImage:thumbnailImage]; 
+        newPost.author = [PFUser currentUser];
+        ...
+    
+        [newPost saveInBackgroundWithBlock: completion];
+      ```
+* Favorites Screen
+    * (Read/GET) List out logged in user's favorites
+* Location Detail View
+    * (Create/POST) Create a new itinerary (?? no, I wouldn't store all the locations in my Parse database)
+
+
+#### [OPTIONAL:] Exisiting API Endpoints
+##### Google Places API
+| Property | Type | Description |
+| --- | --- | --- |
+| name | GMSPlaceFieldName | name of the place |
+| placeID | GMSPlaceFieldPlaceID | unique ID of the place |
+| photos | GMSPlaceFieldPhotos  | photos the place |
+| rating | GMSPlaceFieldRating  | rating of the place by others |
+| categories | GMSPlaceFieldTypes | type of place |
+| priceLevel | GMSPlaceFieldPriceLevel | general price range represented by 1-4 dollar signs |
+| location | GMSPlaceFieldCoordinate or GMSPlaceFieldViewport | longtitude and latitude in map or viewport for the map |
+
+##### Google Maps API
+* for displayig a map with a pinned location (provide latitude and longitude)
