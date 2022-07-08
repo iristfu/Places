@@ -26,9 +26,8 @@ An app that helps you plan, track, and share the places you go.
 
 * User can register for a new account.
 * User can login and logout. Information within an account is persistent.
-* User can "heart" or favorite locations to save them. User can access all their favorited locations in one list.
-    * There is a tab which shows a table view that displays the user's favorited places.
-* For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
+* User can "heart" or favorite locations to save them. 
+    * There is a tab which shows a table view that displays the user's favorited places where the user can access all their favorited locations in one list.
 * User can create a new itinerary that always includes transportation (e.g. any flights), lodging (e.g. hotel information and dates), places to go, and estimated price. The information in these fields are manually added by the user.
     * There is a tab which shows a table view that displays the user's itineraries. 
     * Users can create new itineraries from this tab. 
@@ -49,6 +48,8 @@ An app that helps you plan, track, and share the places you go.
 
 * User can add a "liked" place to a chosen itinerary.
 * User can edit a previously made itinerary within the itinerary details view.
+* For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
+* User can unfavorite locations from the favorite list and reorder items on the favorite list.
 * User profile page includes a scrolling view of their favorited places and itineraries that they've created.
 * The detail view of location includes notes added by the user, including photos they've taken.
 * Feed sharing -- *technical challenge*
@@ -84,9 +85,6 @@ An app that helps you plan, track, and share the places you go.
     * User can "heart" or favorite locations to save them. User can access all their favorited locations in one list.
 * Itinieraries list
     * User can create, edit, and view itineraries.
-* Location detail view
-    * For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
-    * The app leverages the Google Maps API and/or the TripAdvisor API to get more information about a place.
 * Itinerary detail view
     * User can share an itinerary - planned technical challenge.
 * Itinerary creation 
@@ -114,7 +112,7 @@ An app that helps you plan, track, and share the places you go.
 * Explore
     => Location detail view
 * Favorites
-    => Location detail view
+    => None
 * Itinieraries list
     => Itinerary creation 
     => Itinerary detail view
@@ -153,10 +151,17 @@ Itinerary
 | placesToGo | Array of Pointers to Place | the places that are planned in this itinerary |
 
 Place
+Note: we pull the Place object information from the Google Place API -- the purpose of this model is such that the app can interface easily with other APIs in the future, in case we want to switch from using the Google Place API.
 | Property | Type | Description |
 | --- | --- | --- |
-| placeID | String | ID associated with Google Places SDK |
-| favoritedBy | Array of Users | users who have favorited the location |
+| name | String | name of the place |
+| placeID | String | unique ID of the place |
+| photos | Array of Files  | photos the place |
+| rating | Number  | rating of the place by others |
+| categories | Array of Strings | type of place |
+| priceLevel | Number | general price range represented by 1-4 dollar signs |
+| location | Array of Numbers | longtitude and latitude in map or viewport for the map |
+
 
 User
 | Property | Type | Description |
@@ -165,6 +170,7 @@ User
 | username | String | username for accoount |
 | profile picture | File | proifle picture |
 | bio | String | user bio |
+| favroitedPlaces | Array of Place | the places that the user has favorited |
 
 ### Networking
 #### Parse network requests
@@ -223,3 +229,6 @@ User
 
 ##### Google Maps API
 * for displayig a map with a pinned location (provide latitude and longitude)
+
+## Weekly Milestones
+https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/edit?usp=sharing
