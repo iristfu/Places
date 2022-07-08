@@ -20,6 +20,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
+                initWithTarget:self action:@selector(handleSingleTap:)];
+    tapper.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapper];
+}
+
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender {
+    [self.view endEditing:YES];
 }
 
 - (void)registerUser {
@@ -37,7 +46,8 @@
         } else {
             NSLog(@"User registered successfully");
             
-            // manually segue to logged in view
+            // display view controller that needs to shown after successful sign up
+            [self performSegueWithIdentifier:@"SignedUpSegue" sender:nil];
         }
     }];
 }
