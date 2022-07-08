@@ -25,8 +25,6 @@
 
 #import <ParseUI/ParseUIConstants.h>
 
-@import Parse;
-
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^PFImageViewImageResultBlock)(UIImage *__nullable image,  NSError *__nullable error);
@@ -44,7 +42,7 @@ typedef void(^PFImageViewImageResultBlock)(UIImage *__nullable image,  NSError *
 
  @warning Note that the download does not start until `-loadInBackground:` is called.
  */
-@property (nullable, nonatomic, strong) PFFileObject *file;
+@property (nullable, nonatomic, strong) PFFile *file;
 
 /**
  Initiate downloading of the remote image.
