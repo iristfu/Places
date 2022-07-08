@@ -6,9 +6,13 @@
 //
 
 #import "ProfileViewController.h"
+#import "AppDelegate.h"
+#import "SceneDelegate.h"
+@import Parse;
 
 @interface ProfileViewController ()
 - (IBAction)didTapLogout:(id)sender;
+
 
 @end
 
@@ -29,8 +33,8 @@
     SceneDelegate *myDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    HomeFeedViewController *homeFeedViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    myDelegate.window.rootViewController = homeFeedViewController;
+    ProfileViewController *profileViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    myDelegate.window.rootViewController = profileViewController;
 }
 
 @end

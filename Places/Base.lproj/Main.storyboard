@@ -78,7 +78,7 @@
         <!--Login View Controller-->
         <scene sceneID="Z17-gK-4tj">
             <objects>
-                <viewController id="cym-6J-RDa" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="cym-6J-RDa" customClass="LoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I5Z-CT-NyW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -301,10 +301,10 @@
             </objects>
             <point key="canvasLocation" x="1296" y="2515"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile View Controller-->
         <scene sceneID="jET-Xd-pQF">
             <objects>
-                <viewController id="vXL-3Y-hcP" sceneMemberID="viewController">
+                <viewController id="vXL-3Y-hcP" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n7x-b4-FdV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -313,20 +313,19 @@
                     </view>
                     <navigationItem key="navigationItem" id="6sg-rd-xbH">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="tYz-Wd-bBF">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="bAG-fc-9i9">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="bAG-fc-9i9">
                                 <rect key="frame" x="20" y="11" width="92" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Logout"/>
+                                <connections>
+                                    <action selector="didTapLogout:" destination="vXL-3Y-hcP" eventType="touchUpInside" id="xkI-l9-yZH"/>
+                                </connections>
                             </button>
-                            <connections>
-                                <action selector="didTapLogout:" destination="3RN-dG-59E" id="pIu-bw-bnB"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNy-2R-9KD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="3RN-dG-59E" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2703" y="2515"/>
         </scene>
