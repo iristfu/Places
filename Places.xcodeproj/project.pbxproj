@@ -20,6 +20,7 @@
 		7B1A97C82874F7A9007D53F1 /* PlacesUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A97C72874F7A9007D53F1 /* PlacesUITests.m */; };
 		7B1A97CA2874F7A9007D53F1 /* PlacesUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A97C92874F7A9007D53F1 /* PlacesUITestsLaunchTests.m */; };
 		7B297E952877E33900B5BCB4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297E942877E33900B5BCB4 /* LoginViewController.m */; };
+		7B297E9B2877E82900B5BCB4 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297E9A2877E82900B5BCB4 /* TabBarController.m */; };
 		7BF917982877DB800042641C /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF917972877DB800042641C /* SignUpViewController.m */; };
 		CFB9F1394D47D15BCD660DA3 /* Pods_Places_PlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E0034AF7CD8494A82B4735 /* Pods_Places_PlacesUITests.framework */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,8 @@
 		7B1A97C92874F7A9007D53F1 /* PlacesUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacesUITestsLaunchTests.m; sourceTree = "<group>"; };
 		7B297E932877E33900B5BCB4 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		7B297E942877E33900B5BCB4 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		7B297E992877E82900B5BCB4 /* TabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
+		7B297E9A2877E82900B5BCB4 /* TabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
 		7BF917962877DB800042641C /* SignUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		7BF917972877DB800042641C /* SignUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		97FFA15AC131F6C43064546D /* Pods-PlacesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.debug.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 				7BF917972877DB800042641C /* SignUpViewController.m */,
 				7B297E932877E33900B5BCB4 /* LoginViewController.h */,
 				7B297E942877E33900B5BCB4 /* LoginViewController.m */,
+				7B297E992877E82900B5BCB4 /* TabBarController.h */,
+				7B297E9A2877E82900B5BCB4 /* TabBarController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -466,6 +471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B297E9B2877E82900B5BCB4 /* TabBarController.m in Sources */,
 				7B1A97B42874F7A9007D53F1 /* main.m in Sources */,
 				7BF917982877DB800042641C /* SignUpViewController.m in Sources */,
 				7B297E952877E33900B5BCB4 /* LoginViewController.m in Sources */,
