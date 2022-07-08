@@ -25,7 +25,7 @@
 
 #import <ParseUI/ParseUIConstants.h>
 
-#import <Parse/PFFileObject.h>
+@import Parse;
 
 NS_ASSUME_NONNULL_BEGIN
 
