@@ -7,7 +7,7 @@ target 'Places' do
 
   # Pods for Places
   pod 'Parse'
-  pod 'Parse/UI'
+  pod 'ParseUI'
   pod 'DateTools'
   pod 'SVPullToRefresh'
   pod 'MBProgressHUD'
