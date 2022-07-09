@@ -196,7 +196,7 @@
         <scene sceneID="6wP-WU-gV0">
             <objects>
                 <navigationController id="nvN-OB-7sU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Discover" id="aFf-su-Mym"/>
+                    <tabBarItem key="tabBarItem" title="Discover" image="network" catalog="system" id="aFf-su-Mym"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eBq-3a-GWJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -238,11 +238,11 @@
             </objects>
             <point key="canvasLocation" x="-371" y="2515"/>
         </scene>
-        <!--Item-->
+        <!--Favorites-->
         <scene sceneID="gpk-zS-ajZ">
             <objects>
                 <navigationController id="QYy-yK-Nxx" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="eT0-aS-uRm"/>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="heart" catalog="system" id="eT0-aS-uRm"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vHs-tz-Oa9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -259,7 +259,7 @@
         <scene sceneID="093-na-S9d">
             <objects>
                 <navigationController id="nUy-f2-Ymc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="GId-Js-gBR"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="GId-Js-gBR"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="78b-gZ-o60">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -354,11 +354,11 @@
             </objects>
             <point key="canvasLocation" x="2702.898550724638" y="2514.5089285714284"/>
         </scene>
-        <!--Item-->
+        <!--Itineraries-->
         <scene sceneID="hZX-df-Zat">
             <objects>
                 <navigationController id="97P-ss-K2Q" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="nfA-LS-BUr"/>
+                    <tabBarItem key="tabBarItem" title="Itineraries" image="list.bullet.rectangle.portrait" catalog="system" id="nfA-LS-BUr"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="G78-eS-mbu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -376,6 +376,10 @@
         <segue reference="qDb-7T-j1v"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
+        <image name="network" catalog="system" width="128" height="121"/>
+        <image name="person" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
