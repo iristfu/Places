@@ -187,14 +187,37 @@
                     <view key="view" contentMode="scaleToFill" id="x34-UD-xL2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="onh-dv-iNd">
+                                <rect key="frame" x="0.0" y="107" width="414" height="706"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Ohj-g5-9Me">
+                                <rect key="frame" x="0.0" y="56" width="414" height="51"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Z8x-UA-SPz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="onh-dv-iNd" firstAttribute="bottom" secondItem="Z8x-UA-SPz" secondAttribute="bottom" id="NnG-so-1I0"/>
+                            <constraint firstItem="onh-dv-iNd" firstAttribute="top" secondItem="Ohj-g5-9Me" secondAttribute="bottom" id="aNd-E5-pjl"/>
+                            <constraint firstItem="onh-dv-iNd" firstAttribute="leading" secondItem="Z8x-UA-SPz" secondAttribute="leading" id="doV-vO-fyc"/>
+                            <constraint firstItem="Ohj-g5-9Me" firstAttribute="leading" secondItem="Z8x-UA-SPz" secondAttribute="leading" id="ghr-9z-31A"/>
+                            <constraint firstItem="Z8x-UA-SPz" firstAttribute="trailing" secondItem="Ohj-g5-9Me" secondAttribute="trailing" id="ksL-dB-yNO"/>
+                            <constraint firstItem="Z8x-UA-SPz" firstAttribute="trailing" secondItem="onh-dv-iNd" secondAttribute="trailing" id="q5b-al-I6u"/>
+                            <constraint firstItem="Ohj-g5-9Me" firstAttribute="top" secondItem="Z8x-UA-SPz" secondAttribute="top" id="sNV-Ah-W9v"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="80M-Zo-ZwF"/>
+                    <connections>
+                        <outlet property="searchBar" destination="Ohj-g5-9Me" id="gOb-lQ-ECc"/>
+                        <outlet property="searchResults" destination="onh-dv-iNd" id="dOo-j6-qLI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FkT-f0-KvV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1984" y="2515"/>
+            <point key="canvasLocation" x="-1984.057971014493" y="2514.5089285714284"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="rpY-sJ-Dru">
@@ -360,7 +383,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qDb-7T-j1v"/>
+        <segue reference="jge-a7-93w"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="heart" catalog="system" width="128" height="109"/>

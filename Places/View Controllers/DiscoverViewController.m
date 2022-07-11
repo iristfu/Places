@@ -15,26 +15,27 @@
 @end
 
 @implementation DiscoverViewController {
-    UITableView *tableView;
+    // QUESTION: What does this code do? Iniaitlize variables that will be used across functions
+//    UITableView *tableView;
     GMSAutocompleteTableDataSource *tableDataSource;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
-  searchBar.delegate = self;
+//  UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
+  self.searchBar.delegate = self;
 
-  [self.view addSubview:searchBar];
+  [self.view addSubview:self.searchBar];
 
   tableDataSource = [[GMSAutocompleteTableDataSource alloc] init];
   tableDataSource.delegate = self;
 
-  tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 44)];
-  tableView.delegate = tableDataSource;
-  tableView.dataSource = tableDataSource;
+//  tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 44)];
+  self.searchResults.delegate = tableDataSource;
+  self.searchResults.dataSource = tableDataSource;
 
-  [self.view addSubview:tableView];
+  [self.view addSubview:self.searchResults];
 }
 
 #pragma mark - GMSAutocompleteTableDataSourceDelegate
@@ -44,7 +45,7 @@
   UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
 
   // Reload table data.
-  [tableView reloadData];
+  [self.searchResults reloadData];
 }
 
 - (void)didRequestAutocompletePredictionsForTableDataSource:(GMSAutocompleteTableDataSource *)tableDataSource {
@@ -52,7 +53,7 @@
   UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
 
   // Reload table data.
-  [tableView reloadData];
+  [self.searchResults reloadData];
 }
 
 - (void)tableDataSource:(GMSAutocompleteTableDataSource *)tableDataSource didAutocompleteWithPlace:(GMSPlace *)place {
