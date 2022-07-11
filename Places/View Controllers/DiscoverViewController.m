@@ -8,60 +8,115 @@
 #import "DiscoverViewController.h"
 #import "GooglePlaces/GMSPlace.h"
 #import "GooglePlaces/GMSAutocompleteResultsViewController.h"
+#import "GooglePlaces/GMSAutocompleteTableDataSource.h"
 
-@interface DiscoverViewController ()
+@interface DiscoverViewController () <GMSAutocompleteTableDataSourceDelegate, UISearchBarDelegate>
 
 @end
 
-@implementation DiscoverViewController
+@implementation DiscoverViewController {
+    UITableView *tableView;
+    GMSAutocompleteTableDataSource *tableDataSource;
+}
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    GMSAutocompleteResultsViewController *_resultsViewController = [[GMSAutocompleteResultsViewController alloc] init];
-    _resultsViewController.delegate = self;
+  [super viewDidLoad];
 
-    UISearchController *_searchController = [[UISearchController alloc]
-                             initWithSearchResultsController:_resultsViewController];
-    _searchController.searchResultsUpdater = _resultsViewController;
+  UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
+  searchBar.delegate = self;
 
-    UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(0, 65.0, 250, 50)];
+  [self.view addSubview:searchBar];
 
-    [subView addSubview:_searchController.searchBar];
-    [_searchController.searchBar sizeToFit];
-    [self.view addSubview:subView];
+  tableDataSource = [[GMSAutocompleteTableDataSource alloc] init];
+  tableDataSource.delegate = self;
 
-    // When UISearchController presents the results view, present it in
-    // this view controller, not one further up the chain.
-    self.definesPresentationContext = YES;
+  tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 44)];
+  tableView.delegate = tableDataSource;
+  tableView.dataSource = tableDataSource;
+
+  [self.view addSubview:tableView];
 }
 
-// Handle the user's selection.
-- (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
-didAutocompleteWithPlace:(GMSPlace *)place {
-  [self dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - GMSAutocompleteTableDataSourceDelegate
+
+- (void)didUpdateAutocompletePredictionsForTableDataSource:(GMSAutocompleteTableDataSource *)tableDataSource {
+  // Turn the network activity indicator off.
+  UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
+
+  // Reload table data.
+  [tableView reloadData];
+}
+
+- (void)didRequestAutocompletePredictionsForTableDataSource:(GMSAutocompleteTableDataSource *)tableDataSource {
+  // Turn the network activity indicator on.
+  UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
+
+  // Reload table data.
+  [tableView reloadData];
+}
+
+- (void)tableDataSource:(GMSAutocompleteTableDataSource *)tableDataSource didAutocompleteWithPlace:(GMSPlace *)place {
   // Do something with the selected place.
-  NSLog(@"Place name %@", place.name);
-  NSLog(@"Place address %@", place.formattedAddress);
-  NSLog(@"Place attributions %@", place.attributions.string);
+  NSLog(@"Place name: %@", place.name);
+  NSLog(@"Place address: %@", place.formattedAddress);
+  NSLog(@"Place attributions: %@", place.attributions);
 }
 
-- (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
-didFailAutocompleteWithError:(NSError *)error {
-  [self dismissViewControllerAnimated:YES completion:nil];
-  // TODO: handle the error.
-  NSLog(@"Error: %@", [error description]);
+- (void)tableDataSource:(GMSAutocompleteTableDataSource *)tableDataSource didFailAutocompleteWithError:(NSError *)error {
+  // Handle the error
+  NSLog(@"Error %@", error.description);
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (BOOL)tableDataSource:(GMSAutocompleteTableDataSource *)tableDataSource didSelectPrediction:(GMSAutocompletePrediction *)prediction {
+  return YES;
 }
-*/
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+  // Update the GMSAutocompleteTableDataSource with the search text.
+  [tableDataSource sourceTextHasChanged:searchText];
+}
+
+//
+//- (void)viewDidLoad {
+//    [super viewDidLoad];
+//
+//    GMSAutocompleteResultsViewController _resultsViewController = [[GMSAutocompleteResultsViewController alloc] init];
+//    _resultsViewController.delegate = self;
+//
+//    UISearchController *_searchController = [[UISearchController alloc]
+//                             initWithSearchResultsController:_resultsViewController];
+//    _searchController.searchResultsUpdater = _resultsViewController;
+//
+//    UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(0, 65.0, 250, 50)];
+//
+//    [subView addSubview:_searchController.searchBar];
+//    [_searchController.searchBar sizeToFit];
+//    [self.view addSubview:subView];
+//
+//    // When UISearchController presents the results view, present it in
+//    // this view controller, not one further up the chain.
+//    self.definesPresentationContext = YES;
+//}
+//
+//// Handle the user's selection.
+//- (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
+//didAutocompleteWithPlace:(GMSPlace *)place {
+//  [self dismissViewControllerAnimated:YES completion:nil];
+//  // Do something with the selected place.
+//  NSLog(@"Place name %@", place.name);
+//  NSLog(@"Place address %@", place.formattedAddress);
+//  NSLog(@"Place attributions %@", place.attributions.string);
+//}
+//
+//- (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
+//didFailAutocompleteWithError:(NSError *)error {
+//  [self dismissViewControllerAnimated:YES completion:nil];
+//  // TODO: handle the error.
+//  NSLog(@"Error: %@", [error description]);
+//}
+
+
 
 @end
