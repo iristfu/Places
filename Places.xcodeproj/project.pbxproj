@@ -25,6 +25,7 @@
 		7B297EA1287C00EF00B5BCB4 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EA0287C00EF00B5BCB4 /* DiscoverViewController.m */; };
 		7B297EA5287C907E00B5BCB4 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EA4287C907E00B5BCB4 /* APIManager.m */; };
 		7B297EA9287CD61800B5BCB4 /* PlaceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EA8287CD61800B5BCB4 /* PlaceTableViewCell.m */; };
+		7B297EAD287CDB4700B5BCB4 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EAC287CDB4700B5BCB4 /* Place.m */; };
 		7BF917982877DB800042641C /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF917972877DB800042641C /* SignUpViewController.m */; };
 		CFB9F1394D47D15BCD660DA3 /* Pods_Places_PlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E0034AF7CD8494A82B4735 /* Pods_Places_PlacesUITests.framework */; };
 /* End PBXBuildFile section */
@@ -79,6 +80,8 @@
 		7B297EA4287C907E00B5BCB4 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		7B297EA7287CD61800B5BCB4 /* PlaceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaceTableViewCell.h; sourceTree = "<group>"; };
 		7B297EA8287CD61800B5BCB4 /* PlaceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaceTableViewCell.m; sourceTree = "<group>"; };
+		7B297EAB287CDB4700B5BCB4 /* Place.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
+		7B297EAC287CDB4700B5BCB4 /* Place.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
 		7BF917962877DB800042641C /* SignUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		7BF917972877DB800042641C /* SignUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		97FFA15AC131F6C43064546D /* Pods-PlacesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.debug.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -153,6 +156,7 @@
 			children = (
 				7BF917992877DB880042641C /* View Controllers */,
 				7B297EA6287CD5E200B5BCB4 /* Views */,
+				7B297EAA287CDB1800B5BCB4 /* Models */,
 				7B297EA2287C8A1400B5BCB4 /* API */,
 				7B1A979E2874F7A8007D53F1 /* AppDelegate.h */,
 				7B1A979F2874F7A8007D53F1 /* AppDelegate.m */,
@@ -201,6 +205,15 @@
 				7B297EA8287CD61800B5BCB4 /* PlaceTableViewCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7B297EAA287CDB1800B5BCB4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7B297EAB287CDB4700B5BCB4 /* Place.h */,
+				7B297EAC287CDB4700B5BCB4 /* Place.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		7BF917992877DB880042641C /* View Controllers */ = {
@@ -510,6 +523,7 @@
 				7B297E9B2877E82900B5BCB4 /* TabBarController.m in Sources */,
 				7B297EA1287C00EF00B5BCB4 /* DiscoverViewController.m in Sources */,
 				7B1A97B42874F7A9007D53F1 /* main.m in Sources */,
+				7B297EAD287CDB4700B5BCB4 /* Place.m in Sources */,
 				7B297E9E28789D2500B5BCB4 /* ProfileViewController.m in Sources */,
 				7B297EA5287C907E00B5BCB4 /* APIManager.m in Sources */,
 				7B297EA9287CD61800B5BCB4 /* PlaceTableViewCell.m in Sources */,
