@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Place : PFObject
 @property (nonatomic, strong) NSString *placeID;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSArray *photos;
 @property (nonatomic, strong) NSNumber *rating;
 @property (nonatomic, strong) NSArray *categories;
