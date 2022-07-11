@@ -20,4 +20,6 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)didTapAddToFavorites:(id)sender {
+}
 @end
