@@ -22,6 +22,7 @@
     
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
+    self.searchResults.rowHeight = UITableViewAutomaticDimension;
     
     [self loadDefaultPlacesToDisplay];
 }
@@ -63,6 +64,9 @@
     NSDictionary *place = self.places[indexPath.row];
     NSLog(@"Current place: %@", place);
     placeTableViewCell.placeName.text = place[@"name"];
+    // TODO: figure out how to index into rating and photos
+//    placeTableViewCell.placeRatings.text = place[rating];
+    placeTableViewCell.placeAddress.text = place[@"formatted_address"];
     return placeTableViewCell;
 }
 
