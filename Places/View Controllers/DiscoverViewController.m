@@ -10,32 +10,20 @@
 #import "GooglePlaces/GMSAutocompleteResultsViewController.h"
 #import "GooglePlaces/GMSAutocompleteTableDataSource.h"
 
-@interface DiscoverViewController () <GMSAutocompleteTableDataSourceDelegate, UISearchBarDelegate>
+@interface DiscoverViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) NSArray *places;
 
 @end
 
-@implementation DiscoverViewController {
-    // QUESTION: What does this code do? Iniaitlize variables that will be used across functions
-//    UITableView *tableView;
-    GMSAutocompleteTableDataSource *tableDataSource;
-}
+@implementation DiscoverViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-//  UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
   self.searchBar.delegate = self;
 
-  [self.view addSubview:self.searchBar];
-
-  tableDataSource = [[GMSAutocompleteTableDataSource alloc] init];
-  tableDataSource.delegate = self;
-
-//  tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 44)];
-  self.searchResults.delegate = tableDataSource;
-  self.searchResults.dataSource = tableDataSource;
-
-  [self.view addSubview:self.searchResults];
+  self.searchResults.dataSource = self;
+  self.searchResults.delegate = self;
 }
 
 #pragma mark - GMSAutocompleteTableDataSourceDelegate
@@ -76,48 +64,59 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
   // Update the GMSAutocompleteTableDataSource with the search text.
-  [tableDataSource sourceTextHasChanged:searchText];
+//  [tableDataSource sourceTextHasChanged:searchText];
 }
 
-//
-//- (void)viewDidLoad {
-//    [super viewDidLoad];
-//
-//    GMSAutocompleteResultsViewController _resultsViewController = [[GMSAutocompleteResultsViewController alloc] init];
-//    _resultsViewController.delegate = self;
-//
-//    UISearchController *_searchController = [[UISearchController alloc]
-//                             initWithSearchResultsController:_resultsViewController];
-//    _searchController.searchResultsUpdater = _resultsViewController;
-//
-//    UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(0, 65.0, 250, 50)];
-//
-//    [subView addSubview:_searchController.searchBar];
-//    [_searchController.searchBar sizeToFit];
-//    [self.view addSubview:subView];
-//
-//    // When UISearchController presents the results view, present it in
-//    // this view controller, not one further up the chain.
-//    self.definesPresentationContext = YES;
-//}
-//
-//// Handle the user's selection.
-//- (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
-//didAutocompleteWithPlace:(GMSPlace *)place {
-//  [self dismissViewControllerAnimated:YES completion:nil];
-//  // Do something with the selected place.
-//  NSLog(@"Place name %@", place.name);
-//  NSLog(@"Place address %@", place.formattedAddress);
-//  NSLog(@"Place attributions %@", place.attributions.string);
-//}
-//
-//- (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
-//didFailAutocompleteWithError:(NSError *)error {
-//  [self dismissViewControllerAnimated:YES completion:nil];
-//  // TODO: handle the error.
-//  NSLog(@"Error: %@", [error description]);
-//}
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    <#code#>
+}
 
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.places.count;
+}
 
+- (void)encodeWithCoder:(nonnull NSCoder *)coder {
+    <#code#>
+}
+
+- (void)traitCollectionDidChange:(nullable UITraitCollection *)previousTraitCollection {
+    <#code#>
+}
+
+- (void)preferredContentSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
+    <#code#>
+}
+
+- (CGSize)sizeForChildContentContainer:(nonnull id<UIContentContainer>)container withParentContainerSize:(CGSize)parentSize {
+    <#code#>
+}
+
+- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
+    <#code#>
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
+    <#code#>
+}
+
+- (void)willTransitionToTraitCollection:(nonnull UITraitCollection *)newCollection withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
+    <#code#>
+}
+
+- (void)didUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context withAnimationCoordinator:(nonnull UIFocusAnimationCoordinator *)coordinator {
+    <#code#>
+}
+
+- (void)setNeedsFocusUpdate {
+    <#code#>
+}
+
+- (BOOL)shouldUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context {
+    <#code#>
+}
+
+- (void)updateFocusIfNeeded {
+    <#code#>
+}
 
 @end
