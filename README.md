@@ -237,4 +237,5 @@ https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/
 
 ## Demos
 Discover Page V1
-<img src="https://github.com/iristfu/Places/blob/main/places_discover_mvp.gif" width=600>
+
+<img src="https://github.com/iristfu/Places/blob/main/places_discover_mvp.gif" width=300>
