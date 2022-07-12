@@ -271,7 +271,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Ohj-g5-9Me">
+                            <searchBar contentMode="redraw" placeholder="Top food, hikes in SF, classy hotels..." translatesAutoresizingMaskIntoConstraints="NO" id="Ohj-g5-9Me">
                                 <rect key="frame" x="0.0" y="56" width="414" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>

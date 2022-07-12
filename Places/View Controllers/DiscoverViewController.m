@@ -8,6 +8,9 @@
 #import "DiscoverViewController.h"
 #import "GooglePlaces/GMSPlace.h"
 #import "PlaceTableViewCell.h"
+#import "GooglePlaces/GMSPlaceFieldMask.h"
+#import "UIImageView+AFNetworking.h"
+@import GooglePlaces;
 
 @interface DiscoverViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray *places;
@@ -55,18 +58,18 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     PlaceTableViewCell *placeTableViewCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
-//    // TODO: Get specific place using a for loop and replace the following code
-//    placeTableViewCell.placeName.text = @"placeHolderPlaceName";
-//    placeTableViewCell.placeAddress.text = @"1234 Hacker Way, The Metaverse";
-//    placeTableViewCell.placeRatings.text = @"****";
-    // set image here
-    
     NSDictionary *place = self.places[indexPath.row];
     NSLog(@"Current place: %@", place);
     placeTableViewCell.placeName.text = place[@"name"];
-    // TODO: figure out how to index into rating and photos
     placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
     placeTableViewCell.placeAddress.text = place[@"formatted_address"];
+
+    // get first photo to display
+    NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
+    NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
+    NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
+    [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
+
     return placeTableViewCell;
 }
 
