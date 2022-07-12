@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *categories;
 @property (nonatomic, strong) NSString *lat;
 @property (nonatomic, strong) NSString *lng;
+@property (nonatomic, strong) NSNumber *favoriteCount;
 
 @end
 

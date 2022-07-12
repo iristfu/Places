@@ -17,6 +17,7 @@
 @dynamic categories;
 @dynamic lat;
 @dynamic lng;
+@dynamic favoriteCount;
 
 + (nonnull NSString *)parseClassName {
     return @"Place";
