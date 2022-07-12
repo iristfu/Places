@@ -65,7 +65,7 @@
     NSLog(@"Current place: %@", place);
     placeTableViewCell.placeName.text = place[@"name"];
     // TODO: figure out how to index into rating and photos
-//    placeTableViewCell.placeRatings.text = place[rating];
+    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
     placeTableViewCell.placeAddress.text = place[@"formatted_address"];
     return placeTableViewCell;
 }
