@@ -30,7 +30,6 @@
 - (IBAction)didTapAddToFavorites:(id)sender {
     PFUser *currentUser = [PFUser currentUser];
 
-    // Increase the Places’s favorite count in the Parse Place model
     PFQuery *query = [PFQuery queryWithClassName:@"Place"];
     [query whereKey:@"placeID" equalTo:self.place[@"place_id"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
@@ -41,14 +40,19 @@
                 NSLog(@"Could not find place for place_id to increment favoriteCount");
             } else {
                 if ([self notFavoritedBy:currentUser]) {
-                    NSLog(@"Place not favorited by current user");
+                    // Add to user's favoritedPlaces array
                     [currentUser addObject:self.place[@"place_id"] forKey:@"favoritedPlaces"];
                     [currentUser saveInBackground];
                     NSLog(@"The user's favoritedPlaces array is now: %@", currentUser[@"favoritedPlaces"]);
                     
+                    // Increment Place's favorite count
                     [places[0] incrementKey:@"favoriteCount"];
                     [places[0] saveInBackground];
                     NSLog(@"Incremented favorite count for %@", places[0][@"name"]);
+                    
+                    // Change button UI
+                    [self.addToFavoritesButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
+                    [self.addToFavoritesButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
                 } else {
                     NSLog(@"%@ already favorited by user", places[0][@"name"]);
                 }
@@ -56,5 +60,4 @@
         }
     }];
 }
-
 @end
