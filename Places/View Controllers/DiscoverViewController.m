@@ -30,8 +30,14 @@
     [self loadDefaultPlacesToDisplay];
 }
 
-- (void) loadDefaultPlacesToDisplay {
-    NSURL *url = [NSURL URLWithString:@"https://maps.googleapis.com/maps/api/place/textsearch/json?query=to%20do&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
+- (void)fetchPlaces:(NSString *)query {
+    NSString *unreserved = @"-._~/?";
+    NSMutableCharacterSet *allowed = [NSMutableCharacterSet alphanumericCharacterSet];
+    [allowed addCharactersInString:unreserved];
+    NSString *formattedQuery = [query stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+    NSLog(@"formattedQuery: %@", formattedQuery);
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/textsearch/json?query=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", formattedQuery]];
+    NSLog(@"the url: %@", url);
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -47,6 +53,11 @@
            }
        }];
     [task resume];
+    
+}
+
+- (void) loadDefaultPlacesToDisplay {
+    [self fetchPlaces:@"to do"];
 }
 
 #pragma mark - UISearchBarDelegate
@@ -61,14 +72,16 @@
     [self.searchBar resignFirstResponder];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    if (searchText.length != 0) {
-        
-        // new query here with new search text, but also i think i only want this to happen when search is pressed
-        
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    if (searchBar.text.length != 0) {
+        [self fetchPlaces:searchBar.text];
     }
-
+    [self.searchBar resignFirstResponder];
     [self.searchResults reloadData];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
