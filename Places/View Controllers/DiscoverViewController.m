@@ -10,7 +10,9 @@
 #import "PlaceTableViewCell.h"
 #import "GooglePlaces/GMSPlaceFieldMask.h"
 #import "UIImageView+AFNetworking.h"
+#import "Place.h"
 @import GooglePlaces;
+@import Parse;
 
 @interface DiscoverViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray *places;
@@ -94,9 +96,36 @@
     NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
     [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
     
-    placeTableViewCell.placeID = place[@"place_id"];
+    placeTableViewCell.place = place;
+    
+    // Create new Place object in Parse
+    Place *newPlace = [Place new];
+    newPlace.placeID = place[@"place_id"];
+    newPlace.name = place[@"name"];
+    newPlace.address = place[@"formatted_address"];
+    newPlace.photos = place[@"photos"];
+    newPlace.rating = place[@"rating"];
+    newPlace.categories = place[@"types"];
+    newPlace.lat = place[@"geometry"][@"location"][@"lat"];
+    newPlace.lng = place[@"geometry"][@"location"][@"lat"];
+    [newPlace saveInBackground];
 
     return placeTableViewCell;
+}
+
++ (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
+    // check if image is not nil
+    if (!image) {
+        return nil;
+    }
+    
+    NSData *imageData = UIImagePNGRepresentation(image);
+    // get image data and check if that is not nil
+    if (!imageData) {
+        return nil;
+    }
+    
+    return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -6,6 +6,7 @@
 //
 
 #import "PlaceTableViewCell.h"
+#import "Place.h"
 @import Parse;
 
 @implementation PlaceTableViewCell
@@ -25,11 +26,14 @@
     NSLog(@"didTapAddToFavorites called");
     
     // Increase the Places’s favorite count in the Parse Place model
+//    if (
+//    Place *placeToFavorite = [Place new];
+//    placeToFavorite.placeID = self.place[@"place_id"];
     
     // Add the place to the the current User's favorites list
     PFUser *currentUser = [PFUser currentUser];
-    if (![currentUser[@"favoritedPlaces"] containsObject:self.placeID]) {
-        [currentUser addObject:self.placeID forKey:@"favoritedPlaces"];
+    if (![currentUser[@"favoritedPlaces"] containsObject:self.place[@"place_id"]]) {
+        [currentUser addObject:self.place[@"place_id"] forKey:@"favoritedPlaces"];
         [currentUser saveInBackground];
     }
     NSLog(@"The user's favoritedPlaces array is now: %@", currentUser[@"favoritedPlaces"]);

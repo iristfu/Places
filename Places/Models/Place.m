@@ -9,4 +9,17 @@
 
 @implementation Place
 
+@dynamic placeID;
+@dynamic name;
+@dynamic address;
+@dynamic photos;
+@dynamic rating;
+@dynamic categories;
+@dynamic lat;
+@dynamic lng;
+
++ (nonnull NSString *)parseClassName {
+    return @"Place";
+}
+
 @end
