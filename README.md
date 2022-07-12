@@ -4,7 +4,8 @@
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
-2. [Schema](#Schema)
+1. [Schema](#Schema)
+2. [Demos](#Demos)
 
 ## Overview
 ### Description
@@ -47,6 +48,7 @@ An app that helps you plan, track, and share the places you go.
 **Optional Nice-to-have Stories**
 
 * User can add a "liked" place to a chosen itinerary.
+* User can edit profile image and bio.
 * User can edit a previously made itinerary within the itinerary details view.
 * For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
 * User can unfavorite locations from the favorite list and reorder items on the favorite list.
@@ -232,3 +234,7 @@ User
 
 ## Weekly Milestones
 https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/edit?usp=sharing
+
+## Demos
+Discover Page V1
+<img src="https://github.com/iristfu/Places/blob/main/places_discover_mvp.gif" width=600>
