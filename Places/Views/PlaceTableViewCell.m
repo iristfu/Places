@@ -28,8 +28,10 @@
     
     // Add the place to the the current User's favorites list
     PFUser *currentUser = [PFUser currentUser];
-    [currentUser addObject:self.placeID forKey:@"favoritedPlaces"];
-    [currentUser saveInBackground];
+    if (![currentUser[@"favoritedPlaces"] containsObject:self.placeID]) {
+        [currentUser addObject:self.placeID forKey:@"favoritedPlaces"];
+        [currentUser saveInBackground];
+    }
     NSLog(@"The user's favoritedPlaces array is now: %@", currentUser[@"favoritedPlaces"]);
 }
 @end
