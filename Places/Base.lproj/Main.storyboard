@@ -209,7 +209,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56R-Hg-coN">
                                                     <rect key="frame" x="170" y="143" width="234" height="31"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="filled" image="heart.fill" catalog="system" title=" Add to Favorites"/>
+                                                    <buttonConfiguration key="configuration" style="filled" title=" Add to Favorites"/>
                                                     <connections>
                                                         <action selector="didTapAddToFavorites:" destination="02U-Pg-wkZ" eventType="touchUpInside" id="cmz-Mg-H3o"/>
                                                     </connections>
@@ -262,6 +262,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="addToFavoritesButton" destination="56R-Hg-coN" id="qW3-ev-mp9"/>
                                             <outlet property="placeAddress" destination="hqg-dm-6pS" id="EST-kN-eZL"/>
                                             <outlet property="placeFavoriteCount" destination="al8-Zb-ESM" id="sDr-8N-Ihm"/>
                                             <outlet property="placeImage" destination="1kV-OV-M8g" id="R9m-7i-61G"/>
@@ -466,7 +467,6 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="heart" catalog="system" width="128" height="109"/>
-        <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="network" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>

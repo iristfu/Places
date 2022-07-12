@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *placeAddress;
 @property (weak, nonatomic) IBOutlet UILabel *placeFavoriteCount;
 - (IBAction)didTapAddToFavorites:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *addToFavoritesButton;
 
 @property (weak, nonatomic) NSDictionary *place;
 

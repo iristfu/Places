@@ -7,6 +7,7 @@
 
 #import "PlaceTableViewCell.h"
 #import "Place.h"
+#import "UIImageView+AFNetworking.h"
 @import Parse;
 
 @implementation PlaceTableViewCell
@@ -28,8 +29,7 @@
 
 - (IBAction)didTapAddToFavorites:(id)sender {
     PFUser *currentUser = [PFUser currentUser];
-    
-    
+
     // Increase the Places’s favorite count in the Parse Place model
     PFQuery *query = [PFQuery queryWithClassName:@"Place"];
     [query whereKey:@"placeID" equalTo:self.place[@"place_id"]];
