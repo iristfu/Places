@@ -21,10 +21,16 @@
 
 @implementation DiscoverViewController
 
+//- (id)init {
+//    self = [super init];
+//    self.placesInParse = [[NSMutableDictionary alloc] init];
+//    return self;
+//}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.searchBar.delegate = self;
     
+    self.searchBar.delegate = self;
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
@@ -98,18 +104,29 @@
     
     placeTableViewCell.place = place;
     
-    // Create new Place object in Parse
-    Place *newPlace = [Place new];
-    newPlace.placeID = place[@"place_id"];
-    newPlace.name = place[@"name"];
-    newPlace.address = place[@"formatted_address"];
-    newPlace.photos = place[@"photos"];
-    newPlace.rating = place[@"rating"];
-    newPlace.categories = place[@"types"];
-    newPlace.lat = place[@"geometry"][@"location"][@"lat"];
-    newPlace.lng = place[@"geometry"][@"location"][@"lat"];
-    [newPlace saveInBackground];
-
+    // Create new Place object in Parse if it doesn't already exist
+    PFQuery *query = [PFQuery queryWithClassName:@"Place"];
+    [query whereKey:@"placeID" equalTo:place[@"place_id"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
+        if (error) {
+            NSLog(@"Got an error while fetching places");
+        } else {
+            if ([places count] == 0) {
+                Place *newPlace = [Place new];
+                newPlace.placeID = place[@"place_id"];
+                newPlace.name = place[@"name"];
+                newPlace.address = place[@"formatted_address"];
+                newPlace.photos = place[@"photos"];
+                newPlace.rating = place[@"rating"];
+                newPlace.categories = place[@"types"];
+                newPlace.lat = place[@"geometry"][@"location"][@"lat"];
+                newPlace.lng = place[@"geometry"][@"location"][@"lat"];
+                [newPlace saveInBackground];
+                NSLog(@"Created new Place model for %@", place[@"name"]);
+            }
+        }
+    }];
+    
     return placeTableViewCell;
 }
 
