@@ -51,9 +51,24 @@
 
 #pragma mark - UISearchBarDelegate
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = NO;
+    self.searchBar.text = @"";
+    [self.searchBar resignFirstResponder];
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-  // Update the GMSAutocompleteTableDataSource with the search text.
-//  [tableDataSource sourceTextHasChanged:searchText];
+    if (searchText.length != 0) {
+        
+        // new query here with new search text, but also i think i only want this to happen when search is pressed
+        
+    }
+
+    [self.searchResults reloadData];
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
