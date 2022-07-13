@@ -80,17 +80,6 @@
     NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
     NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
     [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
-    
-    // Configure addToFavorites button
-    PFUser *currentUser = [PFUser currentUser];
-    
-    if ([self notFavoritedBy:currentUser forPlaceID:place[@"place_id"]]) {
-        [placeTableViewCell.addToFavoritesButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
-        [placeTableViewCell.addToFavoritesButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
-    } else {
-        [placeTableViewCell.addToFavoritesButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
-        [placeTableViewCell.addToFavoritesButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
-    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
