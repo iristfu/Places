@@ -12,7 +12,7 @@
 
 @interface FavoritesViewController ()
 @property (nonatomic, strong) NSArray *favoritedPlaces;
-@property (weak, nonatomic) IBOutlet UILabel *favoritedPlaceName;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -20,21 +20,39 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Initialize a UIRefreshControl
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(loadFavoritedPlaces) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+    
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
     [self loadFavoritedPlaces];
 }
 
 - (void)loadFavoritedPlaces {
-    
-    
     PFUser *currentUser = [PFUser currentUser];
     self.favoritedPlaces = currentUser[@"favoritedPlaces"];
     NSLog(@"The current user's favorited places are %@", self.favoritedPlaces); // an array of place IDs
-    
     [self.tableView reloadData];
+    
+    [self.refreshControl endRefreshing];
+    [self.tableView reloadData];
+}
+
+// Makes a network request to get updated data
+// Updates the tableView with the new data
+// Hides the RefreshControl
+- (void)beginRefresh:(UIRefreshControl *)refreshControl {
+         // Reload the tableView now that there is new data
+          [self.tableView reloadData];
+    
+         // Tell the refreshControl to stop spinning
+          [refreshControl endRefreshing];
 }
 
 
