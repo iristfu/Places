@@ -241,7 +241,9 @@ https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/
 
 ## Demos
 Discover Page V1
-<img src="https://github.com/iristfu/Places/blob/main/discover_v1.gif" width=600>
+
+<img src="https://github.com/iristfu/Places/blob/main/discover_v1.gif" width=400>
 
 Favoriting V1
-<img src="https://github.com/iristfu/Places/blob/main/favoriting_v1.gif" width=600>
+
+<img src="https://github.com/iristfu/Places/blob/main/favoriting_v1.gif" width=400>
