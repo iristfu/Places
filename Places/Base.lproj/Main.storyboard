@@ -209,7 +209,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56R-Hg-coN">
                                                     <rect key="frame" x="170" y="143" width="234" height="31"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="filled" image="heart.fill" catalog="system" title=" Add to Favorites"/>
+                                                    <buttonConfiguration key="configuration" style="filled" title=" Add to Favorites"/>
                                                     <connections>
                                                         <action selector="didTapAddToFavorites:" destination="02U-Pg-wkZ" eventType="touchUpInside" id="cmz-Mg-H3o"/>
                                                     </connections>
@@ -262,6 +262,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="addToFavoritesButton" destination="56R-Hg-coN" id="qW3-ev-mp9"/>
                                             <outlet property="placeAddress" destination="hqg-dm-6pS" id="EST-kN-eZL"/>
                                             <outlet property="placeFavoriteCount" destination="al8-Zb-ESM" id="sDr-8N-Ihm"/>
                                             <outlet property="placeImage" destination="1kV-OV-M8g" id="R9m-7i-61G"/>
@@ -301,25 +302,80 @@
         <!--Favorites-->
         <scene sceneID="rpY-sJ-Dru">
             <objects>
-                <tableViewController id="UaK-LD-c3F" sceneMemberID="viewController">
+                <tableViewController id="UaK-LD-c3F" customClass="FavoritesViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="t4d-ce-sGv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="G9d-co-WlC">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceCell" rowHeight="184" id="1aQ-gh-sdo" customClass="PlaceTableViewCell">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="184"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G9d-co-WlC" id="ChX-Ae-6qd">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1aQ-gh-sdo" id="Z43-25-NSp">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="184"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="djX-re-s0x">
+                                            <rect key="frame" x="10" y="10" width="150" height="150"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="150" id="IbH-Ta-C8Z"/>
+                                                <constraint firstAttribute="height" constant="150" id="RPZ-NV-6HW"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5B-tM-unM">
+                                            <rect key="frame" x="170" y="10" width="88" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorited by x other users" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Air-Fu-RUO">
+                                            <rect key="frame" x="170" y="72" width="125.5" height="12"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" name="AccentColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place ratings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RBh-LU-Rx4">
+                                            <rect key="frame" x="170" y="35.5" width="73.5" height="14.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place address" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oob-ey-S4E">
+                                            <rect key="frame" x="170" y="55" width="68" height="12"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Oob-ey-S4E" firstAttribute="leading" secondItem="RBh-LU-Rx4" secondAttribute="leading" id="3wx-N3-WNk"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="djX-re-s0x" secondAttribute="bottom" constant="10" id="7jl-J6-aWb"/>
+                                        <constraint firstItem="Air-Fu-RUO" firstAttribute="leading" secondItem="Oob-ey-S4E" secondAttribute="leading" id="KzV-5g-jgb"/>
+                                        <constraint firstItem="djX-re-s0x" firstAttribute="top" secondItem="Z43-25-NSp" secondAttribute="top" constant="10" id="TxZ-I9-eYP"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Y5B-tM-unM" secondAttribute="trailing" constant="10" id="UQl-VU-us5"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Air-Fu-RUO" secondAttribute="bottom" constant="10" id="Y6P-Hs-Slq"/>
+                                        <constraint firstItem="RBh-LU-Rx4" firstAttribute="top" secondItem="Y5B-tM-unM" secondAttribute="bottom" constant="5" id="YJV-sL-WDA"/>
+                                        <constraint firstItem="Oob-ey-S4E" firstAttribute="leading" secondItem="RBh-LU-Rx4" secondAttribute="leading" id="dxb-b0-rLc"/>
+                                        <constraint firstItem="Oob-ey-S4E" firstAttribute="top" secondItem="RBh-LU-Rx4" secondAttribute="bottom" constant="5" id="fE2-DX-vdo"/>
+                                        <constraint firstItem="djX-re-s0x" firstAttribute="leading" secondItem="Z43-25-NSp" secondAttribute="leading" constant="10" id="kEb-Xh-JhC"/>
+                                        <constraint firstItem="Air-Fu-RUO" firstAttribute="top" secondItem="Oob-ey-S4E" secondAttribute="bottom" constant="5" id="krB-wt-Z8N"/>
+                                        <constraint firstItem="Y5B-tM-unM" firstAttribute="leading" secondItem="djX-re-s0x" secondAttribute="trailing" constant="10" id="tef-8i-a7L"/>
+                                        <constraint firstItem="Y5B-tM-unM" firstAttribute="top" secondItem="djX-re-s0x" secondAttribute="top" id="tfU-JQ-G56"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Air-Fu-RUO" secondAttribute="trailing" constant="10" id="uAR-NI-JFg"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RBh-LU-Rx4" secondAttribute="trailing" constant="10" id="v6j-kL-5YA"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Oob-ey-S4E" secondAttribute="trailing" constant="10" id="wLd-2v-QwS"/>
+                                        <constraint firstItem="RBh-LU-Rx4" firstAttribute="leading" secondItem="Y5B-tM-unM" secondAttribute="leading" id="wrr-Xo-Op0"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="placeAddress" destination="Oob-ey-S4E" id="eNy-yi-V3f"/>
+                                    <outlet property="placeFavoriteCount" destination="Air-Fu-RUO" id="jBh-Sq-Cbg"/>
+                                    <outlet property="placeImage" destination="djX-re-s0x" id="vJ6-m5-bg2"/>
+                                    <outlet property="placeName" destination="Y5B-tM-unM" id="sn3-SA-8Pe"/>
+                                    <outlet property="placeRatings" destination="RBh-LU-Rx4" id="agw-Uf-XQY"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="UaK-LD-c3F" id="qgu-ip-IAn"/>
-                            <outlet property="delegate" destination="UaK-LD-c3F" id="zw2-hV-a4d"/>
-                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Favorites" id="Rl1-st-9Re"/>
                 </tableViewController>
@@ -466,7 +522,6 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="heart" catalog="system" width="128" height="109"/>
-        <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="network" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
