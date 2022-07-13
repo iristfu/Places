@@ -21,11 +21,6 @@
 
 @implementation DiscoverViewController
 
-//- (id)init {
-//    self = [super init];
-//    self.placesInParse = [[NSMutableDictionary alloc] init];
-//    return self;
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -117,28 +112,21 @@
     return ![currentUser[@"favoritedPlaces"] containsObject:placeID];
 }
 
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    PlaceTableViewCell *placeTableViewCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
-    NSDictionary *place = self.places[indexPath.row];
-    
-    [self createNewPlaceModelInParseIfNecessary:place];
-    
-    placeTableViewCell.place = place;
-    
+- (void)setAttributesOfPlaceCell:(NSDictionary *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
     placeTableViewCell.placeName.text = place[@"name"];
     placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
     placeTableViewCell.placeAddress.text = place[@"formatted_address"];
     placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", @"x"]; // Can replace x in the future
-
+    
     // get first photo to display
     NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
     NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
     NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
     [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
-
+    
     // Configure addToFavorites button
     PFUser *currentUser = [PFUser currentUser];
-
+    
     if ([self notFavoritedBy:currentUser forPlaceID:place[@"place_id"]]) {
         [placeTableViewCell.addToFavoritesButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
         [placeTableViewCell.addToFavoritesButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
@@ -146,6 +134,16 @@
         [placeTableViewCell.addToFavoritesButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
         [placeTableViewCell.addToFavoritesButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
     }
+}
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    PlaceTableViewCell *placeTableViewCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
+    NSDictionary *place = self.places[indexPath.row];
+
+    [self createNewPlaceModelInParseIfNecessary:place];
+    [self setAttributesOfPlaceCell:place placeTableViewCell:placeTableViewCell];
+    placeTableViewCell.place = place;
+    
     return placeTableViewCell;
 }
 
