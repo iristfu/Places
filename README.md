@@ -246,4 +246,4 @@ Discover Page V1
 
 Favoriting V1
 
-<img src="https://github.com/iristfu/Places/blob/main/favoriting_v1.gif" width=400>
+<img src="https://github.com/iristfu/Places/blob/main/favorites_v1.gif" width=400>
