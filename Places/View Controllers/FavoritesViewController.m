@@ -36,25 +36,13 @@
 
 - (void)loadFavoritedPlaces {
     PFUser *currentUser = [PFUser currentUser];
-    self.favoritedPlaces = currentUser[@"favoritedPlaces"];
+    self.favoritedPlaces = [[currentUser[@"favoritedPlaces"] reverseObjectEnumerator] allObjects];
     NSLog(@"The current user's favorited places are %@", self.favoritedPlaces); // an array of place IDs
     [self.tableView reloadData];
     
     [self.refreshControl endRefreshing];
     [self.tableView reloadData];
 }
-
-// Makes a network request to get updated data
-// Updates the tableView with the new data
-// Hides the RefreshControl
-- (void)beginRefresh:(UIRefreshControl *)refreshControl {
-         // Reload the tableView now that there is new data
-          [self.tableView reloadData];
-    
-         // Tell the refreshControl to stop spinning
-          [refreshControl endRefreshing];
-}
-
 
 - (nonnull UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PlaceTableViewCell *placeCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
