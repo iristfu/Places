@@ -47,11 +47,15 @@ An app that helps you plan, track, and share the places you go.
 
 **Optional Nice-to-have Stories**
 
+* “Add to Favorites”, visually looks different depending on whether or not the place has already been favorited
+    * If the place is in the User's favorites list, the button UI changes to "Added to Favorites" with a red heart; otherwise, it is a white heart with "Add to Favorites"
+* User can unfavorite locations from the favorite list and reorder items on the favorite list.
+* Display the number of favorites the user has on the favorites view, and update this number as the user adds or removes favorites from the list.
+* User can unfavorite locations from the Discover view.
 * User can add a "liked" place to a chosen itinerary.
 * User can edit profile image and bio.
 * User can edit a previously made itinerary within the itinerary details view.
 * For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
-* User can unfavorite locations from the favorite list and reorder items on the favorite list.
 * User profile page includes a scrolling view of their favorited places and itineraries that they've created.
 * The detail view of location includes notes added by the user, including photos they've taken.
 * Feed sharing -- *technical challenge*
@@ -237,5 +241,7 @@ https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/
 
 ## Demos
 Discover Page V1
+<img src="https://github.com/iristfu/Places/blob/main/discover_v1.gif" width=600>
 
-<img src="https://github.com/iristfu/Places/blob/main/places_discover_mvp.gif" width=300>
+Favoriting V1
+<img src="https://github.com/iristfu/Places/blob/main/favoriting_v1.gif" width=600>
