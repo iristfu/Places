@@ -126,7 +126,7 @@
         } else {
             if ([places count] == 1) {
                 NSDictionary *parsePlaceObject = places[0];
-                placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", parsePlaceObject[@"favoriteCount"]]; // Can replace x in the future
+                placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", parsePlaceObject[@"favoriteCount"]];
             }
         }
     }];

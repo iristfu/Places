@@ -39,6 +39,7 @@
             if ([places count] != 1) {
                 NSLog(@"Could not find place for place_id to increment favoriteCount");
             } else {
+                Place *parsePlaceObject = places[0];
                 if ([self notFavoritedBy:currentUser]) {
                     // Add to user's favoritedPlaces array
                     [currentUser addObject:self.place[@"place_id"] forKey:@"favoritedPlaces"];
@@ -46,15 +47,18 @@
                     NSLog(@"The user's favoritedPlaces array is now: %@", currentUser[@"favoritedPlaces"]);
                     
                     // Increment Place's favorite count
-                    [places[0] incrementKey:@"favoriteCount"];
-                    [places[0] saveInBackground];
-                    NSLog(@"Incremented favorite count for %@", places[0][@"name"]);
+                    [parsePlaceObject incrementKey:@"favoriteCount"];
+                    [parsePlaceObject saveInBackground];
+                    NSLog(@"Incremented favorite count for %@", parsePlaceObject[@"name"]);
                     
                     // Change button UI
                     [self.addToFavoritesButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
                     [self.addToFavoritesButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+                    
+                    // Update favorite count label
+                    self.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", parsePlaceObject[@"favoriteCount"]];
                 } else {
-                    NSLog(@"%@ already favorited by user", places[0][@"name"]);
+                    NSLog(@"%@ already favorited by user", parsePlaceObject[@"name"]);
                 }
             }
         }
