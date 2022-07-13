@@ -116,7 +116,21 @@
     placeTableViewCell.placeName.text = place[@"name"];
     placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
     placeTableViewCell.placeAddress.text = place[@"formatted_address"];
-    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", @"x"]; // Can replace x in the future
+    
+    // get favorite count
+    PFQuery *query = [PFQuery queryWithClassName:@"Place"];
+    [query whereKey:@"placeID" equalTo:place[@"place_id"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
+        if (error) {
+            NSLog(@"Got an error while fetching places");
+        } else {
+            if ([places count] == 1) {
+                NSDictionary *parsePlaceObject = places[0];
+                placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", parsePlaceObject[@"favoriteCount"]]; // Can replace x in the future
+            }
+        }
+    }];
+    
     
     // get first photo to display
     NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
