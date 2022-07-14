@@ -15,7 +15,11 @@
 @import Parse;
 
 @interface DiscoverViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) NSArray *places;
+@property (nonatomic, strong) NSArray *placesToDisplay;
+@property (nonatomic) BOOL *sortByIncreasingFavorites;
+@property (nonatomic) BOOL *sortByDecreasingFavorites;
+- (IBAction)didTapSortByIncreasingFavorites:(id)sender;
+- (IBAction)didTapSortByDecreasingFavorites:(id)sender;
 
 @end
 
@@ -31,6 +35,55 @@
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
     
     [self loadDefaultPlacesToDisplay];
+}
+
+
+// sort self.places to be an array that starts from most favorited to least favorited
+- (void)sortResultsByIncreasingFavorites {
+//    NSMutableArray *searchResultPlaceIDs = [[NSMutableArray alloc] init];
+//    for (NSDictionary *googlePlace in self.places) {
+//        [searchResultPlaceIDs addObject:googlePlace[@"place_id"]];
+//    }
+//    NSLog(@"Got searchResultPlaceIDs %@", searchResultPlaceIDs);
+//
+//    PFQuery *query = [PFQuery queryWithClassName:@"Place"];
+//    [query whereKey:@"place_id" containsAllObjectsInArray:searchResultPlaceIDs];
+//    [query orderByDescending:@"favoriteCount"];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *sortedPlaceParseObjects, NSError *error) {
+//      if (!error) {
+//        NSLog(<#NSString * _Nonnull format, ...#>)
+//      } else {
+//        // Log details of the failure
+//        NSLog(@"Error: %@ %@", error, [error userInfo]);
+//      }
+//    }];
+    
+//    NSMutableDictionary *placesToFavoriteCount = [[NSMutableDictionary alloc] init];
+//
+//    // set placesToFavoriteCount
+//    for (NSDictionary *googlePlace in self.places) {
+//        PFQuery *query = [PFQuery queryWithClassName:@"Place"];
+//        [query whereKey:@"placeID" equalTo:googlePlace[@"place_id"]];
+//        [query findObjectsInBackgroundWithBlock:^(NSArray *parsePlaceObjects, NSError *error) {
+//            if (error) {
+//                NSLog(@"Got an error while fetching place from Parse");
+//            } else {
+//                if ([parsePlaceObjects count] == 1) {
+//                    Place *parsePlaceObject = parsePlaceObjects[0];
+//                    NSLog(@"Got a Parse Place Object for %@ with favorite count %@", parsePlaceObject[@"name"], parsePlaceObject[@"favoriteCount"]);
+//                    [placesToFavoriteCount setObject:parsePlaceObject[@"favoriteCount"] forKey:googlePlace[@"place_id"]];
+//                    NSLog(@"Should have added key value pair to placesToFavoriteCount %@", placesToFavoriteCount);
+//                }
+//            }
+//        }];
+//    }
+//
+//    NSLog(@"The placesToFavoriteCount dictionary has been set and is %@", placesToFavoriteCount);
+//
+//    // set self.places to be sorted from most to least favorited
+//    self.places = [placesToFavoriteCount keysSortedByValueUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//        return [obj1 compare:obj2];
+//    }];
 }
 
 - (void)fetchPlaces:(NSString *)query {
@@ -50,17 +103,39 @@
            }
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               self.places = dataDictionary[@"results"];
-               NSLog(@"%@", self.places);
-               [self.searchResults reloadData];
+               NSArray *resultsAsGooglePlaceObjects = dataDictionary[@"results"];
+               for (NSDictionary *googlePlaceObject in resultsAsGooglePlaceObjects) {
+                  [self createNewPlaceModelInParseIfNecessary:googlePlaceObject];
+               }
+               
+               // set self.placesToDisplay as Parse object version of resultsAsGooglePlaceObjects
+               NSMutableArray *searchResultPlaceIDs = [[NSMutableArray alloc] init];
+               for (NSDictionary *googlePlace in resultsAsGooglePlaceObjects) {
+                   [searchResultPlaceIDs addObject:googlePlace[@"place_id"]];
+               }
+               NSLog(@"Got searchResultPlaceIDs %@", searchResultPlaceIDs);
+
+               PFQuery *query = [PFQuery queryWithClassName:@"Place"];
+               [query whereKey:@"placeID" containedIn:searchResultPlaceIDs];
+//               [query orderByDescending:@"favoriteCount"];
+               [query findObjectsInBackgroundWithBlock:^(NSArray *parsePlaceObjects, NSError *error) {
+                 if (!error) {
+                     self.placesToDisplay = parsePlaceObjects;
+                     NSLog(@"self.placesToDisplay is now has %lu elements", (unsigned long)[self.placesToDisplay count]);
+                     [self.searchResults reloadData];
+                 } else {
+                   // Log details of the failure
+                   NSLog(@"Error: %@ %@", error, [error userInfo]);
+                 }
+               }];
            }
        }];
     [task resume];
-    
 }
 
 - (void) loadDefaultPlacesToDisplay {
     [self fetchPlaces:@"to do"];
+    NSLog(@"self.placesToDisplay in loadDefaultPlacesToDisplay has %lu elements", [self.placesToDisplay count]);
 }
 
 #pragma mark - UISearchBarDelegate
@@ -112,25 +187,11 @@
     return ![currentUser[@"favoritedPlaces"] containsObject:placeID];
 }
 
-- (void)setAttributesOfPlaceCell:(NSDictionary *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
+- (void)setAttributesOfPlaceCell:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
     placeTableViewCell.placeName.text = place[@"name"];
     placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
-    placeTableViewCell.placeAddress.text = place[@"formatted_address"];
-    
-    // get favorite count
-    PFQuery *query = [PFQuery queryWithClassName:@"Place"];
-    [query whereKey:@"placeID" equalTo:place[@"place_id"]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
-        if (error) {
-            NSLog(@"Got an error while fetching places");
-        } else {
-            if ([places count] == 1) {
-                NSDictionary *parsePlaceObject = places[0];
-                placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", parsePlaceObject[@"favoriteCount"]];
-            }
-        }
-    }];
-    
+    placeTableViewCell.placeAddress.text = place[@"address"];
+    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]];
     
     // get first photo to display
     NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
@@ -141,7 +202,7 @@
     // Configure addToFavorites button
     PFUser *currentUser = [PFUser currentUser];
     
-    if ([self notFavoritedBy:currentUser forPlaceID:place[@"place_id"]]) {
+    if ([self notFavoritedBy:currentUser forPlaceID:place[@"placeID"]]) {
         [placeTableViewCell.addToFavoritesButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
         [placeTableViewCell.addToFavoritesButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
     } else {
@@ -152,18 +213,29 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     PlaceTableViewCell *placeTableViewCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
-    NSDictionary *place = self.places[indexPath.row];
-
-    [self createNewPlaceModelInParseIfNecessary:place];
-    [self setAttributesOfPlaceCell:place placeTableViewCell:placeTableViewCell];
-    placeTableViewCell.place = place;
+    Place *parsePlace = self.placesToDisplay[indexPath.row];
+    
+    [self setAttributesOfPlaceCell:parsePlace placeTableViewCell:placeTableViewCell];
+    placeTableViewCell.place = parsePlace;
     
     return placeTableViewCell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.places.count;
+    return self.placesToDisplay.count;
 }
 
 
+- (IBAction)didTapSortByDecreasingFavorites:(id)sender {
+
+}
+
+- (IBAction)didTapSortByIncreasingFavorites:(id)sender {
+    // if sortByIncreasingFavorites:
+        // change button style to filled
+        // reload current results to be sorted by increasing order
+        // ensure future results will be sorted by increasing order
+    // else
+        // change button style to gray
+}
 @end

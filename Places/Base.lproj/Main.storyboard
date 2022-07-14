@@ -283,11 +283,17 @@
                                         <rect key="frame" x="10" y="5" width="102.5" height="35"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="gray" image="arrow.up" catalog="system" title="Favorited"/>
+                                        <connections>
+                                            <action selector="didTapSortByIncreasingFavorites:" destination="HV6-B5-JQC" eventType="touchUpInside" id="yKf-6c-vYK"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SbI-Ej-FGg">
                                         <rect key="frame" x="120.5" y="5" width="102.5" height="35"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="gray" image="arrow.down" catalog="system" title="Favorited"/>
+                                        <connections>
+                                            <action selector="didTapSortByDecreasingFavorites:" destination="HV6-B5-JQC" eventType="touchUpInside" id="gba-Cw-Xei"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
