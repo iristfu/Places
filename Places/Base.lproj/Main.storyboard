@@ -325,6 +325,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Discover" id="80M-Zo-ZwF"/>
                     <connections>
+                        <outlet property="decreasingFavoritesButton" destination="SbI-Ej-FGg" id="1EP-kF-sc3"/>
+                        <outlet property="increasingFavoritesButton" destination="A0r-57-fjA" id="EU7-64-9f8"/>
                         <outlet property="searchBar" destination="Ohj-g5-9Me" id="gOb-lQ-ECc"/>
                         <outlet property="searchResults" destination="onh-dv-iNd" id="dOo-j6-qLI"/>
                     </connections>

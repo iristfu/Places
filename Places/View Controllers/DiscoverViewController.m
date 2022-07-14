@@ -16,10 +16,13 @@
 
 @interface DiscoverViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray *placesToDisplay;
+@property (nonatomic, strong) NSString *currentQuery;
 @property (nonatomic) BOOL *sortByIncreasingFavorites;
 @property (nonatomic) BOOL *sortByDecreasingFavorites;
 - (IBAction)didTapSortByIncreasingFavorites:(id)sender;
 - (IBAction)didTapSortByDecreasingFavorites:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *increasingFavoritesButton;
+@property (weak, nonatomic) IBOutlet UIButton *decreasingFavoritesButton;
 
 @end
 
@@ -104,20 +107,29 @@
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                NSArray *resultsAsGooglePlaceObjects = dataDictionary[@"results"];
-               for (NSDictionary *googlePlaceObject in resultsAsGooglePlaceObjects) {
-                  [self createNewPlaceModelInParseIfNecessary:googlePlaceObject];
-               }
-               
-               // set self.placesToDisplay as Parse object version of resultsAsGooglePlaceObjects
                NSMutableArray *searchResultPlaceIDs = [[NSMutableArray alloc] init];
-               for (NSDictionary *googlePlace in resultsAsGooglePlaceObjects) {
-                   [searchResultPlaceIDs addObject:googlePlace[@"place_id"]];
+               
+               for (NSDictionary *googlePlaceObject in resultsAsGooglePlaceObjects) {
+                   [self createNewPlaceModelInParseIfNecessary:googlePlaceObject];
+                   [searchResultPlaceIDs addObject:googlePlaceObject[@"place_id"]];
                }
                NSLog(@"Got searchResultPlaceIDs %@", searchResultPlaceIDs);
-
+               
+               // QUESTION: How to wait until the above, specifically createNewPlaceModelInParseIfNecessary, finishes before moving on?
+               // Currently getting a bug here due to asynchronous methods running
+               
+               // set self.placesToDisplay as Parse object version of resultsAsGooglePlaceObjects
                PFQuery *query = [PFQuery queryWithClassName:@"Place"];
                [query whereKey:@"placeID" containedIn:searchResultPlaceIDs];
-//               [query orderByDescending:@"favoriteCount"];
+               
+               if (self.sortByIncreasingFavorites) { // from most favorited to least favorited
+                   NSLog(@"sortByIncreasingFavorites is true and filtering query accordingly");
+                   [query orderByDescending:@"favoriteCount"];
+               } else if (self.sortByDecreasingFavorites) {
+                   NSLog(@"sortByDecreasingFavorites is true and filtering query accordingly");
+                   [query orderByAscending:@"favoriteCount"];
+               }
+               
                [query findObjectsInBackgroundWithBlock:^(NSArray *parsePlaceObjects, NSError *error) {
                  if (!error) {
                      self.placesToDisplay = parsePlaceObjects;
@@ -134,6 +146,7 @@
 }
 
 - (void) loadDefaultPlacesToDisplay {
+    self.currentQuery = @"to do";
     [self fetchPlaces:@"to do"];
     NSLog(@"self.placesToDisplay in loadDefaultPlacesToDisplay has %lu elements", [self.placesToDisplay count]);
 }
@@ -152,6 +165,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text.length != 0) {
+        self.currentQuery = searchBar.text;
         [self fetchPlaces:searchBar.text];
     }
     [self.searchBar resignFirstResponder];
@@ -227,15 +241,59 @@
 
 
 - (IBAction)didTapSortByDecreasingFavorites:(id)sender {
+    if (!self.sortByDecreasingFavorites) {
+        // Change button UI
+        [self.decreasingFavoritesButton setConfiguration:[UIButtonConfiguration filledButtonConfiguration]];
+        [self.decreasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
+        [self.decreasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.down"] forState:UIControlStateNormal];
+        
+        self.sortByDecreasingFavorites = YES;
+    } else {
+        // Change button UI
+        [self.decreasingFavoritesButton setConfiguration:[UIButtonConfiguration grayButtonConfiguration]];
+        [self.decreasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
+        [self.decreasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.down"] forState:UIControlStateNormal];
 
+        self.sortByDecreasingFavorites = NO;
+        
+    }
+    // reset increasing button UI and effect
+    [self.increasingFavoritesButton setConfiguration:[UIButtonConfiguration grayButtonConfiguration]];
+    [self.increasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
+    [self.increasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.up"] forState:UIControlStateNormal];
+    self.sortByIncreasingFavorites = NO;
+    
+    // refresh results
+    [self fetchPlaces:self.currentQuery];
 }
 
 - (IBAction)didTapSortByIncreasingFavorites:(id)sender {
-    // if sortByIncreasingFavorites:
-        // change button style to filled
-        // reload current results to be sorted by increasing order
-        // ensure future results will be sorted by increasing order
-    // else
-        // change button style to gray
+    if (!self.sortByIncreasingFavorites) {
+        // Change button UI
+        [self.increasingFavoritesButton setConfiguration:[UIButtonConfiguration filledButtonConfiguration]];
+        [self.increasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
+        [self.increasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.up"] forState:UIControlStateNormal];
+        
+        // Change search results
+        self.sortByIncreasingFavorites = YES;
+    } else {
+        // Change button UI
+        [self.increasingFavoritesButton setConfiguration:[UIButtonConfiguration grayButtonConfiguration]];
+        [self.increasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
+        [self.increasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.up"] forState:UIControlStateNormal];
+        
+        // Change search results
+        self.sortByIncreasingFavorites = NO;
+        
+    }
+    // reset decreasing button UI and effect
+    [self.decreasingFavoritesButton setConfiguration:[UIButtonConfiguration grayButtonConfiguration]];
+    [self.decreasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
+    [self.decreasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.down"] forState:UIControlStateNormal];
+    self.sortByDecreasingFavorites = NO;
+    
+    // refresh results
+    [self fetchPlaces:self.currentQuery];
 }
+
 @end
