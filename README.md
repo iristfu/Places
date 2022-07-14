@@ -33,9 +33,15 @@ An app that helps you plan, track, and share the places you go.
     * There is a tab which shows a table view that displays the user's itineraries. 
     * Users can create new itineraries from this tab. 
 * User can utilize a discover tab to search for places and favorite them. 
-    * There is a filtering functionality for multiple attributes, such as category of location, star rating, price range, dates/availability, etc.
     * User can search for any granularity of location (from cities to continents).
-    * TODO: Research Google Maps API to see what capabilities it provides us with. How is search and filtering done? What can we filter by? Seek to implement a more custom search/filtering algorithm than the API to make this a *planned technical challenge*.
+    * User can sort the results on the discover tab by how many other app users have favorited or added the place to itinerary - *planned technical challenge*.
+        * If sort setting is set:
+            * current results will sort
+            * future results will sort
+        * Unclicking the sort preference will undo the sort setting such that 
+            * current results will unsort
+            * future results will not be sorted by previous preference
+        * User should not be able to select both increasing and decreasing at the same time. Selecting one will undo the other, kind of like a toggle. User can also deselect both and revert to default sorting. 
 * User can share an itinerary - *planned technical challenge*.
     * Upon hitting share, an action sheet pops up and a link will be generated.
     * The itinerary will be stored in the Parse database.
@@ -247,3 +253,8 @@ Discover Page V1
 Favoriting V1
 
 <img src="https://github.com/iristfu/Places/blob/main/favorites_v1.gif" width=400>
+
+Discover Page V2 - with sorting by favorite count
+
+<img src="https://github.com/iristfu/Places/blob/main/discover_v2_with_sorting.gif" width=400>
+
