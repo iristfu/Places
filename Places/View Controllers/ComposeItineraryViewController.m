@@ -8,6 +8,14 @@
 #import "ComposeItineraryViewController.h"
 
 @interface ComposeItineraryViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *itineraryName;
+@property (weak, nonatomic) IBOutlet UIDatePicker *startDatePicker;
+@property (weak, nonatomic) IBOutlet UIDatePicker *endDatePicker;
+@property (weak, nonatomic) IBOutlet UITextView *travelDetails;
+@property (weak, nonatomic) IBOutlet UITextView *lodgingDetails;
+// add places to go
+- (IBAction)didTapClose:(id)sender;
+- (IBAction)didTapDone:(id)sender;
 
 @end
 
@@ -28,4 +36,11 @@
 }
 */
 
+- (IBAction)didTapDone:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (IBAction)didTapClose:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
 @end

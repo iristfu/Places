@@ -532,10 +532,10 @@
             </objects>
             <point key="canvasLocation" x="1296" y="3200"/>
         </scene>
-        <!--View Controller-->
+        <!--Compose Itinerary View Controller-->
         <scene sceneID="jdr-Av-g1a">
             <objects>
-                <viewController id="G67-Q5-rUM" sceneMemberID="viewController">
+                <viewController id="G67-Q5-rUM" customClass="ComposeItineraryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WFk-Q7-Sqt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -615,9 +615,24 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="IZ2-rv-gFA">
-                        <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="rJb-Vl-XBJ"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="rtC-xx-iLT"/>
+                        <barButtonItem key="leftBarButtonItem" image="xmark" catalog="system" id="rJb-Vl-XBJ">
+                            <connections>
+                                <action selector="didTapClose:" destination="G67-Q5-rUM" id="lQ1-Xr-cQk"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="rtC-xx-iLT">
+                            <connections>
+                                <action selector="didTapDone:" destination="G67-Q5-rUM" id="SUK-25-gpT"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="endDatePicker" destination="m8y-yo-ww8" id="Vbe-RG-qo9"/>
+                        <outlet property="itineraryName" destination="jUx-LA-yn0" id="lpQ-dP-AtA"/>
+                        <outlet property="lodgingDetails" destination="fO7-T4-2ny" id="qI5-HQ-TCN"/>
+                        <outlet property="startDatePicker" destination="RfY-ka-wFq" id="ODO-xU-JKo"/>
+                        <outlet property="travelDetails" destination="H0U-f4-muN" id="Tpz-ej-4hV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pla-w1-Hzb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
