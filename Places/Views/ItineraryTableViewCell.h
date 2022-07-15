@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Itinerary.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *itineraryImage;
 @property (weak, nonatomic) IBOutlet UILabel *itineraryName;
 @property (weak, nonatomic) IBOutlet UILabel *itineraryDates;
-
+@property (nonatomic,strong) Itinerary *itinerary;
 @end
 
 NS_ASSUME_NONNULL_END

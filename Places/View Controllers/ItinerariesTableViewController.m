@@ -6,11 +6,12 @@
 //
 
 #import "ItinerariesTableViewController.h"
+#import "ItineraryTableViewCell.h"
+#import "Itinerary.h"
 
 @interface ItinerariesTableViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
-@property (strong, nonatomic) NSMutableArray* itinerariesToDisplay;
-@property (strong,nonatomic)  UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSMutableArray* itinerariesToDisplay; // Array of Itinerary Parse objects
 
 @end
 
@@ -19,11 +20,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.itinerariesTableView.dataSource = self;
+    self.itinerariesTableView.delegate = self;
+    self.itinerariesTableView.rowHeight = UITableViewAutomaticDimension;
+    
+    [self fetchItineraries];
+}
+
+- (void)fetchItineraries {
+    PFUser *user = [PFUser currentUser];
+    if (user[@"itineraries"]) {
+        self.itinerariesToDisplay = user[@"itineraries"];
+        NSLog(@"The user's itineraries are: %@", self.itinerariesToDisplay);
+        [self.itinerariesTableView reloadData];
+    } else {
+        NSLog(@"The user currently has no itineraries");
+    }
 }
 
 
@@ -33,11 +47,16 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    Itinerary *itinerary = self.itinerariesToDisplay[indexPath.row];
+    ItineraryTableViewCell *itineraryCell = [tableView dequeueReusableCellWithIdentifier:@"ItineraryCell" forIndexPath:indexPath];
     
-    // Configure the cell...
+    itineraryCell.itinerary = itinerary;
+    itineraryCell.itineraryName.text = itinerary.name;
+    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary.startDate, itinerary.endDate]; // make this look better
+    // set image
+//    itineraryCell.itineraryImage
     
-    return cell;
+    return itineraryCell;
 }
 
 

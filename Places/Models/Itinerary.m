@@ -9,4 +9,19 @@
 
 @implementation Itinerary
 
+@dynamic name;
+@dynamic author;
+@dynamic image;
+@dynamic startDate;
+@dynamic endDate;
+@dynamic lodgingDetails;
+@dynamic travelDetails;
+@dynamic placesToGo;
+@dynamic estimatedCost;
+
++ (nonnull NSString *)parseClassName {
+    return @"Itinerary";
+}
+
+
 @end
