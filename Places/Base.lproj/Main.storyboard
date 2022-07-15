@@ -504,7 +504,7 @@
                     <navigationItem key="navigationItem" title="Itineraries" id="yZF-WW-h45">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="56e-nv-8k9">
                             <connections>
-                                <segue destination="UrR-5c-aj0" kind="presentation" id="gmm-SR-1l6"/>
+                                <segue destination="UrR-5c-aj0" kind="presentation" identifier="ComposeItinerarySegue" id="gmm-SR-1l6"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
