@@ -10,7 +10,7 @@
 #import "Itinerary.h"
 #import "ComposeItineraryViewController.h"
 
-@interface ItinerariesTableViewController () <UITableViewDelegate, UITableViewDataSource, ComposeItineraryViewControllerDelegate>
+@interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
 @property (strong, nonatomic) NSMutableArray* itinerariesToDisplay; // Array of Itinerary Parse objects
 
@@ -49,6 +49,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     Itinerary *itinerary = self.itinerariesToDisplay[indexPath.row];
+    NSLog(@"The itinerary to display for this cell is %@", itinerary);
     ItineraryTableViewCell *itineraryCell = [tableView dequeueReusableCellWithIdentifier:@"ItineraryCell" forIndexPath:indexPath];
     
     itineraryCell.itinerary = itinerary;
@@ -61,7 +62,9 @@
 }
 
 - (void)didComposeItinerary:(Itinerary *)itinerary {
+    NSLog(@"didComposeItinerary called");
     [self.itinerariesToDisplay insertObject:itinerary atIndex:0]; // newly created itineraries show up at the top of the page
+    NSLog(@"itineraries to display is now %@", self.itinerariesToDisplay);
     [self.itinerariesTableView reloadData];
 }
 

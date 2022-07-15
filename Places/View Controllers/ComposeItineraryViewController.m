@@ -50,7 +50,22 @@
 */
 
 - (IBAction)didTapDone:(id)sender {
-    // create new 
+    // create new Itinerary Parse object
+    Itinerary *newItinerary = [Itinerary new];
+    newItinerary.name = self.itineraryName.text;
+    newItinerary.travelDetails = self.travelDetails.text;
+    newItinerary.lodgingDetails = self.lodgingDetails.text;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    newItinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
+    newItinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
+
+    [newItinerary saveInBackground];
+    [self.delegate didComposeItinerary:newItinerary];
+    NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
     
     [self dismissViewControllerAnimated:true completion:nil];
 }
