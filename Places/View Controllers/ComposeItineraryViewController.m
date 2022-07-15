@@ -24,6 +24,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.travelDetails.layer.borderWidth = 1.0f;
+    self.travelDetails.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.lodgingDetails.layer.borderWidth = 1.0f;
+    self.lodgingDetails.layer.borderColor = [[UIColor grayColor] CGColor];
 }
 
 /*
