@@ -469,25 +469,35 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="196"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KQS-wx-Lxs">
-                                            <rect key="frame" x="6" y="11" width="236" height="185"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KQS-wx-Lxs">
+                                            <rect key="frame" x="10" y="10" width="267" height="176"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Itinerary Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3W-PE-v89">
-                                            <rect key="frame" x="250" y="11" width="155" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Itinerary Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3W-PE-v89">
+                                            <rect key="frame" x="287" y="10" width="117" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="start date - end date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeQ-mY-yhR">
-                                            <rect key="frame" x="250" y="49" width="117" height="15"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="start date - end date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeQ-mY-yhR">
+                                            <rect key="frame" x="287" y="40.5" width="117" height="15"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Y3W-PE-v89" firstAttribute="top" secondItem="KQS-wx-Lxs" secondAttribute="top" id="8gt-DX-F3i"/>
+                                        <constraint firstAttribute="trailing" secondItem="Y3W-PE-v89" secondAttribute="trailing" constant="10" id="BZV-Qt-Rsb"/>
+                                        <constraint firstItem="QeQ-mY-yhR" firstAttribute="leading" secondItem="Y3W-PE-v89" secondAttribute="leading" id="De5-Q0-UAp"/>
+                                        <constraint firstAttribute="bottom" secondItem="KQS-wx-Lxs" secondAttribute="bottom" constant="10" id="EDH-4W-7oK"/>
+                                        <constraint firstItem="QeQ-mY-yhR" firstAttribute="trailing" secondItem="Y3W-PE-v89" secondAttribute="trailing" id="Pyx-BC-n3n"/>
+                                        <constraint firstItem="KQS-wx-Lxs" firstAttribute="top" secondItem="xFk-1e-QkO" secondAttribute="top" constant="10" id="YCg-Ve-671"/>
+                                        <constraint firstItem="Y3W-PE-v89" firstAttribute="top" secondItem="xFk-1e-QkO" secondAttribute="top" constant="10" id="ZDo-FB-8FG"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QeQ-mY-yhR" secondAttribute="bottom" constant="10" id="aVy-m3-6Kn"/>
+                                        <constraint firstItem="Y3W-PE-v89" firstAttribute="leading" secondItem="KQS-wx-Lxs" secondAttribute="trailing" constant="10" id="uzc-eF-I9a"/>
+                                        <constraint firstItem="KQS-wx-Lxs" firstAttribute="leading" secondItem="xFk-1e-QkO" secondAttribute="leading" constant="10" id="ynA-hC-xDh"/>
+                                        <constraint firstItem="QeQ-mY-yhR" firstAttribute="top" secondItem="Y3W-PE-v89" secondAttribute="bottom" constant="10" id="zck-Ao-HcO"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="itineraryDates" destination="QeQ-mY-yhR" id="V4D-yr-Bhp"/>
