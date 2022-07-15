@@ -23,7 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    NSLog(@"loaded compose view controller");
+    
+//    Itinerary *newItinerary = [Itinerary new];
+//    newItinerary.name = @"test itinerary";
+//    [newItinerary saveInBackground];
+//    [self.delegate didComposeItinerary:newItinerary];
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
     self.tapRecognizer.cancelsTouchesInView = NO;
@@ -64,9 +70,16 @@
     newItinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
 
     [newItinerary saveInBackground];
-    [self.delegate didComposeItinerary:newItinerary];
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
     
+    // add Itinerary to User[@itineraries]
+    PFUser *currentUser = [PFUser currentUser];
+    [currentUser addObject:newItinerary forKey:@"itineraries"];
+    [currentUser saveInBackground];
+    NSLog(@"The user's itineraries array is now: %@", currentUser[@"itineraries"]);
+    
+    NSLog(@"About to call didComposeItinerary");
+    [self.delegate didComposeItinerary:newItinerary];
     [self dismissViewControllerAnimated:true completion:nil];
 }
 

@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ComposeItineraryViewControllerDelegate
+
 - (void)didComposeItinerary:(Itinerary *)itinerary;
 
 @end

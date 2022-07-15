@@ -27,7 +27,14 @@
     self.itinerariesTableView.delegate = self;
     self.itinerariesTableView.rowHeight = UITableViewAutomaticDimension;
     
+    self.itinerariesToDisplay = [[NSMutableArray alloc] init];
+    
     [self fetchItineraries];
+    
+//    Itinerary *newItinerary = [Itinerary new];
+//    newItinerary.name = @"test itinerary";
+//    [newItinerary saveInBackground];
+//    [self didComposeItinerary:newItinerary];
 }
 
 - (void)fetchItineraries {
@@ -49,12 +56,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     Itinerary *itinerary = self.itinerariesToDisplay[indexPath.row];
+    itinerary.fetchIfNeeded;
+    
     NSLog(@"The itinerary to display for this cell is %@", itinerary);
     ItineraryTableViewCell *itineraryCell = [tableView dequeueReusableCellWithIdentifier:@"ItineraryCell" forIndexPath:indexPath];
     
     itineraryCell.itinerary = itinerary;
-    itineraryCell.itineraryName.text = itinerary.name;
-    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary.startDate, itinerary.endDate]; // make this look better
+    itineraryCell.itineraryName.text = itinerary[@"name"];
+    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]]; // make this look better
     // set image
 //    itineraryCell.itineraryImage
     
@@ -62,7 +71,7 @@
 }
 
 - (void)didComposeItinerary:(Itinerary *)itinerary {
-    NSLog(@"didComposeItinerary called");
+    NSLog(@"did compose itinerary called with %@", itinerary);
     [self.itinerariesToDisplay insertObject:itinerary atIndex:0]; // newly created itineraries show up at the top of the page
     NSLog(@"itineraries to display is now %@", self.itinerariesToDisplay);
     [self.itinerariesTableView reloadData];
@@ -77,9 +86,11 @@
     // Pass the selected object to the new view controller.
     
     if ([[segue identifier] isEqualToString:@"ComposeItinerarySegue"]) {
+        NSLog(@"in compose itinerary prepare for segue");
         UINavigationController *navigationController = [segue destinationViewController];
         ComposeItineraryViewController *composeItineraryViewController = (ComposeItineraryViewController *)navigationController.topViewController;
         composeItineraryViewController.delegate = self;
+        NSLog(@"The compose view controller's delegate is %@", composeItineraryViewController.delegate);
     }
 }
 
