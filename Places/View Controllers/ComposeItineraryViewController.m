@@ -25,10 +25,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
+    self.tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:self.tapRecognizer];
+    
     self.travelDetails.layer.borderWidth = 1.0f;
     self.travelDetails.layer.borderColor = [[UIColor grayColor] CGColor];
     self.lodgingDetails.layer.borderWidth = 1.0f;
     self.lodgingDetails.layer.borderColor = [[UIColor grayColor] CGColor];
+}
+
+- (void)didTapAnywhere:(UITapGestureRecognizer *) sender {
+    [self.view endEditing:YES];
 }
 
 /*
@@ -42,6 +50,8 @@
 */
 
 - (IBAction)didTapDone:(id)sender {
+    // create new 
+    
     [self dismissViewControllerAnimated:true completion:nil];
 }
 

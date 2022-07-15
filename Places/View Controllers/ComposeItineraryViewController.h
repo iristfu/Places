@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ComposeItineraryViewController : UIViewController
 @property (nonatomic, weak) id<ComposeItineraryViewControllerDelegate> delegate;
+@property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 
 @end
 
