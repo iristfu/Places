@@ -8,8 +8,9 @@
 #import "ItinerariesTableViewController.h"
 #import "ItineraryTableViewCell.h"
 #import "Itinerary.h"
+#import "ComposeItineraryViewController.h"
 
-@interface ItinerariesTableViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ItinerariesTableViewController () <UITableViewDelegate, UITableViewDataSource, ComposeItineraryViewControllerDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
 @property (strong, nonatomic) NSMutableArray* itinerariesToDisplay; // Array of Itinerary Parse objects
 
@@ -59,6 +60,10 @@
     return itineraryCell;
 }
 
+- (void)didComposeItinerary:(Itinerary *)itinerary {
+    [self.itinerariesToDisplay insertObject:itinerary atIndex:0]; // newly created itineraries show up at the top of the page
+    [self.itinerariesTableView reloadData];
+}
 
 /*
 // Override to support conditional editing of the table view.

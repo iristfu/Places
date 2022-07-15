@@ -6,8 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Itinerary.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol ComposeItineraryViewControllerDelegate
+- (void)didComposeItinerary:(Itinerary *)itinerary;
+
+@end
 
 @interface ComposeItineraryViewController : UIViewController
 
