@@ -190,7 +190,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="onh-dv-iNd">
-                                <rect key="frame" x="0.0" y="152" width="414" height="661"/>
+                                <rect key="frame" x="0.0" y="152" width="414" height="690"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceCell" rowHeight="184" id="02U-Pg-wkZ" customClass="PlaceTableViewCell">
@@ -708,28 +708,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Caq-5T-Z7a" kind="relationship" relationship="rootViewController" id="xV3-pE-rHQ"/>
+                        <segue destination="HV6-B5-JQC" kind="relationship" relationship="rootViewController" id="4U7-ob-Tl9"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oAK-KM-YBa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1296" y="4613"/>
-        </scene>
-        <!--Add Places To Go View Controller-->
-        <scene sceneID="YK2-sV-Svb">
-            <objects>
-                <viewController id="Caq-5T-Z7a" customClass="AddPlacesToGoViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="aSU-qh-FjR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="e7B-n3-get"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="B5J-ED-Fe4"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sRb-ml-A23" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2359" y="4613"/>
+            <point key="canvasLocation" x="-371" y="3928"/>
         </scene>
         <!--Profile-->
         <scene sceneID="jET-Xd-pQF">
@@ -803,6 +787,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="4U7-ob-Tl9"/>
         <segue reference="jge-a7-93w"/>
     </inferredMetricsTieBreakers>
     <resources>
