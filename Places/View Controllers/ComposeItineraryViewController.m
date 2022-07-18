@@ -87,15 +87,6 @@
     return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)didTapDone:(id)sender {
     // Create new Itinerary Parse object
@@ -111,4 +102,14 @@
 - (IBAction)didTapClose:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }
+
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+
+
 @end

@@ -632,6 +632,11 @@
                                 <rect key="frame" x="360" y="449" width="44" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                <connections>
+                                    <segue destination="GmT-I8-jF1" kind="popoverPresentation" identifier="AddPlacesToGo" popoverAnchorView="IFj-5Y-7aq" id="KgC-r6-T5I">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="S3C-z6-xRB"/>
@@ -693,6 +698,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pla-w1-Hzb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1295.6521739130435" y="3908.7053571428569"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="E5d-r0-0aV">
+            <objects>
+                <navigationController id="GmT-I8-jF1" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3dt-Xl-pnO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Caq-5T-Z7a" kind="relationship" relationship="rootViewController" id="xV3-pE-rHQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oAK-KM-YBa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1296" y="4613"/>
+        </scene>
+        <!--Add Places To Go View Controller-->
+        <scene sceneID="YK2-sV-Svb">
+            <objects>
+                <viewController id="Caq-5T-Z7a" customClass="AddPlacesToGoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aSU-qh-FjR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="e7B-n3-get"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="B5J-ED-Fe4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sRb-ml-A23" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2359" y="4613"/>
         </scene>
         <!--Profile-->
         <scene sceneID="jET-Xd-pQF">
