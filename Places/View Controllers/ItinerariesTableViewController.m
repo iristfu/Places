@@ -9,6 +9,7 @@
 #import "ItineraryTableViewCell.h"
 #import "Itinerary.h"
 #import "ComposeItineraryViewController.h"
+#import "ParseUI.h"
 
 @interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
@@ -30,11 +31,6 @@
     self.itinerariesToDisplay = [[NSMutableArray alloc] init];
     
     [self fetchItineraries];
-    
-//    Itinerary *newItinerary = [Itinerary new];
-//    newItinerary.name = @"test itinerary";
-//    [newItinerary saveInBackground];
-//    [self didComposeItinerary:newItinerary];
 }
 
 - (void)fetchItineraries {
@@ -63,9 +59,11 @@
     
     itineraryCell.itinerary = itinerary;
     itineraryCell.itineraryName.text = itinerary[@"name"];
-    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]]; // make this look better
-    // set image
-//    itineraryCell.itineraryImage
+    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]]; // make this look
+    
+    itineraryCell.itineraryImage.file = itinerary[@"image"];
+    NSLog(@"Setting the itinerary image file %@", itinerary[@"image"]);
+    [itineraryCell.itineraryImage loadInBackground];
     
     return itineraryCell;
 }

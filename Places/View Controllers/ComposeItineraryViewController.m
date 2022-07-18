@@ -45,18 +45,7 @@
     [self.view endEditing:YES];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-- (IBAction)didTapDone:(id)sender {
-    // create new Itinerary Parse object
+- (Itinerary *)createNewItineraryInParse {
     Itinerary *newItinerary = [Itinerary new];
     newItinerary.name = self.itineraryName.text;
     newItinerary.travelDetails = self.travelDetails.text;
@@ -68,15 +57,35 @@
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
     newItinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
     newItinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
-
+    
     [newItinerary saveInBackground];
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
-    
-    // add Itinerary to User[@itineraries]
+    return newItinerary;
+}
+
+- (void)addItineraryForCurrentUser:(Itinerary *)newItinerary {
     PFUser *currentUser = [PFUser currentUser];
     [currentUser addObject:newItinerary forKey:@"itineraries"];
     [currentUser saveInBackground];
     NSLog(@"The user's itineraries array is now: %@", currentUser[@"itineraries"]);
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+- (IBAction)didTapDone:(id)sender {
+    // Create new Itinerary Parse object
+    Itinerary * newItinerary = [self createNewItineraryInParse];
+    
+    // Add Itinerary to User[@"itineraries"]
+    [self addItineraryForCurrentUser:newItinerary];
     
     NSLog(@"About to call didComposeItinerary");
     [self.delegate didComposeItinerary:newItinerary];
