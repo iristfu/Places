@@ -40,55 +40,6 @@
     [self loadDefaultPlacesToDisplay];
 }
 
-
-// sort self.places to be an array that starts from most favorited to least favorited
-- (void)sortResultsByIncreasingFavorites {
-//    NSMutableArray *searchResultPlaceIDs = [[NSMutableArray alloc] init];
-//    for (NSDictionary *googlePlace in self.places) {
-//        [searchResultPlaceIDs addObject:googlePlace[@"place_id"]];
-//    }
-//    NSLog(@"Got searchResultPlaceIDs %@", searchResultPlaceIDs);
-//
-//    PFQuery *query = [PFQuery queryWithClassName:@"Place"];
-//    [query whereKey:@"place_id" containsAllObjectsInArray:searchResultPlaceIDs];
-//    [query orderByDescending:@"favoriteCount"];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *sortedPlaceParseObjects, NSError *error) {
-//      if (!error) {
-//        NSLog(<#NSString * _Nonnull format, ...#>)
-//      } else {
-//        // Log details of the failure
-//        NSLog(@"Error: %@ %@", error, [error userInfo]);
-//      }
-//    }];
-    
-//    NSMutableDictionary *placesToFavoriteCount = [[NSMutableDictionary alloc] init];
-//
-//    // set placesToFavoriteCount
-//    for (NSDictionary *googlePlace in self.places) {
-//        PFQuery *query = [PFQuery queryWithClassName:@"Place"];
-//        [query whereKey:@"placeID" equalTo:googlePlace[@"place_id"]];
-//        [query findObjectsInBackgroundWithBlock:^(NSArray *parsePlaceObjects, NSError *error) {
-//            if (error) {
-//                NSLog(@"Got an error while fetching place from Parse");
-//            } else {
-//                if ([parsePlaceObjects count] == 1) {
-//                    Place *parsePlaceObject = parsePlaceObjects[0];
-//                    NSLog(@"Got a Parse Place Object for %@ with favorite count %@", parsePlaceObject[@"name"], parsePlaceObject[@"favoriteCount"]);
-//                    [placesToFavoriteCount setObject:parsePlaceObject[@"favoriteCount"] forKey:googlePlace[@"place_id"]];
-//                    NSLog(@"Should have added key value pair to placesToFavoriteCount %@", placesToFavoriteCount);
-//                }
-//            }
-//        }];
-//    }
-//
-//    NSLog(@"The placesToFavoriteCount dictionary has been set and is %@", placesToFavoriteCount);
-//
-//    // set self.places to be sorted from most to least favorited
-//    self.places = [placesToFavoriteCount keysSortedByValueUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-//        return [obj1 compare:obj2];
-//    }];
-}
-
 - (void)fetchPlaces:(NSString *)query {
     NSString *unreserved = @"-._~/?";
     NSMutableCharacterSet *allowed = [NSMutableCharacterSet alphanumericCharacterSet];
