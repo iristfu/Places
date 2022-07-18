@@ -36,7 +36,7 @@
 - (void)fetchItineraries {
     PFUser *user = [PFUser currentUser];
     if (user[@"itineraries"]) {
-        self.itinerariesToDisplay = user[@"itineraries"];
+        self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
         NSLog(@"The user's itineraries are: %@", self.itinerariesToDisplay);
         [self.itinerariesTableView reloadData];
     } else {
