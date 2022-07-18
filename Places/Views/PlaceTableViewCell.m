@@ -27,7 +27,7 @@
     return ![currentUser[@"favoritedPlaces"] containsObject:self.place[@"placeID"]];
 }
 
-- (IBAction)didTapAddToFavorites:(id)sender {
+- (IBAction)didTapAddToButton:(id)sender {
     PFUser *currentUser = [PFUser currentUser];
     
     if ([self notFavoritedBy:currentUser]) {
@@ -42,8 +42,8 @@
         NSLog(@"Incremented favorite count for %@", self.place[@"name"]);
         
         // Change button UI
-        [self.addToFavoritesButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
-        [self.addToFavoritesButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+        [self.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
+        [self.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
         
         // Update favorite count label
         self.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", self.place[@"favoriteCount"]];
@@ -51,5 +51,4 @@
         NSLog(@"%@ already favorited by user", self.place[@"name"]);
     }
 }
-
 @end

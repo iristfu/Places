@@ -8,7 +8,8 @@
 #import "ComposeItineraryViewController.h"
 #import "ParseUI.h"
 
-@interface ComposeItineraryViewController ()
+@interface ComposeItineraryViewController () <AddPlacesToGoViewDelegate, UITableViewDelegate, UITableViewDataSource>
+
 @property (weak, nonatomic) IBOutlet UITextField *itineraryName;
 @property (weak, nonatomic) IBOutlet UIDatePicker *startDatePicker;
 @property (weak, nonatomic) IBOutlet UIDatePicker *endDatePicker;
@@ -107,8 +108,10 @@
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    UINavigationController *navigationController = [segue destinationViewController];
+    DiscoverViewController *discoverViewController = (DiscoverViewController *)navigationController.topViewController;
+    discoverViewController.delegate = self;
+    discoverViewController.viewFrom = @"ComposeView";
 }
 
 

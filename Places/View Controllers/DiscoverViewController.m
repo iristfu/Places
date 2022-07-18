@@ -24,6 +24,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *increasingFavoritesButton;
 @property (weak, nonatomic) IBOutlet UIButton *decreasingFavoritesButton;
 
+// specific to places to go
+- (IBAction)didTapCancel:(id)sender;
+- (IBAction)didTapDone:(id)sender;
+
+
 @end
 
 @implementation DiscoverViewController
@@ -36,6 +41,15 @@
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
+    
+    NSLog(@"Set self.delegate to be %@ and self.viewFrom to be %@", self.delegate, self.viewFrom);
+    // Change UI if triggered from compose view
+    if ([self.viewFrom isEqualToString:@"ComposeView"]) {
+        self.navigationItem.title = @"Add places to go";
+    } else {
+        self.navigationItem.leftBarButtonItems = nil;
+        self.navigationItem.rightBarButtonItems = nil;
+    }
     
     [self loadDefaultPlacesToDisplay];
 }
@@ -168,12 +182,23 @@
     // Configure addToFavorites button
     PFUser *currentUser = [PFUser currentUser];
     
-    if ([self notFavoritedBy:currentUser forPlaceID:place[@"placeID"]]) {
-        [placeTableViewCell.addToFavoritesButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
-        [placeTableViewCell.addToFavoritesButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
+    if ([self.viewFrom isEqualToString:@"ComposeView"]) {
+        if (![self.placesToGo containsObject:place]) {
+            [placeTableViewCell.addToButton setTitle:@" Add to places to go" forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"plus"] forState:UIControlStateNormal];
+        } else {
+            [placeTableViewCell.addToButton setTitle:@" Added to places to go" forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+        }
+        
     } else {
-        [placeTableViewCell.addToFavoritesButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
-        [placeTableViewCell.addToFavoritesButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+        if ([self notFavoritedBy:currentUser forPlaceID:place[@"placeID"]]) {
+            [placeTableViewCell.addToButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
+        } else {
+            [placeTableViewCell.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+        }
     }
 }
 
@@ -209,8 +234,6 @@
     [self.decreasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
     [self.decreasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.down"] forState:UIControlStateNormal];
 }
-
-
 
 - (void)setDecreasingFavoriteButtonToSelected {
     [self.decreasingFavoritesButton setConfiguration:[UIButtonConfiguration filledButtonConfiguration]];
@@ -255,6 +278,14 @@
     
     // refresh results
     [self fetchPlaces:self.currentQuery];
+}
+
+- (IBAction)didTapDone:(id)sender {
+    
+}
+
+- (IBAction)didTapCancel:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
 }
 
 @end

@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Itinerary.h"
+#import "DiscoverViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

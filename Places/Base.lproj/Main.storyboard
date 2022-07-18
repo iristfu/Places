@@ -211,7 +211,7 @@
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="filled" title=" Add to Favorites"/>
                                                     <connections>
-                                                        <action selector="didTapAddToFavorites:" destination="02U-Pg-wkZ" eventType="touchUpInside" id="cmz-Mg-H3o"/>
+                                                        <action selector="didTapAddToButton:" destination="02U-Pg-wkZ" eventType="touchUpInside" id="7mc-Gb-lar"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkw-bx-jWR">
@@ -257,12 +257,13 @@
                                                 <constraint firstItem="1kV-OV-M8g" firstAttribute="leading" secondItem="Oyk-YV-KjF" secondAttribute="leading" constant="10" id="gXF-bF-iWg"/>
                                                 <constraint firstItem="hqg-dm-6pS" firstAttribute="leading" secondItem="WZC-Iv-7Ur" secondAttribute="leading" id="lw9-SB-auJ"/>
                                                 <constraint firstAttribute="bottom" secondItem="1kV-OV-M8g" secondAttribute="bottom" constant="10" id="n2n-i7-noQ"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="al8-Zb-ESM" secondAttribute="trailing" constant="10" id="tbS-pb-zHh"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hqg-dm-6pS" secondAttribute="trailing" constant="10" id="vf6-u9-8t2"/>
                                                 <constraint firstAttribute="bottom" secondItem="56R-Hg-coN" secondAttribute="bottom" constant="10" id="wSY-O4-QQz"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="addToFavoritesButton" destination="56R-Hg-coN" id="qW3-ev-mp9"/>
+                                            <outlet property="addToButton" destination="56R-Hg-coN" id="6yT-JA-s5p"/>
                                             <outlet property="placeAddress" destination="hqg-dm-6pS" id="EST-kN-eZL"/>
                                             <outlet property="placeFavoriteCount" destination="al8-Zb-ESM" id="sDr-8N-Ihm"/>
                                             <outlet property="placeImage" destination="1kV-OV-M8g" id="R9m-7i-61G"/>
@@ -305,6 +306,7 @@
                                     <constraint firstItem="SbI-Ej-FGg" firstAttribute="top" secondItem="A0r-57-fjA" secondAttribute="top" id="N7q-F0-ybK"/>
                                     <constraint firstAttribute="height" constant="45" id="T9X-IX-bWC"/>
                                     <constraint firstAttribute="bottom" secondItem="SbI-Ej-FGg" secondAttribute="bottom" constant="5" id="efH-OF-HD9"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SbI-Ej-FGg" secondAttribute="trailing" constant="10" id="lXC-8L-Do6"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -323,7 +325,18 @@
                             <constraint firstItem="Ohj-g5-9Me" firstAttribute="top" secondItem="Z8x-UA-SPz" secondAttribute="top" id="sNV-Ah-W9v"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Discover" id="80M-Zo-ZwF"/>
+                    <navigationItem key="navigationItem" title="Discover" id="80M-Zo-ZwF">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="asb-67-xmM">
+                            <connections>
+                                <action selector="didTapCancel:" destination="HV6-B5-JQC" id="Drj-Ty-zqg"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="FKM-hh-cqc">
+                            <connections>
+                                <action selector="didTapDone:" destination="HV6-B5-JQC" id="nEk-1M-fP0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="decreasingFavoritesButton" destination="SbI-Ej-FGg" id="1EP-kF-sc3"/>
                         <outlet property="increasingFavoritesButton" destination="A0r-57-fjA" id="EU7-64-9f8"/>
