@@ -61,8 +61,8 @@
     itineraryCell.itineraryName.text = itinerary[@"name"];
     itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]]; // make this look
     
-    itineraryCell.itineraryImage.file = itinerary[@"image"];
     NSLog(@"Setting the itinerary image file %@", itinerary[@"image"]);
+    itineraryCell.itineraryImage.file = itinerary[@"image"];
     [itineraryCell.itineraryImage loadInBackground];
     
     return itineraryCell;

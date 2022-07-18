@@ -470,16 +470,20 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KQS-wx-Lxs" customClass="PFImageView">
-                                            <rect key="frame" x="10" y="10" width="267" height="176"/>
+                                            <rect key="frame" x="10" y="10" width="200" height="176"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="150" id="3sr-Aa-awH"/>
+                                                <constraint firstAttribute="width" constant="200" id="XMY-ng-mLW"/>
+                                            </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Itinerary Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3W-PE-v89">
-                                            <rect key="frame" x="287" y="10" width="117" height="20.5"/>
+                                            <rect key="frame" x="220" y="10" width="117" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="start date - end date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeQ-mY-yhR">
-                                            <rect key="frame" x="287" y="40.5" width="117" height="15"/>
+                                            <rect key="frame" x="220" y="40.5" width="117" height="15"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -487,7 +491,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Y3W-PE-v89" firstAttribute="top" secondItem="KQS-wx-Lxs" secondAttribute="top" id="8gt-DX-F3i"/>
-                                        <constraint firstAttribute="trailing" secondItem="Y3W-PE-v89" secondAttribute="trailing" constant="10" id="BZV-Qt-Rsb"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Y3W-PE-v89" secondAttribute="trailing" constant="10" id="BZV-Qt-Rsb"/>
                                         <constraint firstItem="QeQ-mY-yhR" firstAttribute="leading" secondItem="Y3W-PE-v89" secondAttribute="leading" id="De5-Q0-UAp"/>
                                         <constraint firstAttribute="bottom" secondItem="KQS-wx-Lxs" secondAttribute="bottom" constant="10" id="EDH-4W-7oK"/>
                                         <constraint firstItem="QeQ-mY-yhR" firstAttribute="trailing" secondItem="Y3W-PE-v89" secondAttribute="trailing" id="Pyx-BC-n3n"/>

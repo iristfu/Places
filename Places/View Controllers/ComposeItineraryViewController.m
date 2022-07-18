@@ -6,6 +6,7 @@
 //
 
 #import "ComposeItineraryViewController.h"
+#import "ParseUI.h"
 
 @interface ComposeItineraryViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *itineraryName;
@@ -58,6 +59,12 @@
     newItinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
     newItinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
     
+    // check if there are places to go
+    // if not:
+    NSLog(@"The image to set is %@", [UIImage imageNamed:@"placeholder_itinerary_image"]);
+    newItinerary.image = [self getPFFileFromImage:[UIImage imageNamed:@"placeholder_itinerary_image"]];
+    NSLog(@"Just set new itinerary's image to %@", newItinerary.image);
+    
     [newItinerary saveInBackground];
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
     return newItinerary;
@@ -68,6 +75,21 @@
     [currentUser addObject:newItinerary forKey:@"itineraries"];
     [currentUser saveInBackground];
     NSLog(@"The user's itineraries array is now: %@", currentUser[@"itineraries"]);
+}
+
+- (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
+    // check if image is not nil
+    if (!image) {
+        return nil;
+    }
+    
+    NSData *imageData = UIImagePNGRepresentation(image);
+    // get image data and check if that is not nil
+    if (!imageData) {
+        return nil;
+    }
+    
+    return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
 /*
@@ -87,7 +109,6 @@
     // Add Itinerary to User[@"itineraries"]
     [self addItineraryForCurrentUser:newItinerary];
     
-    NSLog(@"About to call didComposeItinerary");
     [self.delegate didComposeItinerary:newItinerary];
     [self dismissViewControllerAnimated:true completion:nil];
 }
