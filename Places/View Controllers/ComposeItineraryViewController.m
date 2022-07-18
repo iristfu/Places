@@ -27,11 +27,6 @@
     
     NSLog(@"loaded compose view controller");
     
-//    Itinerary *newItinerary = [Itinerary new];
-//    newItinerary.name = @"test itinerary";
-//    [newItinerary saveInBackground];
-//    [self.delegate didComposeItinerary:newItinerary];
-    
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
     self.tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:self.tapRecognizer];
