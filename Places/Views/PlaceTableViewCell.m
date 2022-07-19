@@ -8,6 +8,7 @@
 #import "PlaceTableViewCell.h"
 #import "Place.h"
 #import "UIImageView+AFNetworking.h"
+#import "DiscoverViewController.h"
 @import Parse;
 
 @implementation PlaceTableViewCell
@@ -27,7 +28,7 @@
     return ![currentUser[@"favoritedPlaces"] containsObject:self.place[@"placeID"]];
 }
 
-- (IBAction)didTapAddToButton:(id)sender {
+- (void)handleAddToFavoriteButtonFunctionalities {
     PFUser *currentUser = [PFUser currentUser];
     
     if ([self notFavoritedBy:currentUser]) {
@@ -49,6 +50,26 @@
         self.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", self.place[@"favoriteCount"]];
     } else {
         NSLog(@"%@ already favorited by user", self.place[@"name"]);
+    }
+}
+
+- (void)handleAddToPlacesToGoButtonFunctionalities {
+    if (![self.delegate placeIsInPlacesToGo:self.place]) {
+        [self.delegate addPlaceToPlacesToGo:self.place];
+        
+        // change the UI
+        [self.addToButton setTitle:@" Added to places to go" forState:UIControlStateNormal];
+        [self.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+    } else {
+        NSLog(@"%@ is already in places to go", self.place[@"name"]);
+    }
+}
+
+- (IBAction)didTapAddToButton:(id)sender {
+    if ([self.viewFrom isEqualToString:@"ComposeView"]) {
+        [self handleAddToPlacesToGoButtonFunctionalities];
+    } else {
+        [self handleAddToFavoriteButtonFunctionalities];
     }
 }
 @end

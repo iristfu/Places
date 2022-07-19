@@ -10,6 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol PlaceTableViewCellDelegate
+
+- (void)addPlaceToPlacesToGo:(Place *)place;
+- (BOOL)placeIsInPlacesToGo:(Place *)place;
+
+@end
+
 @interface PlaceTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *placeImage;
 @property (weak, nonatomic) IBOutlet UILabel *placeName;
@@ -18,8 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *placeFavoriteCount;
 - (IBAction)didTapAddToButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *addToButton;
+@property (weak, nonatomic) NSString *viewFrom; // string representing which view triggered the discover view
 
 @property (weak, nonatomic) Place *place;
+
+@property (nonatomic, weak) id<PlaceTableViewCellDelegate> delegate;
 
 
 @end

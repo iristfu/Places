@@ -14,7 +14,7 @@
 @import GooglePlaces;
 @import Parse;
 
-@interface DiscoverViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface DiscoverViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, PlaceTableViewCellDelegate>
 @property (nonatomic, strong) NSArray *placesToDisplay;
 @property (nonatomic, strong) NSString *currentQuery;
 @property (nonatomic) BOOL *sortByIncreasingFavorites;
@@ -41,6 +41,7 @@
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
+    self.placesToGo = [[NSMutableArray alloc] init];
     
     NSLog(@"Set self.delegate to be %@ and self.viewFrom to be %@", self.delegate, self.viewFrom);
     // Change UI if triggered from compose view
@@ -167,22 +168,18 @@
     return ![currentUser[@"favoritedPlaces"] containsObject:placeID];
 }
 
-- (void)setAttributesOfPlaceCell:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
-    placeTableViewCell.placeName.text = place[@"name"];
-    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
-    placeTableViewCell.placeAddress.text = place[@"address"];
-    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]];
-    
-    // get first photo to display
+- (void)displayFirstPhotoOf:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
     NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
     NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
     NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
     [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
-    
-    // Configure addToFavorites button
-    PFUser *currentUser = [PFUser currentUser];
-    
+}
+
+- (void)configureAddToButton:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
     if ([self.viewFrom isEqualToString:@"ComposeView"]) {
+        placeTableViewCell.viewFrom = @"ComposeView";
+        placeTableViewCell.delegate = self;
+        
         if (![self.placesToGo containsObject:place]) {
             [placeTableViewCell.addToButton setTitle:@" Add to places to go" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"plus"] forState:UIControlStateNormal];
@@ -192,6 +189,7 @@
         }
         
     } else {
+        PFUser *currentUser = [PFUser currentUser];
         if ([self notFavoritedBy:currentUser forPlaceID:place[@"placeID"]]) {
             [placeTableViewCell.addToButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
@@ -200,6 +198,15 @@
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
         }
     }
+}
+
+- (void)setAttributesOfPlaceCell:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
+    placeTableViewCell.placeName.text = place[@"name"];
+    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
+    placeTableViewCell.placeAddress.text = place[@"address"];
+    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]];
+    [self displayFirstPhotoOf:place placeTableViewCell:placeTableViewCell];
+    [self configureAddToButton:place placeTableViewCell:placeTableViewCell];
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -287,5 +294,18 @@
 - (IBAction)didTapCancel:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }
+
+#pragma mark - PlaceTableViewCellDelegate
+
+- (void)addPlaceToPlacesToGo:(nonnull Place *)place {
+    [self.placesToGo addObject:place];
+    NSLog(@"self.placesToGo is now %@", self.placesToGo);
+}
+
+- (BOOL)placeIsInPlacesToGo:(nonnull Place *)place {
+    NSLog(@"returning %d that self.placesToGo contains the place %@", [self.placesToGo containsObject:place], place);
+    return [self.placesToGo containsObject:place];
+}
+
 
 @end
