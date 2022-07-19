@@ -23,6 +23,7 @@
 - (IBAction)didTapSortByDecreasingFavorites:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *increasingFavoritesButton;
 @property (weak, nonatomic) IBOutlet UIButton *decreasingFavoritesButton;
+@property (nonatomic, strong) NSMutableArray *existingPlacesToGo; // array of Place objectIDs
 
 // specific to places to go
 - (IBAction)didTapCancel:(id)sender;
@@ -41,7 +42,7 @@
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
-    self.placesToGo = [[NSMutableArray alloc] init];
+    self.placesToGoToAdd = [[NSMutableArray alloc] init];
     
     NSLog(@"Set self.delegate to be %@ and self.viewFrom to be %@", self.delegate, self.viewFrom);
     // Change UI if triggered from compose view
@@ -51,6 +52,13 @@
         self.navigationItem.leftBarButtonItems = nil;
         self.navigationItem.rightBarButtonItems = nil;
     }
+    
+    self.existingPlacesToGo = [[NSMutableArray alloc] init];
+    for (Place *place in [self.delegate getCurrentItinerary].placesToGo) {
+        NSLog(@"Entered current places to go for loop");
+        [self.existingPlacesToGo addObject:place.objectId];
+    }
+    NSLog(@"The existing places to go is %@", self.existingPlacesToGo);
     
     [self loadDefaultPlacesToDisplay];
 }
@@ -180,12 +188,12 @@
         placeTableViewCell.viewFrom = @"ComposeView";
         placeTableViewCell.delegate = self;
         
-        // TODO: instead of checking self.placesToGo (not persistent after clicking done or cancel), need to check query from Parse which returns the User's placeToGo array (this array persists across sessions)
-        if (![self.placesToGo containsObject:place]) {
+        // TODO: instead of checking self.placesToGoToAdd (not persistent after clicking done or cancel), need to check query from Parse which returns the User's placeToGo array (this array persists across sessions)
+        if (![self.existingPlacesToGo containsObject:place.objectId]) { // this currently always return true, so the code within this if statement always gets executed
             [placeTableViewCell.addToButton setTitle:@" Add to places to go" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"plus"] forState:UIControlStateNormal];
         } else {
-            [placeTableViewCell.addToButton setTitle:@" Added to places to go" forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setTitle:@" Going" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
         }
         
@@ -289,8 +297,8 @@
 }
 
 - (IBAction)didTapDone:(id)sender {
-    [self.delegate finishedAddingPlacesToGo:self.placesToGo];
-    NSLog(@"Passed the places to go array %@ to compose view itinerary", self.placesToGo);
+    [self.delegate finishedAddingPlacesToGo:self.placesToGoToAdd];
+    NSLog(@"Passed the places to go array %@ to compose view itinerary", self.placesToGoToAdd);
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
@@ -301,14 +309,14 @@
 
 #pragma mark - PlaceTableViewCellDelegate
 
-- (void)addPlaceToPlacesToGo:(nonnull Place *)place {
-    [self.placesToGo addObject:place];
-    NSLog(@"self.placesToGo is now %@", self.placesToGo);
+- (void)addPlaceToPlacesToGoToAdd:(nonnull Place *)place {
+    [self.placesToGoToAdd addObject:place];
+    NSLog(@"self.placesToGoToAdd is now %@", self.placesToGoToAdd);
 }
 
-- (BOOL)placeIsInPlacesToGo:(nonnull Place *)place {
-    NSLog(@"returning %d that self.placesToGo contains the place %@", [self.placesToGo containsObject:place], place);
-    return [self.placesToGo containsObject:place];
+- (BOOL)placeIsInPlacesToGoToAdd:(nonnull Place *)place {
+    NSLog(@"returning %d that self.placesToGo contains the place %@", [self.placesToGoToAdd containsObject:place], place);
+    return [self.placesToGoToAdd containsObject:place];
 }
 
 

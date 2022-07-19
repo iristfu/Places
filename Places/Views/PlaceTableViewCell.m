@@ -54,11 +54,11 @@
 }
 
 - (void)handleAddToPlacesToGoButtonFunctionalities {
-    if (![self.delegate placeIsInPlacesToGo:self.place]) {
-        [self.delegate addPlaceToPlacesToGo:self.place];
+    if (![self.delegate placeIsInPlacesToGoToAdd:self.place]) {
+        [self.delegate addPlaceToPlacesToGoToAdd:self.place];
         
         // change the UI
-        [self.addToButton setTitle:@" Added to places to go" forState:UIControlStateNormal];
+        [self.addToButton setTitle:@" Going" forState:UIControlStateNormal];
         [self.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
     } else {
         NSLog(@"%@ is already in places to go", self.place[@"name"]);

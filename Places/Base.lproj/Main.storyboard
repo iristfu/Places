@@ -207,9 +207,11 @@
                                                     </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56R-Hg-coN">
-                                                    <rect key="frame" x="170" y="143" width="234" height="31"/>
+                                                    <rect key="frame" x="170" y="145.5" width="234" height="28.5"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="filled" title=" Add to Favorites"/>
+                                                    <buttonConfiguration key="configuration" style="filled" title=" Add to Favorites">
+                                                        <fontDescription key="titleFontDescription" type="system" pointSize="12"/>
+                                                    </buttonConfiguration>
                                                     <connections>
                                                         <action selector="didTapAddToButton:" destination="02U-Pg-wkZ" eventType="touchUpInside" id="7mc-Gb-lar"/>
                                                     </connections>
@@ -221,7 +223,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorited by x other users" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="al8-Zb-ESM">
-                                                    <rect key="frame" x="170" y="126" width="125.5" height="12"/>
+                                                    <rect key="frame" x="170" y="128.5" width="125.5" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" name="AccentColor"/>
                                                     <nil key="highlightedColor"/>
@@ -232,7 +234,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place address" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqg-dm-6pS">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Place address" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqg-dm-6pS">
                                                     <rect key="frame" x="170" y="55" width="68" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -253,6 +255,7 @@
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pkw-bx-jWR" secondAttribute="trailing" constant="10" id="TdF-QY-ajr"/>
                                                 <constraint firstItem="al8-Zb-ESM" firstAttribute="leading" secondItem="hqg-dm-6pS" secondAttribute="leading" id="XQT-nX-sMC"/>
                                                 <constraint firstItem="1kV-OV-M8g" firstAttribute="top" secondItem="Oyk-YV-KjF" secondAttribute="top" constant="10" id="Yyr-sN-ERT"/>
+                                                <constraint firstItem="1kV-OV-M8g" firstAttribute="bottom" secondItem="56R-Hg-coN" secondAttribute="bottom" id="cjT-Fb-vPF"/>
                                                 <constraint firstItem="56R-Hg-coN" firstAttribute="top" secondItem="al8-Zb-ESM" secondAttribute="bottom" constant="5" id="g6a-Xn-4Yj"/>
                                                 <constraint firstItem="1kV-OV-M8g" firstAttribute="leading" secondItem="Oyk-YV-KjF" secondAttribute="leading" constant="10" id="gXF-bF-iWg"/>
                                                 <constraint firstItem="hqg-dm-6pS" firstAttribute="leading" secondItem="WZC-Iv-7Ur" secondAttribute="leading" id="lw9-SB-auJ"/>

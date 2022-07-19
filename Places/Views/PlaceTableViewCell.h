@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol PlaceTableViewCellDelegate
 
-- (void)addPlaceToPlacesToGo:(Place *)place;
-- (BOOL)placeIsInPlacesToGo:(Place *)place;
+- (void)addPlaceToPlacesToGoToAdd:(Place *)place;
+- (BOOL)placeIsInPlacesToGoToAdd:(Place *)place;
 
 @end
 

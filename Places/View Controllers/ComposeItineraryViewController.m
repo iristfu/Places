@@ -149,6 +149,10 @@
     [self.placesToGoTableView reloadData];
 }
 
+- (Itinerary *)getCurrentItinerary {
+    return self.itinerary;
+}
+
 #pragma mark - table view
 
 - (void)setAttributesOfPlaceCell:(NSDictionary *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
