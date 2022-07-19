@@ -19,6 +19,8 @@
 - (IBAction)didTapClose:(id)sender;
 - (IBAction)didTapDone:(id)sender;
 
+@property (strong, nonatomic) Itinerary *itinerary;
+
 @end
 
 @implementation ComposeItineraryViewController
@@ -36,34 +38,50 @@
     self.travelDetails.layer.borderColor = [[UIColor grayColor] CGColor];
     self.lodgingDetails.layer.borderWidth = 1.0f;
     self.lodgingDetails.layer.borderColor = [[UIColor grayColor] CGColor];
+    
+    self.itinerary = [Itinerary new];
 }
 
 - (void)didTapAnywhere:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
 }
 
-- (Itinerary *)createNewItineraryInParse {
-    Itinerary *newItinerary = [Itinerary new];
-    newItinerary.name = self.itineraryName.text;
-    newItinerary.travelDetails = self.travelDetails.text;
-    newItinerary.lodgingDetails = self.lodgingDetails.text;
+- (void)setItineraryImageToBeFirstImageOfFirstPlaceToGo {
+    Place *firstPlaceToGo = self.itinerary.placesToGo[0];
+    NSLog(@"Setting itinerary image as the photo for %@", firstPlaceToGo[@"name"]);
+    NSString *firstPhotoReference = ((firstPlaceToGo[@"photos"])[0])[@"photo_reference"];
+    NSLog(@"In setItineraryImageToBeFirstImageOfFirstPlaceToGo, This is the first photo's reference: %@", firstPhotoReference);
+    NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
+    NSLog(@"In setItineraryImageToBeFirstImageOfFirstPlaceToGo, This is the requestURLString: %@", requestURLString);
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:requestURLString]];
+    NSLog(@"There is imageData %@", imageData);
+    self.itinerary.image = [self getPFFileFromImage:[UIImage imageWithData:imageData]];
+    NSLog(@"Just set new itinerary's image to %@", self.itinerary.image);
+}
+
+- (void)createNewItineraryInParse {
+    self.itinerary.name = self.itineraryName.text;
+    self.itinerary.travelDetails = self.travelDetails.text;
+    self.itinerary.lodgingDetails = self.lodgingDetails.text;
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterMediumStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-    newItinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
-    newItinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
+    self.itinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
+    self.itinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
     
-    // check if there are places to go
-    // if not:
-    NSLog(@"The image to set is %@", [UIImage imageNamed:@"placeholder_itinerary_image"]);
-    newItinerary.image = [self getPFFileFromImage:[UIImage imageNamed:@"placeholder_itinerary_image"]];
-    NSLog(@"Just set new itinerary's image to %@", newItinerary.image);
+    if (self.itinerary.placesToGo) {
+        NSLog(@"There are placesToGo for this itinerary filled out");
+        [self setItineraryImageToBeFirstImageOfFirstPlaceToGo];
+    } else {
+//        NSLog(@"The image to set is %@", [UIImage imageNamed:@"placeholder_itinerary_image"]);
+//        self.itinerary.image = [self getPFFileFromImage:[UIImage imageNamed:@"placeholder_itinerary_image"]];
+//        NSLog(@"Just set new itinerary's image to %@", self.itinerary.image);
+    }
     
-    [newItinerary saveInBackground];
+    [self.itinerary saveInBackground];
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
-    return newItinerary;
 }
 
 - (void)addItineraryForCurrentUser:(Itinerary *)newItinerary {
@@ -91,12 +109,12 @@
 
 - (IBAction)didTapDone:(id)sender {
     // Create new Itinerary Parse object
-    Itinerary * newItinerary = [self createNewItineraryInParse];
+    [self createNewItineraryInParse];
     
     // Add Itinerary to User[@"itineraries"]
-    [self addItineraryForCurrentUser:newItinerary];
+    [self addItineraryForCurrentUser:self.itinerary];
     
-    [self.delegate didComposeItinerary:newItinerary];
+    [self.delegate didComposeItinerary:self.itinerary];
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
@@ -113,6 +131,21 @@
     discoverViewController.delegate = self;
     discoverViewController.viewFrom = @"ComposeView";
 }
+
+
+- (void)finishedAddingPlacesToGo:(nonnull NSArray *)placesToGo {
+    NSLog(@"finishedAddingPlacesToGo method executing");
+    self.itinerary.placesToGo = placesToGo;
+}
+
+//- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+//    <#code#>
+//}
+//
+//- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    self.
+//}
+
 
 
 @end

@@ -180,6 +180,7 @@
         placeTableViewCell.viewFrom = @"ComposeView";
         placeTableViewCell.delegate = self;
         
+        // TODO: instead of checking self.placesToGo (not persistent after clicking done or cancel), need to check query from Parse which returns the User's placeToGo array (this array persists across sessions)
         if (![self.placesToGo containsObject:place]) {
             [placeTableViewCell.addToButton setTitle:@" Add to places to go" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"plus"] forState:UIControlStateNormal];
@@ -288,8 +289,11 @@
 }
 
 - (IBAction)didTapDone:(id)sender {
-    
+    [self.delegate finishedAddingPlacesToGo:self.placesToGo];
+    NSLog(@"Passed the places to go array %@ to compose view itinerary", self.placesToGo);
+    [self dismissViewControllerAnimated:true completion:nil];
 }
+
 
 - (IBAction)didTapCancel:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
