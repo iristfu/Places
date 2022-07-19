@@ -66,17 +66,15 @@
     itineraryCell.itineraryImage.image = [UIImage imageNamed:@"placeholder"]; // placeholder image
     
     // load remote image
-    // this part is janky rn - code block in progressBlock only executes when tap on cell / lightly nudge table view
     itineraryCell.itineraryImage.file = itinerary[@"image"];
-    [itineraryCell.itineraryImage loadInBackground:^(UIImage * _Nullable image, NSError * _Nullable error) {} progressBlock:^(int percentDone) {
-        NSLog(@"%i percent done loading image for %@", percentDone, itineraryCell.itineraryName.text);
-        if (percentDone == 100) {
-            NSLog(@"Finished loading the image");
-            // reload the top most table view cell for when this needs to happen after just having added a new itinerary
-            // could add logic here to only do the following line if a new itinerary was just added, but shouldn't be a huge cost as is because
-            // only reloading the first row, and if not new itinerary, image for first row will be cached
-            [self.itinerariesTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-        }
+    
+    // this part is janky rn - completion block only executes when tap on cell / lightly nudge table view. Why is this?
+    [itineraryCell.itineraryImage loadInBackground:^(UIImage * _Nullable image, NSError * _Nullable error) {
+        NSLog(@"Finished loading the image");
+        // reload the top most table view cell for when this needs to happen after just having added a new itinerary
+        // could add logic here to only do the following line if a new itinerary was just added, but shouldn't be a huge cost as is because
+        // only reloading the first row, and if not new itinerary, image for first row will be cached
+        [self.itinerariesTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     }];
     
     return itineraryCell;
