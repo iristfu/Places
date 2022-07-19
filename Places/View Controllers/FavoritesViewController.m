@@ -39,9 +39,7 @@
     self.favoritedPlaces = [[currentUser[@"favoritedPlaces"] reverseObjectEnumerator] allObjects];
     NSLog(@"The current user's favorited places are %@", self.favoritedPlaces); // an array of place IDs
     [self.tableView reloadData];
-    
     [self.refreshControl endRefreshing];
-    [self.tableView reloadData];
 }
 
 - (nonnull UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

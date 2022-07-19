@@ -7,6 +7,7 @@
 
 #import "ComposeItineraryViewController.h"
 #import "ParseUI.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ComposeItineraryViewController () <AddPlacesToGoViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -15,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIDatePicker *endDatePicker;
 @property (weak, nonatomic) IBOutlet UITextView *travelDetails;
 @property (weak, nonatomic) IBOutlet UITextView *lodgingDetails;
-// add places to go
+@property (weak, nonatomic) IBOutlet UITableView *placesToGoTableView;
 - (IBAction)didTapClose:(id)sender;
 - (IBAction)didTapDone:(id)sender;
 
@@ -29,6 +30,10 @@
     [super viewDidLoad];
     
     NSLog(@"loaded compose view controller");
+    
+    self.placesToGoTableView.dataSource = self;
+    self.placesToGoTableView.delegate = self;
+    self.placesToGoTableView.rowHeight = UITableViewAutomaticDimension;
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
     self.tapRecognizer.cancelsTouchesInView = NO;
@@ -133,18 +138,46 @@
 }
 
 
+#pragma mark - AddPlacesToGoViewDelegate
 - (void)finishedAddingPlacesToGo:(nonnull NSArray *)placesToGo {
     NSLog(@"finishedAddingPlacesToGo method executing");
-    self.itinerary.placesToGo = placesToGo;
+    if (self.itinerary.placesToGo) {
+        self.itinerary.placesToGo = [self.itinerary.placesToGo arrayByAddingObjectsFromArray:placesToGo];
+    } else {
+        self.itinerary.placesToGo = placesToGo;
+    }
+    [self.placesToGoTableView reloadData];
 }
 
-//- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-//    <#code#>
-//}
-//
-//- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    self.
-//}
+#pragma mark - table view
+
+- (void)setAttributesOfPlaceCell:(NSDictionary *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
+    placeTableViewCell.placeName.text = place[@"name"];
+    NSLog(@"Setting places to go cell for %@ and the whole place dict is %@", place[@"name"], place);
+    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
+    placeTableViewCell.placeAddress.text = place[@"address"];
+    NSLog(@"The formatted addres is %@", place[@"address"]);
+    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]]; // Can replace x in the future
+    
+    // get first photo to display
+    NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
+    NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
+    NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
+    [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
+}
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    PlaceTableViewCell *placeCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
+    NSLog(@"Dequed a placeCell to set up");
+    NSDictionary *placeToGo = self.itinerary.placesToGo[indexPath.row];
+    [self setAttributesOfPlaceCell:placeToGo placeTableViewCell:placeCell];
+
+    return placeCell;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.itinerary.placesToGo.count;
+}
 
 
 
