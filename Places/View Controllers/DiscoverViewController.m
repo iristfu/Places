@@ -188,8 +188,7 @@
         placeTableViewCell.viewFrom = @"ComposeView";
         placeTableViewCell.delegate = self;
         
-        // TODO: instead of checking self.placesToGoToAdd (not persistent after clicking done or cancel), need to check query from Parse which returns the User's placeToGo array (this array persists across sessions)
-        if (![self.existingPlacesToGo containsObject:place.objectId]) { // this currently always return true, so the code within this if statement always gets executed
+        if (![self.existingPlacesToGo containsObject:place.objectId]) {
             [placeTableViewCell.addToButton setTitle:@" Add to places to go" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"plus"] forState:UIControlStateNormal];
         } else {

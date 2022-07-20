@@ -28,7 +28,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     NSLog(@"loaded compose view controller");
     
     self.placesToGoTableView.dataSource = self;
@@ -79,10 +78,6 @@
     if (self.itinerary.placesToGo) {
         NSLog(@"There are placesToGo for this itinerary filled out");
         [self setItineraryImageToBeFirstImageOfFirstPlaceToGo];
-    } else {
-//        NSLog(@"The image to set is %@", [UIImage imageNamed:@"placeholder_itinerary_image"]);
-//        self.itinerary.image = [self getPFFileFromImage:[UIImage imageNamed:@"placeholder_itinerary_image"]];
-//        NSLog(@"Just set new itinerary's image to %@", self.itinerary.image);
     }
     
     [self.itinerary saveInBackground];

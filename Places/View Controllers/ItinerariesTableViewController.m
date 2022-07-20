@@ -64,9 +64,7 @@
     itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]]; // make this look
 
     itineraryCell.itineraryImage.image = [UIImage imageNamed:@"placeholder"]; // placeholder image
-    
-    // load remote image
-    itineraryCell.itineraryImage.file = itinerary[@"image"];
+    itineraryCell.itineraryImage.file = itinerary[@"image"]; // remote image
     
     // this part is janky rn - completion block only executes when tap on cell / lightly nudge table view. Why is this?
     [itineraryCell.itineraryImage loadInBackground:^(UIImage * _Nullable image, NSError * _Nullable error) {
@@ -91,7 +89,6 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ComposeItinerarySegue"]) {
         NSLog(@"Preparing for ComposeItinerarySegue");
