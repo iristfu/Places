@@ -72,6 +72,9 @@ An app that helps you plan, track, and share the places you go.
     * The app leverages the Facebook API to get friends information.
 * The app generates suggested itineraries
     * The user can input price, preferred locations, duration, etc. to get a suggested itinerary  
+* Itinerary list view
+    * When a photo is loading, the user sees a spinner on top of the placeholder image to indicate that the image is still loading
+    * Loaded/cached photos show up immediately without a spinner
 * Maps view of an itinerary
     * The user can see all the locations within an itinerary in a maps view.
     * The user can filter in this maps view for specific types of locations, dates planned for locations, etc.
@@ -258,3 +261,10 @@ Discover Page V2 - with sorting by favorite count
 
 <img src="https://github.com/iristfu/Places/blob/main/discover_v2_with_sorting.gif" width=400>
 
+Itineraries V1 - table, compose, add places to go views
+
+<img src="https://github.com/iristfu/Places/blob/main/itineraries_v1.gif" width=400>
+
+Itinerary Detail V1
+
+<img src="https://github.com/iristfu/Places/blob/main/itinerary_detail_v1.gif" width=400>
