@@ -62,7 +62,7 @@
     placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
     placeTableViewCell.placeAddress.text = place[@"address"];
     NSLog(@"The formatted addres is %@", place[@"address"]);
-    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]]; // Can replace x in the future
+    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]];
     
     // get first photo to display
     NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
