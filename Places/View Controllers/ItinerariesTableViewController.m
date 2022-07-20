@@ -10,6 +10,7 @@
 #import "Itinerary.h"
 #import "ComposeItineraryViewController.h"
 #import "ParseUI.h"
+#import "UIKit+AFNetworking.h"
 
 @interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
@@ -51,6 +52,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"This is the index path row %ld and section %ld", (long)indexPath.row, (long)indexPath.section);
     Itinerary *itinerary = self.itinerariesToDisplay[indexPath.row];
     itinerary.fetchIfNeeded;
     
@@ -60,10 +62,18 @@
     itineraryCell.itinerary = itinerary;
     itineraryCell.itineraryName.text = itinerary[@"name"];
     itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]]; // make this look
+
+    itineraryCell.itineraryImage.image = [UIImage imageNamed:@"placeholder"]; // placeholder image
+    itineraryCell.itineraryImage.file = itinerary[@"image"]; // remote image
     
-    NSLog(@"Setting the itinerary image file %@", itinerary[@"image"]);
-    itineraryCell.itineraryImage.file = itinerary[@"image"];
-    [itineraryCell.itineraryImage loadInBackground];
+    // this part is janky rn - completion block only executes when tap on cell / lightly nudge table view. Why is this?
+    [itineraryCell.itineraryImage loadInBackground:^(UIImage * _Nullable image, NSError * _Nullable error) {
+        NSLog(@"Finished loading the image");
+        // reload the top most table view cell for when this needs to happen after just having added a new itinerary
+        // could add logic here to only do the following line if a new itinerary was just added, but shouldn't be a huge cost as is because
+        // only reloading the first row, and if not new itinerary, image for first row will be cached
+        [self.itinerariesTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    }];
     
     return itineraryCell;
 }
@@ -71,6 +81,7 @@
 - (void)didComposeItinerary:(Itinerary *)itinerary {
     NSLog(@"did compose itinerary called with %@", itinerary);
     [self.itinerariesToDisplay insertObject:itinerary atIndex:0]; // newly created itineraries show up at the top of the page
+//    [self.itinerariesTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
     NSLog(@"itineraries to display is now %@", self.itinerariesToDisplay);
     [self.itinerariesTableView reloadData];
 }
@@ -78,7 +89,6 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ComposeItinerarySegue"]) {
         NSLog(@"Preparing for ComposeItinerarySegue");

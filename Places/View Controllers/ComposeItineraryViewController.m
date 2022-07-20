@@ -7,16 +7,20 @@
 
 #import "ComposeItineraryViewController.h"
 #import "ParseUI.h"
+#import "UIImageView+AFNetworking.h"
 
-@interface ComposeItineraryViewController ()
+@interface ComposeItineraryViewController () <AddPlacesToGoViewDelegate, UITableViewDelegate, UITableViewDataSource>
+
 @property (weak, nonatomic) IBOutlet UITextField *itineraryName;
 @property (weak, nonatomic) IBOutlet UIDatePicker *startDatePicker;
 @property (weak, nonatomic) IBOutlet UIDatePicker *endDatePicker;
 @property (weak, nonatomic) IBOutlet UITextView *travelDetails;
 @property (weak, nonatomic) IBOutlet UITextView *lodgingDetails;
-// add places to go
+@property (weak, nonatomic) IBOutlet UITableView *placesToGoTableView;
 - (IBAction)didTapClose:(id)sender;
 - (IBAction)didTapDone:(id)sender;
+
+@property (strong, nonatomic) Itinerary *itinerary;
 
 @end
 
@@ -24,8 +28,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     NSLog(@"loaded compose view controller");
+    
+    self.placesToGoTableView.dataSource = self;
+    self.placesToGoTableView.delegate = self;
+    self.placesToGoTableView.rowHeight = UITableViewAutomaticDimension;
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
     self.tapRecognizer.cancelsTouchesInView = NO;
@@ -35,34 +42,46 @@
     self.travelDetails.layer.borderColor = [[UIColor grayColor] CGColor];
     self.lodgingDetails.layer.borderWidth = 1.0f;
     self.lodgingDetails.layer.borderColor = [[UIColor grayColor] CGColor];
+    
+    self.itinerary = [Itinerary new];
 }
 
 - (void)didTapAnywhere:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
 }
 
-- (Itinerary *)createNewItineraryInParse {
-    Itinerary *newItinerary = [Itinerary new];
-    newItinerary.name = self.itineraryName.text;
-    newItinerary.travelDetails = self.travelDetails.text;
-    newItinerary.lodgingDetails = self.lodgingDetails.text;
+- (void)setItineraryImageToBeFirstImageOfFirstPlaceToGo {
+    Place *firstPlaceToGo = self.itinerary.placesToGo[0];
+    NSLog(@"Setting itinerary image as the photo for %@", firstPlaceToGo[@"name"]);
+    NSString *firstPhotoReference = ((firstPlaceToGo[@"photos"])[0])[@"photo_reference"];
+    NSLog(@"In setItineraryImageToBeFirstImageOfFirstPlaceToGo, This is the first photo's reference: %@", firstPhotoReference);
+    NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
+    NSLog(@"In setItineraryImageToBeFirstImageOfFirstPlaceToGo, This is the requestURLString: %@", requestURLString);
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:requestURLString]];
+    NSLog(@"There is imageData %@", imageData);
+    self.itinerary.image = [self getPFFileFromImage:[UIImage imageWithData:imageData]];
+    NSLog(@"Just set new itinerary's image to %@", self.itinerary.image);
+}
+
+- (void)createNewItineraryInParse {
+    self.itinerary.name = self.itineraryName.text;
+    self.itinerary.travelDetails = self.travelDetails.text;
+    self.itinerary.lodgingDetails = self.lodgingDetails.text;
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterMediumStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-    newItinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
-    newItinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
+    self.itinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
+    self.itinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
     
-    // check if there are places to go
-    // if not:
-    NSLog(@"The image to set is %@", [UIImage imageNamed:@"placeholder_itinerary_image"]);
-    newItinerary.image = [self getPFFileFromImage:[UIImage imageNamed:@"placeholder_itinerary_image"]];
-    NSLog(@"Just set new itinerary's image to %@", newItinerary.image);
+    if (self.itinerary.placesToGo) {
+        NSLog(@"There are placesToGo for this itinerary filled out");
+        [self setItineraryImageToBeFirstImageOfFirstPlaceToGo];
+    }
     
-    [newItinerary saveInBackground];
+    [self.itinerary saveInBackground];
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
-    return newItinerary;
 }
 
 - (void)addItineraryForCurrentUser:(Itinerary *)newItinerary {
@@ -87,28 +106,78 @@
     return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)didTapDone:(id)sender {
     // Create new Itinerary Parse object
-    Itinerary * newItinerary = [self createNewItineraryInParse];
+    [self createNewItineraryInParse];
     
     // Add Itinerary to User[@"itineraries"]
-    [self addItineraryForCurrentUser:newItinerary];
+    [self addItineraryForCurrentUser:self.itinerary];
     
-    [self.delegate didComposeItinerary:newItinerary];
+    [self.delegate didComposeItinerary:self.itinerary];
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
 - (IBAction)didTapClose:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }
+
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    UINavigationController *navigationController = [segue destinationViewController];
+    DiscoverViewController *discoverViewController = (DiscoverViewController *)navigationController.topViewController;
+    discoverViewController.delegate = self;
+    discoverViewController.viewFrom = @"ComposeView";
+}
+
+
+#pragma mark - AddPlacesToGoViewDelegate
+- (void)finishedAddingPlacesToGo:(nonnull NSArray *)placesToGo {
+    NSLog(@"finishedAddingPlacesToGo method executing");
+    if (self.itinerary.placesToGo) {
+        self.itinerary.placesToGo = [self.itinerary.placesToGo arrayByAddingObjectsFromArray:placesToGo];
+    } else {
+        self.itinerary.placesToGo = placesToGo;
+    }
+    [self.placesToGoTableView reloadData];
+}
+
+- (Itinerary *)getCurrentItinerary {
+    return self.itinerary;
+}
+
+#pragma mark - table view
+
+- (void)setAttributesOfPlaceCell:(NSDictionary *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
+    placeTableViewCell.placeName.text = place[@"name"];
+    NSLog(@"Setting places to go cell for %@ and the whole place dict is %@", place[@"name"], place);
+    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
+    placeTableViewCell.placeAddress.text = place[@"address"];
+    NSLog(@"The formatted addres is %@", place[@"address"]);
+    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]]; // Can replace x in the future
+    
+    // get first photo to display
+    NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
+    NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
+    NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
+    [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
+}
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    PlaceTableViewCell *placeCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
+    NSLog(@"Dequed a placeCell to set up");
+    NSDictionary *placeToGo = self.itinerary.placesToGo[indexPath.row];
+    [self setAttributesOfPlaceCell:placeToGo placeTableViewCell:placeCell];
+
+    return placeCell;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.itinerary.placesToGo.count;
+}
+
+
+
 @end

@@ -8,6 +8,7 @@
 #import "PlaceTableViewCell.h"
 #import "Place.h"
 #import "UIImageView+AFNetworking.h"
+#import "DiscoverViewController.h"
 @import Parse;
 
 @implementation PlaceTableViewCell
@@ -19,15 +20,13 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (bool)notFavoritedBy:(PFUser *)currentUser {
     return ![currentUser[@"favoritedPlaces"] containsObject:self.place[@"placeID"]];
 }
 
-- (IBAction)didTapAddToFavorites:(id)sender {
+- (void)handleAddToFavoriteButtonFunctionalities {
     PFUser *currentUser = [PFUser currentUser];
     
     if ([self notFavoritedBy:currentUser]) {
@@ -42,8 +41,8 @@
         NSLog(@"Incremented favorite count for %@", self.place[@"name"]);
         
         // Change button UI
-        [self.addToFavoritesButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
-        [self.addToFavoritesButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+        [self.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
+        [self.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
         
         // Update favorite count label
         self.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", self.place[@"favoriteCount"]];
@@ -52,4 +51,23 @@
     }
 }
 
+- (void)handleAddToPlacesToGoButtonFunctionalities {
+    if (![self.delegate placeIsInPlacesToGoToAdd:self.place]) {
+        [self.delegate addPlaceToPlacesToGoToAdd:self.place];
+        
+        // change the UI
+        [self.addToButton setTitle:@" Going" forState:UIControlStateNormal];
+        [self.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+    } else {
+        NSLog(@"%@ is already in places to go", self.place[@"name"]);
+    }
+}
+
+- (IBAction)didTapAddToButton:(id)sender {
+    if ([self.viewFrom isEqualToString:@"ComposeView"]) {
+        [self handleAddToPlacesToGoButtonFunctionalities];
+    } else {
+        [self handleAddToFavoriteButtonFunctionalities];
+    }
+}
 @end
