@@ -6,10 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Itinerary.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ItineraryDetailViewController : UIViewController
+
+@property (strong, nonatomic) Itinerary *itinerary;
 
 @end
 

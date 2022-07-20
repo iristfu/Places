@@ -148,7 +148,7 @@
     return self.itinerary;
 }
 
-#pragma mark - table view
+#pragma mark - places to go table view
 
 - (void)setAttributesOfPlaceCell:(NSDictionary *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
     placeTableViewCell.placeName.text = place[@"name"];

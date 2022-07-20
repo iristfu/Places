@@ -684,6 +684,13 @@
                     <navigationItem key="navigationItem" id="lAx-0t-LCy">
                         <barButtonItem key="rightBarButtonItem" title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="itineraryDatesLabel" destination="IuP-Bh-diN" id="IWU-Qw-r3S"/>
+                        <outlet property="itineraryNameLabel" destination="vwr-IP-LBK" id="Em3-ie-J42"/>
+                        <outlet property="lodgingDetailsLabel" destination="I6j-Hu-iK0" id="klR-nz-pam"/>
+                        <outlet property="placesToGoTableView" destination="1Ve-Io-yvJ" id="uCT-WP-D6c"/>
+                        <outlet property="transportationDetailsLabel" destination="Epi-nC-QzM" id="ipD-IF-6wt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Rx-sU-swM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

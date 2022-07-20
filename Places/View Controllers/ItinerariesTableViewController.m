@@ -62,7 +62,7 @@
     
     itineraryCell.itinerary = itinerary;
     itineraryCell.itineraryName.text = itinerary[@"name"];
-    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]]; // make this look
+    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]];
 
     itineraryCell.itineraryImage.image = [UIImage imageNamed:@"placeholder"]; // placeholder image
     itineraryCell.itineraryImage.file = itinerary[@"image"]; // remote image
@@ -98,10 +98,8 @@
         composeItineraryViewController.delegate = self;
     } else if ([segue.identifier isEqualToString:@"ItineraryDetailViewSegue"]) {
         ItineraryDetailViewController *itineraryDetailViewController = [segue destinationViewController];
-        // Pass the selected object to the new view controller.
         ItineraryTableViewCell *tappedItinerary = sender;
-        // TODO: set itinerary for itineraryDetailViewController
-//        detailsViewController.post = tappedPost.post;
+        itineraryDetailViewController.itinerary = tappedItinerary.itinerary;
     }
 }
 
