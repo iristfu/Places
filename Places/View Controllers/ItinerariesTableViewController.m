@@ -11,6 +11,7 @@
 #import "ComposeItineraryViewController.h"
 #import "ParseUI.h"
 #import "UIKit+AFNetworking.h"
+#import "ItineraryDetailViewController.h"
 
 @interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
@@ -95,6 +96,12 @@
         UINavigationController *navigationController = [segue destinationViewController];
         ComposeItineraryViewController *composeItineraryViewController = (ComposeItineraryViewController *)navigationController.topViewController;
         composeItineraryViewController.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"ItineraryDetailViewSegue"]) {
+        ItineraryDetailViewController *itineraryDetailViewController = [segue destinationViewController];
+        // Pass the selected object to the new view controller.
+        ItineraryTableViewCell *tappedItinerary = sender;
+        // TODO: set itinerary for itineraryDetailViewController
+//        detailsViewController.post = tappedPost.post;
     }
 }
 

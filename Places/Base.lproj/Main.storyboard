@@ -523,6 +523,7 @@
                                     <outlet property="itineraryDates" destination="QeQ-mY-yhR" id="V4D-yr-Bhp"/>
                                     <outlet property="itineraryImage" destination="KQS-wx-Lxs" id="UiE-Ca-IjA"/>
                                     <outlet property="itineraryName" destination="Y3W-PE-v89" id="ipl-v1-33J"/>
+                                    <segue destination="BnL-j1-YeD" kind="show" identifier="ItineraryDetailViewSegue" id="EIw-sE-ucv"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -545,6 +546,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xfa-FS-KLw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1295.6521739130435" y="2514.5089285714284"/>
+        </scene>
+        <!--Itinerary Detail View Controller-->
+        <scene sceneID="maD-3z-hfj">
+            <objects>
+                <viewController id="BnL-j1-YeD" customClass="ItineraryDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lch-lL-Egy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ki7-Mw-El8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="lAx-0t-LCy"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Rx-sU-swM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2129" y="2515"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IqS-LU-a4C">
@@ -852,7 +869,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNy-2R-9KD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2702.898550724638" y="2514.5089285714284"/>
+            <point key="canvasLocation" x="3793" y="1696"/>
         </scene>
         <!--Itineraries-->
         <scene sceneID="hZX-df-Zat">
