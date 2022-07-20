@@ -27,31 +27,12 @@
     
     self.itineraryNameLabel.text = self.itinerary[@"name"];
     self.itineraryDatesLabel.text = [NSString stringWithFormat:@"%@ - %@", self.itinerary[@"startDate"], self.itinerary[@"endDate"]];
-    
     self.transportationDetailsLabel.text = self.itinerary[@"travelDetails"];
     self.lodgingDetailsLabel.text = self.itinerary[@"lodgingDetails"];
     
-//    self.itineraryNameLabel.text = self.itinerary.name;
-//    self.itineraryDatesLabel.text = [NSString stringWithFormat:@"%@ - %@", self.itinerary.startDate, self.itinerary.endDate];
-//
-//    self.transportationDetailsLabel.text = self.itinerary.travelDetails;
-//    self.lodgingDetailsLabel.text = self.itinerary.lodgingDetails;
-    
     self.placesToGoTableView.delegate = self;
     self.placesToGoTableView.dataSource = self;
-    
-    NSLog(@"Finished viewDidLoad");
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark - places to go table view
 
@@ -80,7 +61,7 @@
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.itinerary.placesToGo.count; // might be problematic
+    return self.itinerary.placesToGo.count;
 }
 
 @end
