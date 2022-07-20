@@ -31,6 +31,7 @@
 		7B297EB62881365000B5BCB4 /* ItineraryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EB52881365000B5BCB4 /* ItineraryTableViewCell.m */; };
 		7B297EB92881374A00B5BCB4 /* Itinerary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EB82881374A00B5BCB4 /* Itinerary.m */; };
 		7B297EBC28813E2E00B5BCB4 /* ComposeItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EBB28813E2E00B5BCB4 /* ComposeItineraryViewController.m */; };
+		7B39FC19288797A5002D3607 /* ItineraryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */; };
 		7BF917982877DB800042641C /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF917972877DB800042641C /* SignUpViewController.m */; };
 		CFB9F1394D47D15BCD660DA3 /* Pods_Places_PlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E0034AF7CD8494A82B4735 /* Pods_Places_PlacesUITests.framework */; };
 /* End PBXBuildFile section */
@@ -97,6 +98,8 @@
 		7B297EB82881374A00B5BCB4 /* Itinerary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Itinerary.m; sourceTree = "<group>"; };
 		7B297EBA28813E2E00B5BCB4 /* ComposeItineraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeItineraryViewController.h; sourceTree = "<group>"; };
 		7B297EBB28813E2E00B5BCB4 /* ComposeItineraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeItineraryViewController.m; sourceTree = "<group>"; };
+		7B39FC17288797A5002D3607 /* ItineraryDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItineraryDetailViewController.h; sourceTree = "<group>"; };
+		7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItineraryDetailViewController.m; sourceTree = "<group>"; };
 		7BF917962877DB800042641C /* SignUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		7BF917972877DB800042641C /* SignUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		97FFA15AC131F6C43064546D /* Pods-PlacesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.debug.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -254,6 +257,8 @@
 				7B297EB22881325100B5BCB4 /* ItinerariesTableViewController.m */,
 				7B297EBA28813E2E00B5BCB4 /* ComposeItineraryViewController.h */,
 				7B297EBB28813E2E00B5BCB4 /* ComposeItineraryViewController.m */,
+				7B39FC17288797A5002D3607 /* ItineraryDetailViewController.h */,
+				7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -554,6 +559,7 @@
 				7B297EA5287C907E00B5BCB4 /* APIManager.m in Sources */,
 				7B297EA9287CD61800B5BCB4 /* PlaceTableViewCell.m in Sources */,
 				7B297EB62881365000B5BCB4 /* ItineraryTableViewCell.m in Sources */,
+				7B39FC19288797A5002D3607 /* ItineraryDetailViewController.m in Sources */,
 				7B297EB0287E420B00B5BCB4 /* FavoritesViewController.m in Sources */,
 				7BF917982877DB800042641C /* SignUpViewController.m in Sources */,
 				7B297E952877E33900B5BCB4 /* LoginViewController.m in Sources */,

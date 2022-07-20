@@ -11,6 +11,7 @@
 #import "ComposeItineraryViewController.h"
 #import "ParseUI.h"
 #import "UIKit+AFNetworking.h"
+#import "ItineraryDetailViewController.h"
 
 @interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
@@ -61,7 +62,7 @@
     
     itineraryCell.itinerary = itinerary;
     itineraryCell.itineraryName.text = itinerary[@"name"];
-    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]]; // make this look
+    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]];
 
     itineraryCell.itineraryImage.image = [UIImage imageNamed:@"placeholder"]; // placeholder image
     itineraryCell.itineraryImage.file = itinerary[@"image"]; // remote image
@@ -95,6 +96,10 @@
         UINavigationController *navigationController = [segue destinationViewController];
         ComposeItineraryViewController *composeItineraryViewController = (ComposeItineraryViewController *)navigationController.topViewController;
         composeItineraryViewController.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"ItineraryDetailViewSegue"]) {
+        ItineraryDetailViewController *itineraryDetailViewController = [segue destinationViewController];
+        ItineraryTableViewCell *tappedItinerary = sender;
+        itineraryDetailViewController.itinerary = tappedItinerary.itinerary;
     }
 }
 
