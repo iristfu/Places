@@ -18,13 +18,15 @@
 
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
+    NSLog(@"Will connect to session called with session %@ and options %@", session, connectionOptions);
+    
     // If the user is already logged in, upon relaunching the app, don't need to login again
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
     }
-    // TODO: may need to handle custom URL here for when the app isn't launched and the user clicks a custom URL
+    // may need to handle custom URL here for when the app isn't launched and the user clicks a custom URL
 }
 
 
@@ -36,8 +38,6 @@
     NSLog(@"url path: %@", [url path]);
     NSString *itineraryObjectID = [[url path] substringFromIndex:1]; // remove "/" from path
     NSLog(@"itineraryObjectID: %@", itineraryObjectID);
-    // try to open up itinerary view, and from there, could perform segue to the specific detail view??
-//    [self.window.rootViewController performSegueWithIdentifier:@"" sender:nil];
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ItineraryDetailViewController *itineraryDetailViewController =[storyboard instantiateViewControllerWithIdentifier:@"ItineraryDetailView"];
