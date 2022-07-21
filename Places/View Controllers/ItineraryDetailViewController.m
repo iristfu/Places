@@ -67,7 +67,8 @@
 
 -(void)sendMessage {
     //create a message
-    NSString *theMessage = [NSString stringWithFormat:@"Checkout my itinerary %@ that I created in the Places app!", self.itinerary.name];
+    NSURL *itineraryURL = [NSURL URLWithString:[NSString stringWithFormat:@"places://itinerary/%@", self.itinerary.objectId]];
+    NSString *theMessage = [NSString stringWithFormat:@"Checkout my itinerary %@ that I created in the Places app! %@", self.itinerary.name, itineraryURL];
     NSArray *items = @[theMessage];
 
     // build an activity view controller
