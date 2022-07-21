@@ -26,6 +26,9 @@
     
 }
 
+- (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity {
+    NSLog(@"Continuing to handle user activity");
+}
 
 - (void)sceneDidDisconnect:(UIScene *)scene {
     // Called as the scene is being released by the system.

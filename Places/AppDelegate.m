@@ -32,8 +32,8 @@
     
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    NSLog(@"url recieved: %@", url);
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    NSLog(@"url recieved: %@", url.absoluteString);
     NSLog(@"query string: %@", [url query]);
     NSLog(@"host: %@", [url host]);
     NSLog(@"url path: %@", [url path]);
