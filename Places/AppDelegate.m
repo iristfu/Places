@@ -59,21 +59,6 @@
     return YES;
 }
 
-- (NSDictionary *)parseQueryString:(NSString *)query {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    NSArray *pairs = [query componentsSeparatedByString:@"&"];
-    
-    for (NSString *pair in pairs) {
-        NSArray *elements = [pair componentsSeparatedByString:@"="];
-        NSString *key = [[elements objectAtIndex:0] stringByRemovingPercentEncoding];
-        NSString *val = [[elements objectAtIndex:1] stringByRemovingPercentEncoding];
-        
-        [dict setObject:val forKey:key];
-    }
-    return dict;
-}
-
-
 #pragma mark - UISceneSession lifecycle
 
 
