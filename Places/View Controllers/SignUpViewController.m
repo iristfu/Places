@@ -6,6 +6,7 @@
 //
 
 #import "SignUpViewController.h"
+#import "SceneDelegate.h"
 @import Parse;
 
 
@@ -47,7 +48,9 @@
             NSLog(@"User registered successfully");
             
             // display view controller that needs to shown after successful sign up
-            [self performSegueWithIdentifier:@"SignedUpSegue" sender:nil];
+            SceneDelegate *sceneDelegate = self.view.window.windowScene.delegate;
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            sceneDelegate.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
         }
     }];
 }

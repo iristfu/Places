@@ -268,3 +268,8 @@ Itineraries V1 - table, compose, add places to go views
 Itinerary Detail V1
 
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_detail_v1.gif" width=400>
+
+Itinerary Sharing V1
+
+<img src="https://github.com/iristfu/Places/blob/main/itinerary_sharing_v1.gif" width=400>
+
