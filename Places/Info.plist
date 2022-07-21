@@ -5,12 +5,12 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.irisfu.places</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>places</string>
 			</array>
-			<key>CFBundleURLName</key>
-			<string>com.irisfu.places</string>
 		</dict>
 	</array>
 	<key>UIApplicationSceneManifest</key>

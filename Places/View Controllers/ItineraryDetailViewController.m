@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.itinerary.fetchIfNeeded;
     
     self.itineraryNameLabel.text = self.itinerary[@"name"];

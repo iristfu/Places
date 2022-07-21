@@ -97,8 +97,8 @@
         ComposeItineraryViewController *composeItineraryViewController = (ComposeItineraryViewController *)navigationController.topViewController;
         composeItineraryViewController.delegate = self;
     } else if ([segue.identifier isEqualToString:@"ItineraryDetailViewSegue"]) {
-        ItineraryDetailViewController *itineraryDetailViewController = [segue destinationViewController];
         ItineraryTableViewCell *tappedItinerary = sender;
+        ItineraryDetailViewController *itineraryDetailViewController = [segue destinationViewController];
         itineraryDetailViewController.itinerary = tappedItinerary.itinerary;
     }
 }
