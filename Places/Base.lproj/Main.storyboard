@@ -467,7 +467,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qEU-HS-c5M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2704" y="1696"/>
+            <point key="canvasLocation" x="4007" y="1696"/>
         </scene>
         <!--Itineraries-->
         <scene sceneID="lZK-ba-NeA">
@@ -550,7 +550,7 @@
         <!--Itinerary Detail View Controller-->
         <scene sceneID="maD-3z-hfj">
             <objects>
-                <viewController id="BnL-j1-YeD" customClass="ItineraryDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItineraryDetailView" id="BnL-j1-YeD" customClass="ItineraryDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lch-lL-Egy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -700,7 +700,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lAx-0t-LCy">
-                        <barButtonItem key="rightBarButtonItem" title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ"/>
+                        <barButtonItem key="rightBarButtonItem" title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
+                            <connections>
+                                <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="itineraryDatesLabel" destination="IuP-Bh-diN" id="IWU-Qw-r3S"/>
@@ -1020,7 +1024,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNy-2R-9KD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3793" y="1696"/>
+            <point key="canvasLocation" x="4006" y="2515"/>
         </scene>
         <!--Itineraries-->
         <scene sceneID="hZX-df-Zat">

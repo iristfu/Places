@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "Parse/Parse.h"
+#import "ItineraryDetailViewController.h"
 @import GooglePlaces;
 
 @interface AppDelegate ()
@@ -32,6 +33,31 @@
     
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    NSLog(@"url recieved: %@", url.absoluteString);
+    NSLog(@"host: %@", [url host]);
+    NSLog(@"url path: %@", [url path]);
+    NSString *itineraryObjectID = [[url path] substringFromIndex:1]; // remove "/" from path
+    NSLog(@"itineraryObjectID: %@", itineraryObjectID);
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ItineraryDetailViewController *itineraryDetailViewController =[storyboard instantiateViewControllerWithIdentifier:@"ItineraryDetailView"];
+    NSLog(@"Have an itinerary Detail View Controller %@", itineraryDetailViewController);
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Itinerary"];
+    [query getObjectInBackgroundWithId:itineraryObjectID block:^(PFObject *itinerary, NSError *error) {
+        if (!error) {
+            itineraryDetailViewController.itinerary = itinerary;
+            NSLog(@"Got the itinerary to set the detail view with itinerary %@", itineraryDetailViewController.itinerary);
+            
+            UITabBarController *tabBarController = self.window.rootViewController;
+            [tabBarController setSelectedIndex:2];
+            [[tabBarController selectedViewController] pushViewController:itineraryDetailViewController animated:true];
+        }
+    }];
+    
+    return YES;
+}
 
 #pragma mark - UISceneSession lifecycle
 

@@ -7,6 +7,7 @@
 
 #import "SceneDelegate.h"
 #import "AppDelegate.h"
+#import "ItineraryDetailViewController.h"
 @import Parse;
 
 @interface SceneDelegate ()
@@ -17,15 +18,43 @@
 
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
+    NSLog(@"Will connect to session called with session %@ and options %@", session, connectionOptions);
+    
     // If the user is already logged in, upon relaunching the app, don't need to login again
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
     }
-    
+    // In future PR: may need to handle custom URL here for when the app isn't launched and the user clicks a custom URL
 }
 
+
+- (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts {
+    NSLog(@"This should be called if app opens a URL while running or suspended in memory");
+    NSURL *url = [[URLContexts allObjects] firstObject].URL;
+    NSLog(@"url recieved: %@", url.absoluteString);
+    NSLog(@"host: %@", [url host]);
+    NSLog(@"url path: %@", [url path]);
+    NSString *itineraryObjectID = [[url path] substringFromIndex:1]; // remove "/" from path
+    NSLog(@"itineraryObjectID: %@", itineraryObjectID);
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ItineraryDetailViewController *itineraryDetailViewController =[storyboard instantiateViewControllerWithIdentifier:@"ItineraryDetailView"];
+    NSLog(@"Have an itinerary Detail View Controller %@", itineraryDetailViewController);
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Itinerary"];
+    [query getObjectInBackgroundWithId:itineraryObjectID block:^(PFObject *itinerary, NSError *error) {
+        if (!error) {
+            itineraryDetailViewController.itinerary = itinerary;
+            NSLog(@"Got the itinerary to set the detail view with itinerary %@", itineraryDetailViewController.itinerary);
+            
+            UITabBarController *tabBarController = self.window.rootViewController;
+            [tabBarController setSelectedIndex:2];
+            [[tabBarController selectedViewController] pushViewController:itineraryDetailViewController animated:true];
+        }
+    }];
+}
 
 - (void)sceneDidDisconnect:(UIScene *)scene {
     // Called as the scene is being released by the system.
