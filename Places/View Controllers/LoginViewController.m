@@ -6,6 +6,7 @@
 //
 
 #import "LoginViewController.h"
+#import "SceneDelegate.h"
 @import Parse;
 
 @interface LoginViewController ()
@@ -42,7 +43,9 @@
             NSLog(@"User logged in successfully");
             
             // display view controller that needs to shown after successful login
-            [self performSegueWithIdentifier:@"LoggedInSegue" sender:nil];
+            SceneDelegate *sceneDelegate = self.view.window.windowScene.delegate;
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            sceneDelegate.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
         }
     }];
 }
