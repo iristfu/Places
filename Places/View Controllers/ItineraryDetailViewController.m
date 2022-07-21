@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *transportationDetailsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lodgingDetailsLabel;
 @property (weak, nonatomic) IBOutlet UITableView *placesToGoTableView;
+- (IBAction)didTapShare:(id)sender;
 
 @end
 
@@ -33,6 +34,49 @@
     self.placesToGoTableView.delegate = self;
     self.placesToGoTableView.dataSource = self;
 }
+
+- (void)presentActivityController:(UIActivityViewController *)controller {
+
+    // for iPad: make the presentation a Popover
+    controller.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController:controller animated:YES completion:nil];
+
+    UIPopoverPresentationController *popController = [controller popoverPresentationController];
+    popController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    popController.barButtonItem = self.navigationItem.leftBarButtonItem;
+
+    // access the completion handler
+    controller.completionWithItemsHandler = ^(NSString *activityType,
+                                              BOOL completed,
+                                              NSArray *returnedItems,
+                                              NSError *error){
+        // react to the completion
+        if (completed) {
+            // user shared an item
+            NSLog(@"We used activity type%@", activityType);
+        } else {
+            // user cancelled
+            NSLog(@"We didn't want to share anything after all.");
+        }
+
+        if (error) {
+            NSLog(@"An Error occured: %@, %@", error.localizedDescription, error.localizedFailureReason);
+        }
+    };
+}
+
+-(void)sendMessage {
+    //create a message
+    NSString *theMessage = @"Some text we're sharing with an activity controller";
+    NSArray *items = @[theMessage];
+
+    // build an activity view controller
+    UIActivityViewController *controller = [[UIActivityViewController alloc]initWithActivityItems:items applicationActivities:nil];
+
+    // and present it
+    [self presentActivityController:controller];
+}
+
 
 #pragma mark - places to go table view
 
@@ -64,4 +108,7 @@
     return self.itinerary.placesToGo.count;
 }
 
+- (IBAction)didTapShare:(id)sender {
+    [self sendMessage];
+}
 @end
