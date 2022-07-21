@@ -32,6 +32,30 @@
     
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    NSLog(@"url recieved: %@", url);
+    NSLog(@"query string: %@", [url query]);
+    NSLog(@"host: %@", [url host]);
+    NSLog(@"url path: %@", [url path]);
+    NSDictionary *dict = [self parseQueryString:[url query]];
+    NSLog(@"query dict: %@", dict);
+    return YES;
+}
+
+- (NSDictionary *)parseQueryString:(NSString *)query {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    
+    for (NSString *pair in pairs) {
+        NSArray *elements = [pair componentsSeparatedByString:@"="];
+        NSString *key = [[elements objectAtIndex:0] stringByRemovingPercentEncoding];
+        NSString *val = [[elements objectAtIndex:1] stringByRemovingPercentEncoding];
+        
+        [dict setObject:val forKey:key];
+    }
+    return dict;
+}
+
 
 #pragma mark - UISceneSession lifecycle
 
