@@ -26,7 +26,7 @@
     
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
     }
-    // may need to handle custom URL here for when the app isn't launched and the user clicks a custom URL
+    // In future PR: may need to handle custom URL here for when the app isn't launched and the user clicks a custom URL
 }
 
 
