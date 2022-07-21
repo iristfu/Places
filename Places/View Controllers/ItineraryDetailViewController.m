@@ -37,7 +37,6 @@
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
-
     // for iPad: make the presentation a Popover
     controller.modalPresentationStyle = UIModalPresentationPopover;
     [self presentViewController:controller animated:YES completion:nil];
@@ -46,6 +45,21 @@
     popController.permittedArrowDirections = UIPopoverArrowDirectionAny;
     popController.barButtonItem = self.navigationItem.leftBarButtonItem;
 
+    
+    // set up alerts for post share
+    UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Success"
+                                                                               message:@"Shared successfully!"
+                                                                        preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertController *failureAlert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                               message:@"Couldn't share itinerary. Try again later."
+                                                                        preferredStyle:(UIAlertControllerStyleAlert)];
+
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * _Nonnull action) {}];
+    [successAlert addAction:okAction];
+    [failureAlert addAction:okAction];
+    
     // access the completion handler
     controller.completionWithItemsHandler = ^(NSString *activityType,
                                               BOOL completed,
@@ -55,18 +69,18 @@
         if (completed) {
             // user shared an item
             NSLog(@"We used activity type%@", activityType);
-        } else {
+            [self presentViewController:successAlert animated:YES completion:^{}];
+        } else if (error == nil) {
             // user cancelled
             NSLog(@"We didn't want to share anything after all.");
-        }
-
-        if (error) {
+        } else {
             NSLog(@"An Error occured: %@, %@", error.localizedDescription, error.localizedFailureReason);
+            [self presentViewController:failureAlert animated:YES completion:^{}];
         }
     };
 }
 
--(void)sendMessage {
+-(void)shareItinerary {
     //create a message
     NSURL *itineraryURL = [NSURL URLWithString:[NSString stringWithFormat:@"places://itinerary/%@", self.itinerary.objectId]];
     NSString *theMessage = [NSString stringWithFormat:@"Checkout my itinerary %@ that I created in the Places app! %@", self.itinerary.name, itineraryURL];
@@ -111,6 +125,6 @@
 }
 
 - (IBAction)didTapShare:(id)sender {
-    [self sendMessage];
+    [self shareItinerary];
 }
 @end
