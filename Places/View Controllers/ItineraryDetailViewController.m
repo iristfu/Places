@@ -67,7 +67,7 @@
 
 -(void)sendMessage {
     //create a message
-    NSString *theMessage = @"Some text we're sharing with an activity controller";
+    NSString *theMessage = [NSString stringWithFormat:@"Checkout my itinerary %@ that I created in the Places app!", self.itinerary.name];
     NSArray *items = @[theMessage];
 
     // build an activity view controller
