@@ -29,9 +29,10 @@ An app that helps you plan, track, and share the places you go.
 * User can login and logout. Information within an account is persistent.
 * User can "heart" or favorite locations to save them. 
     * There is a tab which shows a table view that displays the user's favorited places where the user can access all their favorited locations in one list.
-* User can create a new itinerary that always includes transportation (e.g. any flights), lodging (e.g. hotel information and dates), places to go, and estimated price. The information in these fields are manually added by the user.
-    * There is a tab which shows a table view that displays the user's itineraries. 
-    * Users can create new itineraries from this tab. 
+* User can create a new itinerary that always includes name, date, transportation (e.g. any flights), lodging (e.g. hotel information and dates), and places to go. The information in these fields are manually added by the user.
+    * There is a tab which shows a table view that displays the user's itineraries. Users can create new itineraries from this tab. 
+    * Within the itinerary compose view, there is an add button that prompts the "Add places to go" view, where the user can select and add places to go.
+    * User can edit or delete a previously made itinerary within the itinerary details view.
 * User can utilize a discover tab to search for places and favorite them. 
     * User can search for any granularity of location (from cities to continents).
     * User can sort the results on the discover tab by how many other app users have favorited or added the place to itinerary - *planned technical challenge*.
@@ -43,9 +44,12 @@ An app that helps you plan, track, and share the places you go.
             * future results will not be sorted by previous preference
         * User should not be able to select both increasing and decreasing at the same time. Selecting one will undo the other, kind of like a toggle. User can also deselect both and revert to default sorting. 
 * User can share an itinerary - *planned technical challenge*.
-    * Upon hitting share, an action sheet pops up and a link will be generated.
+    * In an itinerary’s detail view, upon hitting share, an action sheet pops up and a custom link will be generated (e.g. places://itinerary/YBzt5P1gRI).
     * The itinerary will be stored in the Parse database.
     * The user can send a text of the URL with the itinerary, and only those with the URL can access the itinerary.
+    * Clicking on the link prompts the app to open with the correct itinerary’s detail view, alongside the tab bar and navigation button to go back to the itinerary table view.
+    * Activity tracking
+        * User can see activity history on an itinerary, including when it was created and viewed, and by whom
 * The app leverages the Google Maps API and/or the TripAdvisor API to get more information about a place. 
 * User has a unique profile that includes a profile picture, name, username, and bio.
 * There is a tab navigation controller that switches between the user's discover tab, saved itineraries, favorited places, and profile.
@@ -60,7 +64,6 @@ An app that helps you plan, track, and share the places you go.
 * User can unfavorite locations from the Discover view.
 * User can add a "liked" place to a chosen itinerary.
 * User can edit profile image and bio.
-* User can edit a previously made itinerary within the itinerary details view.
 * For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
 * User profile page includes a scrolling view of their favorited places and itineraries that they've created.
 * The detail view of location includes notes added by the user, including photos they've taken.
@@ -273,7 +276,7 @@ Itinerary Sharing V1
 
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_sharing_v1.gif" width=400>
 
-Itinerary Sharing V2 - Activity Tracking of Creation and Views
+Itinerary Activity Tracking - creation and views
 
 *From the creator's account:*
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_activity_tracking_creator.gif" width=300>
