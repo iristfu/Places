@@ -71,7 +71,7 @@
     // set dates
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-    dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
     self.itinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
     self.itinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
@@ -88,7 +88,9 @@
     
     // set activity history
     NSDate *currentDate = [NSDate date];
-    self.itinerary.activityHistory = [NSArray arrayWithObjects:[NSString stringWithFormat:@"Created by %@ on %@", currentUser.username, [dateFormatter stringFromDate:currentDate]], nil];
+    NSDateFormatter *creationDateFormatter = dateFormatter;
+    creationDateFormatter.timeStyle = NSDateFormatterShortStyle; // want to show creation time
+    self.itinerary.activityHistory = [NSArray arrayWithObjects:[NSString stringWithFormat:@"✅ Created by %@ on %@", currentUser.username, [creationDateFormatter stringFromDate:currentDate]], nil];
     
     [self.itinerary saveInBackground];
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
