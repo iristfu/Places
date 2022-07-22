@@ -9,6 +9,7 @@
 #import "PlaceTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "Place.h"
+#import "ActivityHistoryViewController.h"
 
 @interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
@@ -127,4 +128,16 @@
 - (IBAction)didTapShare:(id)sender {
     [self shareItinerary];
 }
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ActivityHistorySegue"]) {
+        NSLog(@"Preparing for ActivityHistorySegue");
+        UINavigationController *navigationController = [segue destinationViewController];
+        ActivityHistoryViewController *activityHistoryViewController = (ActivityHistoryViewController *)navigationController.topViewController;
+        activityHistoryViewController.itinerary = self.itinerary;
+    }
+}
+
 @end

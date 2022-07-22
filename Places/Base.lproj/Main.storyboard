@@ -703,7 +703,7 @@
                         <rightBarButtonItems>
                             <barButtonItem image="eyes" catalog="system" id="uup-hF-KoT">
                                 <connections>
-                                    <segue destination="p22-jp-3nr" kind="presentation" id="f77-Lg-oDB"/>
+                                    <segue destination="p22-jp-3nr" kind="presentation" identifier="ActivityHistorySegue" id="f77-Lg-oDB"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">

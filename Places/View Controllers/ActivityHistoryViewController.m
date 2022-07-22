@@ -17,7 +17,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    NSArray *activityHistoryArray = self.itinerary.activityHistory;
+    NSString *activityHistoryText = [[activityHistoryArray valueForKey:@"description"] componentsJoinedByString:@"\n"];
+    NSLog(@"activityHistoryText is: %@", activityHistoryText);
+    self.activityHistoryText.text = activityHistoryText;
 }
 
 - (IBAction)didTapDone:(id)sender {
