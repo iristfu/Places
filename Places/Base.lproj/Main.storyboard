@@ -700,11 +700,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lAx-0t-LCy">
-                        <barButtonItem key="rightBarButtonItem" title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
-                            <connections>
-                                <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="eyes" catalog="system" id="uup-hF-KoT"/>
+                            <barButtonItem title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
+                                <connections>
+                                    <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="itineraryDatesLabel" destination="IuP-Bh-diN" id="IWU-Qw-r3S"/>
@@ -1051,6 +1054,7 @@
     <resources>
         <image name="arrow.down" catalog="system" width="120" height="128"/>
         <image name="arrow.up" catalog="system" width="120" height="128"/>
+        <image name="eyes" catalog="system" width="128" height="99"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="network" catalog="system" width="128" height="121"/>
