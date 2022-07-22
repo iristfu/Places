@@ -35,6 +35,18 @@
     
     self.placesToGoTableView.delegate = self;
     self.placesToGoTableView.dataSource = self;
+    
+    // update activity history for given itinerary
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    NSDate *currentDate = [NSDate date];
+
+    NSString *newActivityString = [NSString stringWithFormat:@"Viewed by %@ on %@", [PFUser currentUser].username, [dateFormatter stringFromDate:currentDate]];
+    self.itinerary.activityHistory = [self.itinerary.activityHistory arrayByAddingObject:newActivityString];
+    NSLog(@"Updated itinerary activity history: %@", self.itinerary.activityHistory);
+    [self.itinerary saveInBackground];
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
