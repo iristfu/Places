@@ -43,7 +43,7 @@
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
     NSDate *currentDate = [NSDate date];
 
-    NSString *newActivityString = [NSString stringWithFormat:@"👀 Viewed by %@ on %@", [PFUser currentUser].username, [dateFormatter stringFromDate:currentDate]];
+    NSString *newActivityString = [NSString stringWithFormat:@"👀 Viewed by %@ on %@", [PFUser currentUser].username, [dateFormatter stringFromDate:currentDate]]; // Adds logged in user's view to Itinerary's activity history
     self.itinerary.activityHistory = [self.itinerary.activityHistory arrayByAddingObject:newActivityString];
     NSLog(@"Updated itinerary activity history: %@", self.itinerary.activityHistory);
     [self.itinerary saveInBackground];
