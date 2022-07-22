@@ -980,10 +980,10 @@
             </objects>
             <point key="canvasLocation" x="1295.6521739130435" y="3908.7053571428569"/>
         </scene>
-        <!--View Controller-->
+        <!--Activity History View Controller-->
         <scene sceneID="e1v-ui-Mws">
             <objects>
-                <viewController id="ys0-9a-Xdp" sceneMemberID="viewController">
+                <viewController id="ys0-9a-Xdp" customClass="ActivityHistoryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gO8-Xs-kXU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1041,8 +1041,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="aCr-F6-Oyz">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="QwM-AN-G2h"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="QwM-AN-G2h">
+                            <connections>
+                                <action selector="didTapDone:" destination="ys0-9a-Xdp" id="Xum-zw-qzW"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="activityHistoryText" destination="dah-EO-sup" id="hgc-L5-JJF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UDF-FG-jzY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
