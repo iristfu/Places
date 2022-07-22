@@ -9,6 +9,7 @@
 #import "PlaceTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "Place.h"
+#import "ActivityHistoryViewController.h"
 
 @interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
@@ -34,6 +35,18 @@
     
     self.placesToGoTableView.delegate = self;
     self.placesToGoTableView.dataSource = self;
+    
+    // update activity history for given itinerary
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    NSDate *currentDate = [NSDate date];
+
+    NSString *newActivityString = [NSString stringWithFormat:@"👀 Viewed by %@ on %@", [PFUser currentUser].username, [dateFormatter stringFromDate:currentDate]]; // Adds logged in user's view to Itinerary's activity history
+    self.itinerary.activityHistory = [self.itinerary.activityHistory arrayByAddingObject:newActivityString];
+    NSLog(@"Updated itinerary activity history: %@", self.itinerary.activityHistory);
+    [self.itinerary saveInBackground];
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
@@ -127,4 +140,16 @@
 - (IBAction)didTapShare:(id)sender {
     [self shareItinerary];
 }
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ActivityHistorySegue"]) {
+        NSLog(@"Preparing for ActivityHistorySegue");
+        UINavigationController *navigationController = [segue destinationViewController];
+        ActivityHistoryViewController *activityHistoryViewController = (ActivityHistoryViewController *)navigationController.topViewController;
+        activityHistoryViewController.itinerary = self.itinerary;
+    }
+}
+
 @end

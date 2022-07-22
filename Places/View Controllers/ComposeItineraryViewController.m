@@ -68,6 +68,7 @@
     self.itinerary.travelDetails = self.travelDetails.text;
     self.itinerary.lodgingDetails = self.lodgingDetails.text;
     
+    // set dates
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterMediumStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
@@ -75,10 +76,21 @@
     self.itinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
     self.itinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
     
+    // set image
     if (self.itinerary.placesToGo) {
         NSLog(@"There are placesToGo for this itinerary filled out");
         [self setItineraryImageToBeFirstImageOfFirstPlaceToGo];
     }
+    
+    // set author
+    PFUser *currentUser = [PFUser currentUser];
+    self.itinerary.author = currentUser.username;
+    
+    // set activity history
+    NSDate *currentDate = [NSDate date];
+    NSDateFormatter *creationDateFormatter = dateFormatter;
+    creationDateFormatter.timeStyle = NSDateFormatterShortStyle; // want to show creation time
+    self.itinerary.activityHistory = [NSArray arrayWithObjects:[NSString stringWithFormat:@"✅ Created by %@ on %@", currentUser.username, [creationDateFormatter stringFromDate:currentDate]], nil];
     
     [self.itinerary saveInBackground];
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
