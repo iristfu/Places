@@ -273,3 +273,9 @@ Itinerary Sharing V1
 
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_sharing_v1.gif" width=400>
 
+Itinerary Activity Tracking - creation and views
+
+*From the creator's account:*
+<img src="https://github.com/iristfu/Places/blob/main/itinerary_activity_tracking_creator.gif" width=300>
+*From the viewer's account:*
+<img src="https://github.com/iristfu/Places/blob/main/itinerary_activity_tracking_viewer.gif" width=300>
