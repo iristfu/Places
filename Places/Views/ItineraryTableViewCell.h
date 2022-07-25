@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Itinerary.h"
-#import "ParseUI.h"
+@import Parse;
 
 NS_ASSUME_NONNULL_BEGIN
 

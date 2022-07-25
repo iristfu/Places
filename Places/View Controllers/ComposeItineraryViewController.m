@@ -6,8 +6,8 @@
 //
 
 #import "ComposeItineraryViewController.h"
-#import "ParseUI.h"
 #import "UIImageView+AFNetworking.h"
+@import Parse;
 
 @interface ComposeItineraryViewController () <AddPlacesToGoViewDelegate, UITableViewDelegate, UITableViewDataSource>
 

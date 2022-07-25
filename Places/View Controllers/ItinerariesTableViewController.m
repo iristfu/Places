@@ -9,9 +9,9 @@
 #import "ItineraryTableViewCell.h"
 #import "Itinerary.h"
 #import "ComposeItineraryViewController.h"
-#import "ParseUI.h"
 #import "UIKit+AFNetworking.h"
 #import "ItineraryDetailViewController.h"
+@import Parse;
 
 @interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;

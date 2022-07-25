@@ -6,9 +6,11 @@
 //
 
 #import "ShortestRouteMapViewController.h"
+@import GoogleMaps;
 
 @interface ShortestRouteMapViewController ()
 - (IBAction)didTapDone:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *mapView;
 
 @end
 
@@ -16,7 +18,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:1.285
+                                                              longitude:103.848
+                                                                   zoom:12];
+    GMSMapView *mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+    self.mapView = mapView;
 }
 
 /*

@@ -15,6 +15,7 @@ target 'Places' do
   pod 'BDBOAuth1Manager'
   pod 'RSKPlaceholderTextView'
   pod 'GooglePlaces', '7.0.0'
+  pod 'GoogleMaps', '7.0.0'
 
   target 'PlacesTests' do
     inherit! :search_paths

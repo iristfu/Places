@@ -6,6 +6,7 @@
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1081,8 +1082,56 @@
                     <view key="view" contentMode="scaleToFill" id="M4S-2k-TZ9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gwh-6t-Z6f" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="126" width="414" height="716"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0y-r9-ZyZ">
+                                <rect key="frame" x="82" y="56" width="250" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map shortest route by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afu-NP-GoN">
+                                        <rect key="frame" x="10" y="15" width="168" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DcG-EH-dt9">
+                                        <rect key="frame" x="183" y="8.5" width="57" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <menu key="menu" id="M2H-YQ-R2W">
+                                            <children>
+                                                <command title="driving" id="m8A-Pk-ecz"/>
+                                                <command title="bicycling" id="Imv-zd-6WA"/>
+                                                <command title="transit" id="KHt-NQ-1pc"/>
+                                                <command title="walking" id="6yk-br-ANn"/>
+                                            </children>
+                                        </menu>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="DcG-EH-dt9" firstAttribute="centerY" secondItem="afu-NP-GoN" secondAttribute="centerY" id="0pP-9H-qgE"/>
+                                    <constraint firstItem="afu-NP-GoN" firstAttribute="centerY" secondItem="K0y-r9-ZyZ" secondAttribute="centerY" id="8jb-b6-ddW"/>
+                                    <constraint firstItem="DcG-EH-dt9" firstAttribute="leading" secondItem="afu-NP-GoN" secondAttribute="trailing" constant="5" id="KjE-m0-xJK"/>
+                                    <constraint firstAttribute="height" constant="50" id="fc5-Hc-RXl"/>
+                                    <constraint firstAttribute="trailing" secondItem="DcG-EH-dt9" secondAttribute="trailing" constant="10" id="khe-X3-1fa"/>
+                                    <constraint firstAttribute="width" constant="250" id="oKC-RY-aR7"/>
+                                    <constraint firstItem="afu-NP-GoN" firstAttribute="leading" secondItem="K0y-r9-ZyZ" secondAttribute="leading" constant="10" id="x03-Ux-jSv"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="zgO-nI-bZi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Gwh-6t-Z6f" firstAttribute="leading" secondItem="zgO-nI-bZi" secondAttribute="leading" id="1Mp-mA-Ahw"/>
+                            <constraint firstItem="zgO-nI-bZi" firstAttribute="top" secondItem="K0y-r9-ZyZ" secondAttribute="top" id="5e4-Y5-g7b"/>
+                            <constraint firstItem="zgO-nI-bZi" firstAttribute="trailing" secondItem="Gwh-6t-Z6f" secondAttribute="trailing" id="9Fy-Zd-Jko"/>
+                            <constraint firstItem="zgO-nI-bZi" firstAttribute="bottom" secondItem="Gwh-6t-Z6f" secondAttribute="bottom" id="V9B-Zo-mlK"/>
+                            <constraint firstItem="K0y-r9-ZyZ" firstAttribute="centerX" secondItem="zgO-nI-bZi" secondAttribute="centerX" id="aaT-OZ-FBW"/>
+                            <constraint firstItem="Gwh-6t-Z6f" firstAttribute="top" secondItem="K0y-r9-ZyZ" secondAttribute="bottom" constant="20" id="jWz-mf-rof"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Map Shortest Route" id="K4u-o6-TeZ">
                         <barButtonItem key="rightBarButtonItem" title="Done" id="PRl-1k-9Ai">
@@ -1091,10 +1140,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="Gwh-6t-Z6f" id="PkW-5d-DeH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fjf-28-MQN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2922" y="3909"/>
+            <point key="canvasLocation" x="2921.739130434783" y="3908.7053571428569"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E5d-r0-0aV">
