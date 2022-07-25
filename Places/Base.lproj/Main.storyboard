@@ -706,6 +706,11 @@
                                     <segue destination="p22-jp-3nr" kind="presentation" identifier="ActivityHistorySegue" id="f77-Lg-oDB"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem title="Item" image="map" catalog="system" id="t4Y-lc-zpf">
+                                <connections>
+                                    <segue destination="JzO-Er-tW2" kind="presentation" identifier="ShortestRouteMapSegue" id="S0p-fr-3rX"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
                                 <connections>
                                     <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
@@ -744,7 +749,6 @@
         <!--Navigation Controller-->
         <scene sceneID="9fP-WK-ZQq">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Dx7-rz-Hba" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController id="p22-jp-3nr" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="brI-fK-iaS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
@@ -754,8 +758,25 @@
                         <segue destination="ys0-9a-Xdp" kind="relationship" relationship="rootViewController" id="Kt1-Ip-45f"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dx7-rz-Hba" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2129" y="3200"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="D9k-7U-nUB">
+            <objects>
+                <navigationController id="JzO-Er-tW2" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5ts-IC-UUb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ZUm-Ys-76H" kind="relationship" relationship="rootViewController" id="o1B-en-dre"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZdT-FJ-qcC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2922" y="3200"/>
         </scene>
         <!--Compose Itinerary View Controller-->
         <scene sceneID="jdr-Av-g1a">
@@ -980,7 +1001,7 @@
             </objects>
             <point key="canvasLocation" x="1295.6521739130435" y="3908.7053571428569"/>
         </scene>
-        <!--Activity History View Controller-->
+        <!--Activity History-->
         <scene sceneID="e1v-ui-Mws">
             <objects>
                 <viewController id="ys0-9a-Xdp" customClass="ActivityHistoryViewController" sceneMemberID="viewController">
@@ -988,17 +1009,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity History" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N8e-Ba-dKw">
-                                <rect key="frame" x="125.5" y="56" width="163" height="30"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDc-bm-NfG">
-                                <rect key="frame" x="10" y="106" width="394" height="716"/>
+                                <rect key="frame" x="10" y="56" width="394" height="766"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zkE-2t-CSG">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="966"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="1016"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dah-EO-sup">
                                                 <rect key="frame" x="20" y="20" width="284" height="20.5"/>
@@ -1037,16 +1052,14 @@
                         <viewLayoutGuide key="safeArea" id="t9J-Qn-lo4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="BDc-bm-NfG" firstAttribute="top" secondItem="N8e-Ba-dKw" secondAttribute="bottom" constant="20" id="Moh-9N-PUu"/>
                             <constraint firstItem="t9J-Qn-lo4" firstAttribute="trailing" secondItem="BDc-bm-NfG" secondAttribute="trailing" constant="10" id="V4J-5N-36t"/>
                             <constraint firstItem="t9J-Qn-lo4" firstAttribute="bottom" secondItem="BDc-bm-NfG" secondAttribute="bottom" constant="20" id="bit-2z-apZ"/>
-                            <constraint firstItem="N8e-Ba-dKw" firstAttribute="top" secondItem="t9J-Qn-lo4" secondAttribute="top" id="cLp-yB-fDZ"/>
                             <constraint firstItem="BDc-bm-NfG" firstAttribute="leading" secondItem="t9J-Qn-lo4" secondAttribute="leading" constant="10" id="inR-Mw-BLn"/>
                             <constraint firstItem="BDc-bm-NfG" firstAttribute="centerX" secondItem="t9J-Qn-lo4" secondAttribute="centerX" id="peh-Io-wcQ"/>
-                            <constraint firstItem="N8e-Ba-dKw" firstAttribute="centerX" secondItem="t9J-Qn-lo4" secondAttribute="centerX" id="rWw-3I-Ei8"/>
+                            <constraint firstItem="BDc-bm-NfG" firstAttribute="top" secondItem="t9J-Qn-lo4" secondAttribute="top" id="sKL-x6-2st"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="aCr-F6-Oyz">
+                    <navigationItem key="navigationItem" title="Activity History" id="aCr-F6-Oyz">
                         <barButtonItem key="rightBarButtonItem" title="Done" id="QwM-AN-G2h">
                             <connections>
                                 <action selector="didTapDone:" destination="ys0-9a-Xdp" id="Xum-zw-qzW"/>
@@ -1060,6 +1073,28 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UDF-FG-jzY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2128.985507246377" y="3908.7053571428569"/>
+        </scene>
+        <!--Map Shortest Route-->
+        <scene sceneID="eG1-9c-LaF">
+            <objects>
+                <viewController id="ZUm-Ys-76H" customClass="ShortestRouteMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="M4S-2k-TZ9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="zgO-nI-bZi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Map Shortest Route" id="K4u-o6-TeZ">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="PRl-1k-9Ai">
+                            <connections>
+                                <action selector="didTapDone:" destination="ZUm-Ys-76H" id="4J5-kw-9mB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fjf-28-MQN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2922" y="3909"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E5d-r0-0aV">
@@ -1158,6 +1193,7 @@
         <image name="eyes" catalog="system" width="128" height="99"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
+        <image name="map" catalog="system" width="128" height="110"/>
         <image name="network" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>

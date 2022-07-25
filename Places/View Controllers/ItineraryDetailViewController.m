@@ -10,6 +10,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "Place.h"
 #import "ActivityHistoryViewController.h"
+#import "ShortestRouteMapViewController.h"
 
 @interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
@@ -149,6 +150,11 @@
         UINavigationController *navigationController = [segue destinationViewController];
         ActivityHistoryViewController *activityHistoryViewController = (ActivityHistoryViewController *)navigationController.topViewController;
         activityHistoryViewController.itinerary = self.itinerary;
+    } else if ([[segue identifier] isEqualToString:@"ShortestRouteMapSegue"]) {
+        NSLog(@"Preparing for ShortestRouteMapSegue");
+        UINavigationController *navigationController = [segue destinationViewController];
+        ShortestRouteMapViewController *shortestRouteMapViewController = (ShortestRouteMapViewController *)navigationController.topViewController;
+        shortestRouteMapViewController.itinerary = self.itinerary;
     }
 }
 
