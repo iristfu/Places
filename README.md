@@ -43,14 +43,25 @@ An app that helps you plan, track, and share the places you go.
             * current results will unsort
             * future results will not be sorted by previous preference
         * User should not be able to select both increasing and decreasing at the same time. Selecting one will undo the other, kind of like a toggle. User can also deselect both and revert to default sorting. 
-* User can share an itinerary - *planned technical challenge*.
+* User can share and collaborate on itineraries - *planned technical challenge*.
     * In an itinerary’s detail view, upon hitting share, an action sheet pops up and a custom link will be generated (e.g. places://itinerary/YBzt5P1gRI).
     * The itinerary will be stored in the Parse database.
     * The user can send a text of the URL with the itinerary, and only those with the URL can access the itinerary.
     * Clicking on the link prompts the app to open with the correct itinerary’s detail view, alongside the tab bar and navigation button to go back to the itinerary table view.
     * Activity tracking
-        * User can see activity history on an itinerary, including when it was created and viewed, and by whom
-* The app leverages the Google Maps API and/or the TripAdvisor API to get more information about a place. 
+        * User can see activity history on an itinerary, including when it was created, viewed, and edited, and by whom
+    * Itinerary collaboration
+        * Users with edit access can edit an itinerary
+            * Changes made will be updated to all who have view access to the itinerary
+        * User can toggle between "My itineraries" and "Shared itineraries" in the itineraries table view
+        * User can unshare an itinerary by removing any viewers or editors
+* User can map the shortest route to travel through an itinerary's places to go - *planned technical challenge*
+    * Through an itinerary's detail view the user can touch a "map shortest route" button, which will prompt a new screen. Here, it will ask the user for a travel mode.
+    * Upon entering the travel mode, the app will display a map with the shortest route through the places to go
+    * The app uses the Google Map Distance Matrix API to get the travel time duration between all paired combinations of places to go
+    * The app leverages the traveling salesman algorithm to get the ordering of places to go 
+    * Knowing the ordering of places to go, the app uses the Google Map Routing API with the appropriate starting, waypoint, and ending locations to display to the user the route and navigation directions between all of their places to go
+* The app leverages the Google Maps and Place API to get more information about a place. 
 * User has a unique profile that includes a profile picture, name, username, and bio.
 * There is a tab navigation controller that switches between the user's discover tab, saved itineraries, favorited places, and profile.
 
@@ -61,7 +72,7 @@ An app that helps you plan, track, and share the places you go.
     * If the place is in the User's favorites list, the button UI changes to "Added to Favorites" with a red heart; otherwise, it is a white heart with "Add to Favorites"
 * User can unfavorite locations from the favorite list and reorder items on the favorite list.
 * Display the number of favorites the user has on the favorites view, and update this number as the user adds or removes favorites from the list.
-* User can unfavorite locations from the Discover view.
+* User can unfavorite locations from the Discover view and from the Favorites list.
 * User can add a "liked" place to a chosen itinerary.
 * User can edit profile image and bio.
 * For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
@@ -82,12 +93,13 @@ An app that helps you plan, track, and share the places you go.
     * The user can see all the locations within an itinerary in a maps view.
     * The user can filter in this maps view for specific types of locations, dates planned for locations, etc.
     * The user can generate shortest routes between locations.
-* Sharing itinerary
-    * Sharer of itinerary can see how many people have viewed their itinerary. 
+* Sharing itinerary 
+    * Access permissions
+        * Author can restrict access to specified accounts
+        * Author can set access permissions to viewer or editor
     * Sharer of itinerary will get notified when the receiver has viewed their itinerary.
-    * If receiver currently doesn't have the app, they will be prompted to download and sign up for the app.
+    * If receiver currently doesn't have the app and they click on a link, they will be prompted to download and sign up for the app.
     * If receiver does have the app, clicking the link will open up the app and prompt the user to login if they aren't signed in.
-    * People can collaborate on an itinerary.
 * The app can authenticate with biometrics.
 
 ### 2. Screen Archetypes
