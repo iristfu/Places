@@ -27,7 +27,6 @@
         self.selectedTravelMode = @"driving";
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
     }];
-    
     UIAction *bicycling = [UIAction actionWithTitle:@"bicycling" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedTravelMode = @"bicycling";
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
@@ -40,30 +39,18 @@
         self.selectedTravelMode = @"walking";
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
     }];
-    
     UIMenu *menu = [UIMenu menuWithChildren:@[driving, bicycling, transit, walking]];
     self.travelModeButton.menu = menu;
-    NSLog(@"this is the button's menu: %@", self.travelModeButton.menu);
     self.travelModeButton.showsMenuAsPrimaryAction = true;
     self.travelModeButton.changesSelectionAsPrimaryAction = true;
     
-    
+    // Setup map view
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:1.285
                                                               longitude:103.848
                                                                    zoom:12];
     GMSMapView *mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     self.mapView = mapView;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)didTapDone:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
