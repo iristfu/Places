@@ -1088,7 +1088,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0y-r9-ZyZ">
-                                <rect key="frame" x="82" y="56" width="250" height="50"/>
+                                <rect key="frame" x="72" y="56" width="270" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map shortest route by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afu-NP-GoN">
                                         <rect key="frame" x="10" y="15" width="168" height="20.5"/>
@@ -1097,7 +1097,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DcG-EH-dt9">
-                                        <rect key="frame" x="183" y="8.5" width="57" height="33"/>
+                                        <rect key="frame" x="183" y="8.5" width="52" height="33"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <menu key="menu" id="M2H-YQ-R2W">
                                             <children>
@@ -1116,8 +1116,8 @@
                                     <constraint firstItem="afu-NP-GoN" firstAttribute="centerY" secondItem="K0y-r9-ZyZ" secondAttribute="centerY" id="8jb-b6-ddW"/>
                                     <constraint firstItem="DcG-EH-dt9" firstAttribute="leading" secondItem="afu-NP-GoN" secondAttribute="trailing" constant="5" id="KjE-m0-xJK"/>
                                     <constraint firstAttribute="height" constant="50" id="fc5-Hc-RXl"/>
-                                    <constraint firstAttribute="trailing" secondItem="DcG-EH-dt9" secondAttribute="trailing" constant="10" id="khe-X3-1fa"/>
-                                    <constraint firstAttribute="width" constant="250" id="oKC-RY-aR7"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DcG-EH-dt9" secondAttribute="trailing" constant="10" id="khe-X3-1fa"/>
+                                    <constraint firstAttribute="width" constant="270" id="oKC-RY-aR7"/>
                                     <constraint firstItem="afu-NP-GoN" firstAttribute="leading" secondItem="K0y-r9-ZyZ" secondAttribute="leading" constant="10" id="x03-Ux-jSv"/>
                                 </constraints>
                             </view>
@@ -1142,6 +1142,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Gwh-6t-Z6f" id="PkW-5d-DeH"/>
+                        <outlet property="travelModeButton" destination="DcG-EH-dt9" id="pYZ-p1-fjD"/>
+                        <outlet property="travelModeMenu" destination="M2H-YQ-R2W" id="d1U-Wx-x4a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fjf-28-MQN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
