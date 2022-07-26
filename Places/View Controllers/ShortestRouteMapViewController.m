@@ -60,20 +60,44 @@
     NSArray *placesToGo = self.itinerary.placesToGo;
     NSMutableArray *placesToGoIDs = [[NSMutableArray alloc] init];
     for (Place *place in placesToGo) {
+        place.fetchIfNeeded;
         [placesToGoIDs addObject:place.placeID];
     }
     NSLog(@"This is the array of places to go IDs %@", placesToGoIDs);
 
-    NSString *urlString = [NSString stringWithFormat:
-                       @"%@?origin=place_id:%@&destination=place_id:%@&sensor=true&mode=%@&key=%@",
-                       @"https://maps.googleapis.com/maps/api/directions/json",
-                       placesToGoIDs[0],
-                       placesToGoIDs[1],
-                       self.selectedTravelMode,
-                       @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
+    NSString *waypointsPlaceIDs;
+    NSString *startPlaceID;
+    NSString *endPlaceID;
+    for (NSInteger i=0; i < [placesToGoIDs count]; i++) {
+        NSString *curPlaceID = placesToGoIDs[i];
+        if (i == 0) {
+            startPlaceID = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
+        } else if (i == (placesToGo.count - 1)) {
+            endPlaceID = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
+        } else { // one of the waypoints
+            if (waypointsPlaceIDs) {
+                NSString *toAppend = [NSString stringWithFormat:@"|place_id:%@", curPlaceID];
+                waypointsPlaceIDs = [waypointsPlaceIDs stringByAppendingString:toAppend];
+            } else { // first waypoint, don't need pipe
+                waypointsPlaceIDs = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
+            }
+        }
+    }
+    NSLog(@"waypointsPlaceIDs: %@", waypointsPlaceIDs);
+    NSLog(@"startPlaceID: %@", startPlaceID);
+    NSLog(@"endPlaceID: %@", endPlaceID);
+    
+    NSString *urlString = [NSString stringWithFormat: @"%@?origin=%@&destination=%@&waypoints=%@&sensor=true&mode=%@&key=%@",
+                           @"https://maps.googleapis.com/maps/api/directions/json",
+                           startPlaceID,
+                           endPlaceID,
+                           waypointsPlaceIDs,
+                           self.selectedTravelMode,
+                           @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
+    NSLog(@"This is the urlString %@", urlString);
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *directionsURL = [NSURL URLWithString:urlString];
     NSLog(@"This is the request url %@", directionsURL);
-
 
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:directionsURL];
     [request startSynchronous];
@@ -96,9 +120,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.selectedTravelMode = @"driving";
     [self configureTravelModeButton];
     
-    // Setup default map view
     [self configureMapView];
 }
 
