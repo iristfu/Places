@@ -159,7 +159,7 @@
 - (void)focusMapToShowAllMarkers {
     CLLocationCoordinate2D firstMarker = ((GMSMarker *)self.markers.firstObject).position;
     GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithCoordinate:firstMarker coordinate:firstMarker];
-
+    
     for (GMSMarker *marker in self.markers)
         bounds = [bounds includingCoordinate:marker.position];
 
@@ -186,4 +186,5 @@
 - (IBAction)didTapDone:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }
+
 @end
