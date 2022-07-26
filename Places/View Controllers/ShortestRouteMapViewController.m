@@ -21,6 +21,7 @@
 @property (weak, nonatomic) NSString *destinationParameter;
 @property (weak, nonatomic) NSMutableString *waypointsParameter;
 @property (strong, nonatomic) GMSPolyline *currentRoute;
+@property (strong, nonatomic) NSMutableArray *markers;
 
 @end
 
@@ -149,7 +150,20 @@
         marker.title = place.name;
         marker.icon = [self getNumberedIconFor:i];
         marker.map = self.mapView;
+        [self.markers addObject:marker];
+        NSLog(@"self.markers is now %@", self.markers);
     }
+    [self focusMapToShowAllMarkers];
+}
+
+- (void)focusMapToShowAllMarkers {
+    CLLocationCoordinate2D firstMarker = ((GMSMarker *)self.markers.firstObject).position;
+    GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithCoordinate:firstMarker coordinate:firstMarker];
+
+    for (GMSMarker *marker in self.markers)
+        bounds = [bounds includingCoordinate:marker.position];
+
+    [self.mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds withPadding:50.0f]];
 }
 
 - (void)configureMapView {
@@ -162,6 +176,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.markers = [[NSMutableArray alloc] init];
     self.selectedTravelMode = @"driving";
     [self configureTravelModeButton];
     
