@@ -1141,7 +1141,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="mapView" destination="Gwh-6t-Z6f" id="PkW-5d-DeH"/>
+                        <outlet property="mapView" destination="Gwh-6t-Z6f" id="AKn-yO-3XA"/>
                         <outlet property="travelModeButton" destination="DcG-EH-dt9" id="pYZ-p1-fjD"/>
                         <outlet property="travelModeMenu" destination="M2H-YQ-R2W" id="d1U-Wx-x4a"/>
                     </connections>

@@ -12,6 +12,7 @@ target 'Places' do
   pod 'SVPullToRefresh'
   pod 'MBProgressHUD'
   pod 'AFNetworking'
+  pod 'ASIHTTPRequest'
   pod 'BDBOAuth1Manager'
   pod 'RSKPlaceholderTextView'
   pod 'GooglePlaces', '7.0.0'
