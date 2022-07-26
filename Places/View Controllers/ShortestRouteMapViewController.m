@@ -16,6 +16,9 @@
 @property (weak, nonatomic) IBOutlet UIMenu *travelModeMenu;
 @property (weak, nonatomic) IBOutlet UIButton *travelModeButton;
 @property (weak, nonatomic) NSString *selectedTravelMode;
+@property (weak, nonatomic) NSString *originParameter;
+@property (weak, nonatomic) NSString *destinationParameter;
+@property (weak, nonatomic) NSMutableString *waypointsParameter;
 
 @end
 
@@ -44,19 +47,18 @@
     self.travelModeButton.changesSelectionAsPrimaryAction = true;
 }
 
-- (void)configureMapView {
+- (void)configureCameraPosition {
     Place *firstPlaceToGo = self.itinerary.placesToGo[0];
     double lat = [firstPlaceToGo.lat doubleValue];
     double lng = [firstPlaceToGo.lng doubleValue];
     NSLog(@"lat: %f lng: %f", lat, lng);
-
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat
                                                             longitude:lng
                                                                  zoom:12];
     self.mapView.camera = camera;
-//    self.mapView.delegate = self;
-    self.mapView.settings.compassButton = YES;
-    
+}
+
+- (void)getStartingWaypointsEndingParameters {
     NSArray *placesToGo = self.itinerary.placesToGo;
     NSMutableArray *placesToGoIDs = [[NSMutableArray alloc] init];
     for (Place *place in placesToGo) {
@@ -64,41 +66,39 @@
         [placesToGoIDs addObject:place.placeID];
     }
     NSLog(@"This is the array of places to go IDs %@", placesToGoIDs);
-
-    NSString *waypointsPlaceIDs;
-    NSString *startPlaceID;
-    NSString *endPlaceID;
+    
     for (NSInteger i=0; i < [placesToGoIDs count]; i++) {
         NSString *curPlaceID = placesToGoIDs[i];
         if (i == 0) {
-            startPlaceID = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
+            self.originParameter = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
         } else if (i == (placesToGo.count - 1)) {
-            endPlaceID = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
+            self.destinationParameter = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
         } else { // one of the waypoints
-            if (waypointsPlaceIDs) {
+            if (self.waypointsParameter) {
                 NSString *toAppend = [NSString stringWithFormat:@"|place_id:%@", curPlaceID];
-                waypointsPlaceIDs = [waypointsPlaceIDs stringByAppendingString:toAppend];
+                [self.waypointsParameter appendString:toAppend];
             } else { // first waypoint, don't need pipe
-                waypointsPlaceIDs = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
+                self.waypointsParameter = [NSMutableString stringWithFormat:@"place_id:%@", curPlaceID];
             }
         }
     }
-    NSLog(@"waypointsPlaceIDs: %@", waypointsPlaceIDs);
-    NSLog(@"startPlaceID: %@", startPlaceID);
-    NSLog(@"endPlaceID: %@", endPlaceID);
-    
+    NSLog(@"waypointsParameter: %@", self.waypointsParameter);
+    NSLog(@"originParameter: %@", self.originParameter);
+    NSLog(@"destinationParameter: %@", self.destinationParameter);
+}
+
+- (void)requestRouteToDraw {
     NSString *urlString = [NSString stringWithFormat: @"%@?origin=%@&destination=%@&waypoints=%@&sensor=true&mode=%@&key=%@",
                            @"https://maps.googleapis.com/maps/api/directions/json",
-                           startPlaceID,
-                           endPlaceID,
-                           waypointsPlaceIDs,
+                           self.originParameter,
+                           self.destinationParameter,
+                           self.waypointsParameter,
                            self.selectedTravelMode,
                            @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
     NSLog(@"This is the urlString %@", urlString);
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *directionsURL = [NSURL URLWithString:urlString];
     NSLog(@"This is the request url %@", directionsURL);
-
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:directionsURL];
     [request startSynchronous];
     NSError *error = [request error];
@@ -115,6 +115,12 @@
     else {
         NSLog(@"%@",[request error]);
     }
+}
+
+- (void)configureMapView {
+    [self configureCameraPosition];
+    [self getStartingWaypointsEndingParameters];
+    [self requestRouteToDraw];
 }
 
 - (void)viewDidLoad {
