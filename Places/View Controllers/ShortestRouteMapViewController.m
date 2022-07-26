@@ -118,6 +118,14 @@
     }
 }
 
+- (UIImage *)getNumberedIconFor:(NSInteger)i {
+    NSString *urlString = [NSString stringWithFormat:@"https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%ld|FF0000|000000", i + 1];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:urlString]];
+    UIImage *iconImage = [UIImage imageWithData: imageData];
+    return iconImage;
+}
+
 - (void)addMarkersForAllPlacesToGo {
     NSArray *placesToGo = self.itinerary.placesToGo;
     // in the future, use an ordered version of placesToGo that portrays the shortest route
@@ -129,14 +137,7 @@
         GMSMarker *marker = [[GMSMarker alloc] init];
         marker.position = CLLocationCoordinate2DMake(lat, lng);
         marker.title = place.name;
-        
-        // get numbered marker icon
-        NSString *urlString = [NSString stringWithFormat:@"https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%ld|FF0000|000000", i + 1];
-        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-        NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:urlString]];
-        marker.icon = [UIImage imageWithData: imageData];
-        
+        marker.icon = [self getNumberedIconFor:i];
         marker.map = self.mapView;
     }
 }
