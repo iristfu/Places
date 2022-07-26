@@ -131,6 +131,7 @@
     NSLog(@"In Itinerary Detail View Controller - Dequed a placeCell to set up");
     Place *placeToGo = self.itinerary.placesToGo[indexPath.row];
     [self setAttributesOfPlaceCell:placeToGo placeTableViewCell:placeCell];
+    NSLog(@"Finished setting up attributes of place cell");
     return placeCell;
 }
 

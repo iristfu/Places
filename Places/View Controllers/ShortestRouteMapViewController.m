@@ -20,6 +20,7 @@
 @property (weak, nonatomic) NSString *originParameter;
 @property (weak, nonatomic) NSString *destinationParameter;
 @property (weak, nonatomic) NSMutableString *waypointsParameter;
+@property (strong, nonatomic) GMSPolyline *currentRoute;
 
 @end
 
@@ -28,21 +29,26 @@
 - (void)configureTravelModeButton {
     UIAction *driving = [UIAction actionWithTitle:@"driving" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedTravelMode = @"driving";
+        [self getStartingWaypointsEndingParameters];
+        self.currentRoute.map = nil; // remove previous route
+        [self requestRouteToDraw];
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
     }];
     UIAction *bicycling = [UIAction actionWithTitle:@"bicycling" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedTravelMode = @"bicycling";
-        NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
-    }];
-    UIAction *transit = [UIAction actionWithTitle:@"transit" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
-        self.selectedTravelMode = @"transit";
+        [self getStartingWaypointsEndingParameters];
+        self.currentRoute.map = nil; // remove previous route
+        [self requestRouteToDraw];
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
     }];
     UIAction *walking = [UIAction actionWithTitle:@"walking" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedTravelMode = @"walking";
+        [self getStartingWaypointsEndingParameters];
+        self.currentRoute.map = nil; // remove previous route
+        [self requestRouteToDraw];
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
     }];
-    UIMenu *menu = [UIMenu menuWithChildren:@[driving, bicycling, transit, walking]];
+    UIMenu *menu = [UIMenu menuWithChildren:@[driving, bicycling, walking]];
     self.travelModeButton.menu = menu;
     self.travelModeButton.showsMenuAsPrimaryAction = true;
     self.travelModeButton.changesSelectionAsPrimaryAction = true;
@@ -50,6 +56,8 @@
 
 - (void)configureCameraPosition {
     Place *firstPlaceToGo = self.itinerary.placesToGo[0];
+    firstPlaceToGo.fetchIfNeeded;
+    NSLog(@"This is the first place to go %@", firstPlaceToGo);
     double lat = [firstPlaceToGo.lat doubleValue];
     double lng = [firstPlaceToGo.lng doubleValue];
     NSLog(@"lat: %f lng: %f", lat, lng);
@@ -112,6 +120,8 @@
         singleLine.strokeWidth = 7;
         singleLine.strokeColor = [UIColor greenColor];
         singleLine.map = self.mapView;
+        self.currentRoute = singleLine;
+        NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
     }
     else {
         NSLog(@"%@",[request error]);
@@ -151,7 +161,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.selectedTravelMode = @"driving";
     [self configureTravelModeButton];
     
