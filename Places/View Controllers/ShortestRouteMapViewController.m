@@ -117,8 +117,22 @@
     }
 }
 
+- (void)addMarkersForAllPlacesToGo {
+    NSArray *placesToGo = self.itinerary.placesToGo;
+    for (Place *place in placesToGo) {
+        place.fetchIfNeeded;
+        double lat = [place.lat doubleValue];
+        double lng = [place.lng doubleValue];
+        GMSMarker *marker = [[GMSMarker alloc] init];
+        marker.position = CLLocationCoordinate2DMake(lat, lng);
+        marker.title = place.name;
+        marker.map = self.mapView;
+    }
+}
+
 - (void)configureMapView {
     [self configureCameraPosition];
+    [self addMarkersForAllPlacesToGo];
     [self getStartingWaypointsEndingParameters];
     [self requestRouteToDraw];
 }
