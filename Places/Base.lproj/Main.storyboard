@@ -1087,6 +1087,9 @@
                                 <rect key="frame" x="0.0" y="126" width="414" height="716"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="m0E-Lo-Dks">
+                                <rect key="frame" x="188.5" y="430.5" width="37" height="37"/>
+                            </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0y-r9-ZyZ">
                                 <rect key="frame" x="72" y="56" width="270" height="50"/>
                                 <subviews>
@@ -1128,7 +1131,9 @@
                             <constraint firstItem="Gwh-6t-Z6f" firstAttribute="leading" secondItem="zgO-nI-bZi" secondAttribute="leading" id="1Mp-mA-Ahw"/>
                             <constraint firstItem="zgO-nI-bZi" firstAttribute="top" secondItem="K0y-r9-ZyZ" secondAttribute="top" id="5e4-Y5-g7b"/>
                             <constraint firstItem="zgO-nI-bZi" firstAttribute="trailing" secondItem="Gwh-6t-Z6f" secondAttribute="trailing" id="9Fy-Zd-Jko"/>
+                            <constraint firstItem="m0E-Lo-Dks" firstAttribute="centerX" secondItem="zgO-nI-bZi" secondAttribute="centerX" id="Dop-I1-Jfn"/>
                             <constraint firstItem="zgO-nI-bZi" firstAttribute="bottom" secondItem="Gwh-6t-Z6f" secondAttribute="bottom" id="V9B-Zo-mlK"/>
+                            <constraint firstItem="m0E-Lo-Dks" firstAttribute="centerY" secondItem="zgO-nI-bZi" secondAttribute="centerY" id="XDQ-JV-ji1"/>
                             <constraint firstItem="K0y-r9-ZyZ" firstAttribute="centerX" secondItem="zgO-nI-bZi" secondAttribute="centerX" id="aaT-OZ-FBW"/>
                             <constraint firstItem="Gwh-6t-Z6f" firstAttribute="top" secondItem="K0y-r9-ZyZ" secondAttribute="bottom" constant="20" id="jWz-mf-rof"/>
                         </constraints>
@@ -1142,6 +1147,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Gwh-6t-Z6f" id="AKn-yO-3XA"/>
+                        <outlet property="routeLoadingIndicator" destination="m0E-Lo-Dks" id="nfL-CS-Ba8"/>
                         <outlet property="travelModeButton" destination="DcG-EH-dt9" id="pYZ-p1-fjD"/>
                         <outlet property="travelModeMenu" destination="M2H-YQ-R2W" id="d1U-Wx-x4a"/>
                     </connections>

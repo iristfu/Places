@@ -22,6 +22,8 @@
 @property (weak, nonatomic) NSMutableString *waypointsParameter;
 @property (strong, nonatomic) GMSPolyline *currentRoute;
 @property (strong, nonatomic) NSMutableArray *markers;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *routeLoadingIndicator;
+
 
 @end
 
@@ -122,25 +124,10 @@
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *directionsURL = [NSURL URLWithString:urlString];
     NSLog(@"This is the request url %@", directionsURL);
+    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:directionsURL];
     [request setDelegate:self];
     [request startAsynchronous];
-//    NSError *error = [request error];
-//    if (!error) {
-//        NSString *response = [request responseString];
-//        NSLog(@"%@",response);
-//        NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
-//        GMSPath *path =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
-//        GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
-//        singleLine.strokeWidth = 7;
-//        singleLine.strokeColor = [UIColor greenColor];
-//        singleLine.map = self.mapView;
-//        self.currentRoute = singleLine;
-//        NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
-//    }
-//    else {
-//        NSLog(@"%@",[request error]);
-//    }
 }
 
 - (UIImage *)getNumberedIconFor:(NSInteger)i {
@@ -189,11 +176,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.routeLoadingIndicator startAnimating];
     
     self.markers = [[NSMutableArray alloc] init];
     self.selectedTravelMode = @"driving";
     [self configureTravelModeButton];
-    
     [self configureMapView];
 }
 
@@ -203,8 +190,7 @@
 
 # pragma mark - ASIHTTPRequest
 
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
+- (void)requestFinished:(ASIHTTPRequest *)request {
     NSError *error = [request error];
     NSString *response = [request responseString];
     NSLog(@"%@",response);
@@ -216,11 +202,12 @@
     singleLine.map = self.mapView;
     self.currentRoute = singleLine;
     NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
+    [self.routeLoadingIndicator stopAnimating];
 }
  
 - (void)requestFailed:(ASIHTTPRequest *)request {
-    NSError *error = [request error];
     NSLog(@"%@",[request error]);
+    [self.routeLoadingIndicator stopAnimating];
 }
 
 @end
