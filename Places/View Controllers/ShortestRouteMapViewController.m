@@ -23,8 +23,16 @@
 @property (strong, nonatomic) GMSPolyline *currentRoute;
 @property (strong, nonatomic) NSMutableArray *markers;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *routeLoadingIndicator;
+@end
 
+@interface NSObject (SafeCast)
++ (nullable instancetype)castFrom:(id)object;
+@end
 
+@implementation NSObject (SafeCast)
++ (nullable instancetype)castFrom:(id)object {
+   return [object isKindOfClass:self] ? object : nil;
+}
 @end
 
 @implementation ShortestRouteMapViewController
@@ -198,18 +206,64 @@
 
 # pragma mark - ASIHTTPRequest
 
+
+
+- (BOOL)includesValidPath:(NSDictionary *)json {
+    if (json[@"routes"]) {
+        if (json[@"routes"][0]) {
+            if (json[@"routes"][0][@"overview_polyline"]) {
+                if (json[@"routes"][0][@"overview_polyline"][@"points"]) {
+                    if ([GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]]) { // returns nil if points cannot be decoded to GMSPath
+                        return true;
+                    } else {
+                        NSLog(@"points is not a valid GMSPath");
+                        return false;
+                    }
+                } else {
+                    NSLog(@"No points");
+                    return false;
+                }
+            } else {
+                NSLog(@"No overview polyline");
+                return false;
+            } 
+        } else {
+            NSLog(@"No json[routes][0]");
+            return false;
+        }
+    } else {
+        NSLog(@"No json[routes]");
+        return false;
+    }
+}
+
 - (void)requestFinished:(ASIHTTPRequest *)request {
     NSError *error = [request error];
     NSString *response = [request responseString];
     NSLog(@"%@",response);
     NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
-    GMSPath *path =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
-    GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
-    singleLine.strokeWidth = 7;
-    singleLine.strokeColor = [UIColor greenColor];
-    singleLine.map = self.mapView;
-    self.currentRoute = singleLine;
-    NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
+    
+    NSLog(@"This is json %@", json);
+    // check valid json
+    if ([self includesValidPath:json]) {
+        GMSPath *path =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
+        GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
+        singleLine.strokeWidth = 7;
+        singleLine.strokeColor = [UIColor greenColor];
+        singleLine.map = self.mapView;
+        self.currentRoute = singleLine;
+        NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
+    } else {
+        NSLog(@"Could not load, showing alert");
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh oh"
+                                                                                       message:@"Could not fetch the route from server"
+                                                                                preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {}];
+        [alert addAction:okAction];
+        [self presentViewController:alert animated:YES completion:^{}];
+    }
     [self.routeLoadingIndicator stopAnimating];
 }
  
