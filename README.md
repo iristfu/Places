@@ -43,7 +43,7 @@ An app that helps you plan, track, and share the places you go.
             * current results will unsort
             * future results will not be sorted by previous preference
         * User should not be able to select both increasing and decreasing at the same time. Selecting one will undo the other, kind of like a toggle. User can also deselect both and revert to default sorting. 
-* User can share and collaborate on itineraries - *planned technical challenge*.
+* User can share and collaborate on itineraries with access level control and activity tracking - *planned technical challenge*.
     * In an itinerary’s detail view, upon hitting share, an action sheet pops up and a custom link will be generated (e.g. places://itinerary/YBzt5P1gRI).
     * The itinerary will be stored in the Parse database.
     * The user can send a text of the URL with the itinerary, and only those with the URL can access the itinerary.
@@ -56,11 +56,12 @@ An app that helps you plan, track, and share the places you go.
         * User can toggle between "My itineraries" and "Shared itineraries" in the itineraries table view
         * User can unshare an itinerary by removing any viewers or editors
 * User can map the shortest route to travel through an itinerary's places to go - *planned technical challenge*
-    * Through an itinerary's detail view the user can touch a "map shortest route" button, which will prompt a new screen. Here, it will ask the user for a travel mode.
-    * Upon entering the travel mode, the app will display a map with the shortest route through the places to go
-    * The app uses the Google Map Distance Matrix API to get the travel time duration between all paired combinations of places to go
+    * Through an itinerary's detail view the user can touch a "map shortest route" button, which will prompt a new screen. 
+        * The user is prompted by pop up buttons to select a travel mode (driving, walking, biking) and criteria (duration or distance) to determine the shortest route by 
+    * The app uses the Google Map Distance Matrix API to get the travel time duration or distance (depending on user selection) between all paired combinations of places to go
     * The app leverages the traveling salesman algorithm to get the ordering of places to go 
-    * Knowing the ordering of places to go, the app uses the Google Map Routing API with the appropriate starting, waypoint, and ending locations to display to the user the route and navigation directions between all of their places to go
+    * Knowing the ordering of places to go and the selected travel mode, the app uses the Google Map Routing API with the appropriate starting, waypoint, and ending locations to display to the user the route between all of their places to go
+    * There is a "Open in Google Maps" button that opens the Google Maps app with the route inputted
 * The app leverages the Google Maps and Place API to get more information about a place. 
 * User has a unique profile that includes a profile picture, name, username, and bio.
 * There is a tab navigation controller that switches between the user's discover tab, saved itineraries, favorited places, and profile.
@@ -93,7 +94,7 @@ An app that helps you plan, track, and share the places you go.
     * The user can see all the locations within an itinerary in a maps view.
     * The user can filter in this maps view for specific types of locations, dates planned for locations, etc.
     * The user can generate shortest routes between locations.
-* Sharing itinerary 
+* Sharing itinerary - *planned technical challenge continued*
     * Access permissions
         * Author can restrict access to specified accounts
         * Author can set access permissions to viewer or editor
@@ -258,7 +259,7 @@ User
 | location | GMSPlaceFieldCoordinate or GMSPlaceFieldViewport | longtitude and latitude in map or viewport for the map |
 
 ##### Google Maps API
-* for displayig a map with a pinned location (provide latitude and longitude)
+* for displaying a map with a pinned location (provide latitude and longitude)
 
 ## Weekly Milestones
 https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/edit?usp=sharing
