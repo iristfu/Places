@@ -134,6 +134,7 @@
     NSString *urlString = [NSString stringWithFormat:@"https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%ld|FF0000|000000", i + 1];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:urlString]];
+    // TODO: look into caching this for a future PR
     UIImage *iconImage = [UIImage imageWithData: imageData];
     return iconImage;
 }
