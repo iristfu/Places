@@ -10,6 +10,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "Place.h"
 #import "ActivityHistoryViewController.h"
+#import "ShortestRouteMapViewController.h"
 
 @interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
@@ -130,6 +131,7 @@
     NSLog(@"In Itinerary Detail View Controller - Dequed a placeCell to set up");
     Place *placeToGo = self.itinerary.placesToGo[indexPath.row];
     [self setAttributesOfPlaceCell:placeToGo placeTableViewCell:placeCell];
+    NSLog(@"Finished setting up attributes of place cell");
     return placeCell;
 }
 
@@ -149,6 +151,11 @@
         UINavigationController *navigationController = [segue destinationViewController];
         ActivityHistoryViewController *activityHistoryViewController = (ActivityHistoryViewController *)navigationController.topViewController;
         activityHistoryViewController.itinerary = self.itinerary;
+    } else if ([[segue identifier] isEqualToString:@"ShortestRouteMapSegue"]) {
+        NSLog(@"Preparing for ShortestRouteMapSegue");
+        UINavigationController *navigationController = [segue destinationViewController];
+        ShortestRouteMapViewController *shortestRouteMapViewController = (ShortestRouteMapViewController *)navigationController.topViewController;
+        shortestRouteMapViewController.itinerary = self.itinerary;
     }
 }
 

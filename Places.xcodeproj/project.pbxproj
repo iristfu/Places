@@ -33,6 +33,7 @@
 		7B297EBC28813E2E00B5BCB4 /* ComposeItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EBB28813E2E00B5BCB4 /* ComposeItineraryViewController.m */; };
 		7B39FC19288797A5002D3607 /* ItineraryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */; };
 		7B39FC1C288A315D002D3607 /* ActivityHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC1B288A315D002D3607 /* ActivityHistoryViewController.m */; };
+		7B39FC1F288F03F7002D3607 /* ShortestRouteMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC1E288F03F7002D3607 /* ShortestRouteMapViewController.m */; };
 		7BF917982877DB800042641C /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF917972877DB800042641C /* SignUpViewController.m */; };
 		CFB9F1394D47D15BCD660DA3 /* Pods_Places_PlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E0034AF7CD8494A82B4735 /* Pods_Places_PlacesUITests.framework */; };
 /* End PBXBuildFile section */
@@ -103,6 +104,8 @@
 		7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItineraryDetailViewController.m; sourceTree = "<group>"; };
 		7B39FC1A288A315D002D3607 /* ActivityHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityHistoryViewController.h; sourceTree = "<group>"; };
 		7B39FC1B288A315D002D3607 /* ActivityHistoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityHistoryViewController.m; sourceTree = "<group>"; };
+		7B39FC1D288F03F7002D3607 /* ShortestRouteMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShortestRouteMapViewController.h; sourceTree = "<group>"; };
+		7B39FC1E288F03F7002D3607 /* ShortestRouteMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShortestRouteMapViewController.m; sourceTree = "<group>"; };
 		7BF917962877DB800042641C /* SignUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		7BF917972877DB800042641C /* SignUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		97FFA15AC131F6C43064546D /* Pods-PlacesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.debug.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -264,6 +267,8 @@
 				7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */,
 				7B39FC1A288A315D002D3607 /* ActivityHistoryViewController.h */,
 				7B39FC1B288A315D002D3607 /* ActivityHistoryViewController.m */,
+				7B39FC1D288F03F7002D3607 /* ShortestRouteMapViewController.h */,
+				7B39FC1E288F03F7002D3607 /* ShortestRouteMapViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -557,6 +562,7 @@
 			files = (
 				7B297E9B2877E82900B5BCB4 /* TabBarController.m in Sources */,
 				7B297EA1287C00EF00B5BCB4 /* DiscoverViewController.m in Sources */,
+				7B39FC1F288F03F7002D3607 /* ShortestRouteMapViewController.m in Sources */,
 				7B1A97B42874F7A9007D53F1 /* main.m in Sources */,
 				7B297EAD287CDB4700B5BCB4 /* Place.m in Sources */,
 				7B297EB32881325100B5BCB4 /* ItinerariesTableViewController.m in Sources */,

@@ -9,13 +9,14 @@
 #import "ItineraryTableViewCell.h"
 #import "Itinerary.h"
 #import "ComposeItineraryViewController.h"
-#import "ParseUI.h"
 #import "UIKit+AFNetworking.h"
 #import "ItineraryDetailViewController.h"
+@import Parse;
 
 @interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
 @property (strong, nonatomic) NSMutableArray* itinerariesToDisplay; // Array of Itinerary Parse objects
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -23,6 +24,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Initialize a UIRefreshControl
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchItineraries) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
@@ -44,6 +50,7 @@
     } else {
         NSLog(@"The user currently has no itineraries");
     }
+    [self.refreshControl endRefreshing];
 }
 
 
@@ -69,11 +76,13 @@
     
     // this part is janky rn - completion block only executes when tap on cell / lightly nudge table view. Why is this?
     [itineraryCell.itineraryImage loadInBackground:^(UIImage * _Nullable image, NSError * _Nullable error) {
-        NSLog(@"Finished loading the image");
-        // reload the top most table view cell for when this needs to happen after just having added a new itinerary
-        // could add logic here to only do the following line if a new itinerary was just added, but shouldn't be a huge cost as is because
-        // only reloading the first row, and if not new itinerary, image for first row will be cached
-        [self.itinerariesTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        if (indexPath.row == 0) {
+            NSLog(@"Finished loading first itinerary's image");
+            // reload the top most table view cell for when this needs to happen after just having added a new itinerary
+            // could add logic here to only do the following line if a new itinerary was just added, but shouldn't be a huge cost as is because
+            // only reloading the first row, and if not new itinerary, image for first row will be cached
+            [self.itinerariesTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        }
     }];
     
     return itineraryCell;
