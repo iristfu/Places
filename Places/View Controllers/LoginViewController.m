@@ -16,6 +16,7 @@
 
 @end
 
+
 @implementation LoginViewController
 
 - (void)viewDidLoad {
@@ -42,10 +43,9 @@
         } else {
             NSLog(@"User logged in successfully");
             
-            // display view controller that needs to shown after successful login
-            SceneDelegate *sceneDelegate = self.view.window.windowScene.delegate;
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            sceneDelegate.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
+            // call delegate after successful login
+            self.delegate = self.view.window.windowScene.delegate;
+            [self.delegate userDidLogin];
         }
     }];
 }
