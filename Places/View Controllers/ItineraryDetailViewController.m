@@ -9,6 +9,8 @@
 #import "PlaceTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "Place.h"
+#import "ActivityHistoryViewController.h"
+#import "ShortestRouteMapViewController.h"
 
 @interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
@@ -34,6 +36,17 @@
     
     self.placesToGoTableView.delegate = self;
     self.placesToGoTableView.dataSource = self;
+    
+    // update activity history for given itinerary
+    Activity *newViewActivity = [Activity new];
+    newViewActivity.activityType = @"Viewed";
+    newViewActivity.user = [PFUser currentUser];
+    newViewActivity.timestamp = [NSDate date];
+    [newViewActivity save];
+    
+    self.itinerary.activityHistory = [self.itinerary.activityHistory arrayByAddingObject:newViewActivity];
+    NSLog(@"Updated itinerary activity history: %@", self.itinerary.activityHistory);
+    [self.itinerary saveInBackground];
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
@@ -117,6 +130,7 @@
     NSLog(@"In Itinerary Detail View Controller - Dequed a placeCell to set up");
     Place *placeToGo = self.itinerary.placesToGo[indexPath.row];
     [self setAttributesOfPlaceCell:placeToGo placeTableViewCell:placeCell];
+    NSLog(@"Finished setting up attributes of place cell");
     return placeCell;
 }
 
@@ -127,4 +141,21 @@
 - (IBAction)didTapShare:(id)sender {
     [self shareItinerary];
 }
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ActivityHistorySegue"]) {
+        NSLog(@"Preparing for ActivityHistorySegue");
+        UINavigationController *navigationController = [segue destinationViewController];
+        ActivityHistoryViewController *activityHistoryViewController = (ActivityHistoryViewController *)navigationController.topViewController;
+        activityHistoryViewController.itinerary = self.itinerary;
+    } else if ([[segue identifier] isEqualToString:@"ShortestRouteMapSegue"]) {
+        NSLog(@"Preparing for ShortestRouteMapSegue");
+        UINavigationController *navigationController = [segue destinationViewController];
+        ShortestRouteMapViewController *shortestRouteMapViewController = (ShortestRouteMapViewController *)navigationController.topViewController;
+        shortestRouteMapViewController.itinerary = self.itinerary;
+    }
+}
+
 @end

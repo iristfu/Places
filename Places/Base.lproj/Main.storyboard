@@ -6,6 +6,7 @@
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -700,11 +701,23 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lAx-0t-LCy">
-                        <barButtonItem key="rightBarButtonItem" title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
-                            <connections>
-                                <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="eyes" catalog="system" id="uup-hF-KoT">
+                                <connections>
+                                    <segue destination="p22-jp-3nr" kind="presentation" identifier="ActivityHistorySegue" id="f77-Lg-oDB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="map" catalog="system" id="t4Y-lc-zpf">
+                                <connections>
+                                    <segue destination="JzO-Er-tW2" kind="presentation" identifier="ShortestRouteMapSegue" id="S0p-fr-3rX"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
+                                <connections>
+                                    <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="itineraryDatesLabel" destination="IuP-Bh-diN" id="IWU-Qw-r3S"/>
@@ -733,6 +746,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zHr-HD-wwS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1296" y="3200"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="9fP-WK-ZQq">
+            <objects>
+                <navigationController id="p22-jp-3nr" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="brI-fK-iaS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ys0-9a-Xdp" kind="relationship" relationship="rootViewController" id="Kt1-Ip-45f"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dx7-rz-Hba" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2129" y="3200"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="D9k-7U-nUB">
+            <objects>
+                <navigationController id="JzO-Er-tW2" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5ts-IC-UUb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ZUm-Ys-76H" kind="relationship" relationship="rootViewController" id="o1B-en-dre"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZdT-FJ-qcC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2922" y="3200"/>
         </scene>
         <!--Compose Itinerary View Controller-->
         <scene sceneID="jdr-Av-g1a">
@@ -895,6 +940,9 @@
                                     </segue>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="SwT-XB-9xo">
+                                <rect key="frame" x="188.5" y="430.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="S3C-z6-xRB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -920,6 +968,7 @@
                             <constraint firstItem="IFj-5Y-7aq" firstAttribute="top" secondItem="EEB-qG-VD7" secondAttribute="top" id="XSE-Hb-InG"/>
                             <constraint firstItem="IFj-5Y-7aq" firstAttribute="bottom" secondItem="EEB-qG-VD7" secondAttribute="bottom" id="XZr-bA-48J"/>
                             <constraint firstItem="98z-yW-Mh6" firstAttribute="leading" secondItem="pcY-YA-1fD" secondAttribute="trailing" constant="140" id="Y5R-CA-wAT"/>
+                            <constraint firstItem="SwT-XB-9xo" firstAttribute="centerY" secondItem="S3C-z6-xRB" secondAttribute="centerY" id="bkA-uF-LhY"/>
                             <constraint firstItem="m8y-yo-ww8" firstAttribute="leading" secondItem="pcY-YA-1fD" secondAttribute="leading" id="eFO-Gg-EOm"/>
                             <constraint firstItem="m8y-yo-ww8" firstAttribute="top" secondItem="pcY-YA-1fD" secondAttribute="bottom" constant="5" id="eMK-gQ-snD"/>
                             <constraint firstItem="S3C-z6-xRB" firstAttribute="trailing" secondItem="IFj-5Y-7aq" secondAttribute="trailing" constant="10" id="fEg-wh-cr9"/>
@@ -929,6 +978,7 @@
                             <constraint firstItem="H0U-f4-muN" firstAttribute="trailing" secondItem="jUx-LA-yn0" secondAttribute="trailing" id="oPQ-UY-uKN"/>
                             <constraint firstItem="RfY-ka-wFq" firstAttribute="top" secondItem="m8y-yo-ww8" secondAttribute="top" id="oWn-mS-E9B"/>
                             <constraint firstItem="H0U-f4-muN" firstAttribute="leading" secondItem="jUx-LA-yn0" secondAttribute="leading" id="rGB-N3-stb"/>
+                            <constraint firstItem="SwT-XB-9xo" firstAttribute="centerX" secondItem="S3C-z6-xRB" secondAttribute="centerX" id="v2P-rO-P1L"/>
                             <constraint firstItem="fO7-T4-2ny" firstAttribute="top" secondItem="mWO-vs-VQA" secondAttribute="bottom" constant="5" id="wqz-l7-Y7r"/>
                         </constraints>
                     </view>
@@ -945,17 +995,172 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="endDatePicker" destination="m8y-yo-ww8" id="Vbe-RG-qo9"/>
+                        <outlet property="creatingNewItineraryIndicator" destination="SwT-XB-9xo" id="1Sh-Vj-zBa"/>
+                        <outlet property="endDatePicker" destination="RfY-ka-wFq" id="jL8-Bp-EJR"/>
                         <outlet property="itineraryName" destination="jUx-LA-yn0" id="lpQ-dP-AtA"/>
                         <outlet property="lodgingDetails" destination="fO7-T4-2ny" id="qI5-HQ-TCN"/>
                         <outlet property="placesToGoTableView" destination="eYG-pn-GOQ" id="aPp-hN-JxG"/>
-                        <outlet property="startDatePicker" destination="RfY-ka-wFq" id="ODO-xU-JKo"/>
+                        <outlet property="startDatePicker" destination="m8y-yo-ww8" id="i7t-4X-9Ij"/>
                         <outlet property="travelDetails" destination="H0U-f4-muN" id="Tpz-ej-4hV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pla-w1-Hzb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1295.6521739130435" y="3908.7053571428569"/>
+        </scene>
+        <!--Activity History-->
+        <scene sceneID="e1v-ui-Mws">
+            <objects>
+                <viewController id="ys0-9a-Xdp" customClass="ActivityHistoryViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gO8-Xs-kXU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDc-bm-NfG">
+                                <rect key="frame" x="10" y="56" width="394" height="766"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zkE-2t-CSG">
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="1016"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dah-EO-sup">
+                                                <rect key="frame" x="20" y="20" width="284" height="20.5"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Created by Senem on July 21st, 2022">
+                                                        <attributes>
+                                                            <font key="NSFont" metaFont="system" size="17"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="2" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="dah-EO-sup" firstAttribute="leading" secondItem="zkE-2t-CSG" secondAttribute="leading" constant="20" id="AP2-Zt-2ez"/>
+                                            <constraint firstItem="dah-EO-sup" firstAttribute="top" secondItem="zkE-2t-CSG" secondAttribute="top" constant="20" id="W1W-Cd-3A1"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dah-EO-sup" secondAttribute="trailing" constant="20" id="gsA-1q-o1b"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dah-EO-sup" secondAttribute="bottom" constant="20" id="mWM-er-uVT"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zkE-2t-CSG" firstAttribute="top" secondItem="J1c-b4-zB3" secondAttribute="top" id="1Df-CS-Ffc"/>
+                                    <constraint firstItem="zkE-2t-CSG" firstAttribute="bottom" secondItem="J1c-b4-zB3" secondAttribute="bottom" id="Cbz-ez-yWp"/>
+                                    <constraint firstItem="zkE-2t-CSG" firstAttribute="leading" secondItem="J1c-b4-zB3" secondAttribute="leading" id="Ykh-j0-Cmx"/>
+                                    <constraint firstItem="zkE-2t-CSG" firstAttribute="width" secondItem="hqM-oe-ItV" secondAttribute="width" id="bGP-zw-r40"/>
+                                    <constraint firstItem="zkE-2t-CSG" firstAttribute="height" secondItem="hqM-oe-ItV" secondAttribute="height" constant="250" id="eZX-RH-N18"/>
+                                    <constraint firstItem="zkE-2t-CSG" firstAttribute="trailing" secondItem="J1c-b4-zB3" secondAttribute="trailing" id="gz7-08-eoS"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="J1c-b4-zB3"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="hqM-oe-ItV"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="t9J-Qn-lo4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="t9J-Qn-lo4" firstAttribute="trailing" secondItem="BDc-bm-NfG" secondAttribute="trailing" constant="10" id="V4J-5N-36t"/>
+                            <constraint firstItem="t9J-Qn-lo4" firstAttribute="bottom" secondItem="BDc-bm-NfG" secondAttribute="bottom" constant="20" id="bit-2z-apZ"/>
+                            <constraint firstItem="BDc-bm-NfG" firstAttribute="leading" secondItem="t9J-Qn-lo4" secondAttribute="leading" constant="10" id="inR-Mw-BLn"/>
+                            <constraint firstItem="BDc-bm-NfG" firstAttribute="centerX" secondItem="t9J-Qn-lo4" secondAttribute="centerX" id="peh-Io-wcQ"/>
+                            <constraint firstItem="BDc-bm-NfG" firstAttribute="top" secondItem="t9J-Qn-lo4" secondAttribute="top" id="sKL-x6-2st"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Activity History" id="aCr-F6-Oyz">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="QwM-AN-G2h">
+                            <connections>
+                                <action selector="didTapDone:" destination="ys0-9a-Xdp" id="Xum-zw-qzW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="activityHistoryText" destination="dah-EO-sup" id="hgc-L5-JJF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UDF-FG-jzY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2128.985507246377" y="3908.7053571428569"/>
+        </scene>
+        <!--Map Shortest Route-->
+        <scene sceneID="eG1-9c-LaF">
+            <objects>
+                <viewController id="ZUm-Ys-76H" customClass="ShortestRouteMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="M4S-2k-TZ9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gwh-6t-Z6f" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="126" width="414" height="716"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="m0E-Lo-Dks">
+                                <rect key="frame" x="188.5" y="430.5" width="37" height="37"/>
+                            </activityIndicatorView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0y-r9-ZyZ">
+                                <rect key="frame" x="72" y="56" width="270" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map shortest route by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afu-NP-GoN">
+                                        <rect key="frame" x="10" y="15" width="168" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DcG-EH-dt9">
+                                        <rect key="frame" x="183" y="8.5" width="52" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <menu key="menu" id="M2H-YQ-R2W">
+                                            <children>
+                                                <command title="driving" id="m8A-Pk-ecz"/>
+                                                <command title="bicycling" id="Imv-zd-6WA"/>
+                                                <command title="transit" id="KHt-NQ-1pc"/>
+                                                <command title="walking" id="6yk-br-ANn"/>
+                                            </children>
+                                        </menu>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="DcG-EH-dt9" firstAttribute="centerY" secondItem="afu-NP-GoN" secondAttribute="centerY" id="0pP-9H-qgE"/>
+                                    <constraint firstItem="afu-NP-GoN" firstAttribute="centerY" secondItem="K0y-r9-ZyZ" secondAttribute="centerY" id="8jb-b6-ddW"/>
+                                    <constraint firstItem="DcG-EH-dt9" firstAttribute="leading" secondItem="afu-NP-GoN" secondAttribute="trailing" constant="5" id="KjE-m0-xJK"/>
+                                    <constraint firstAttribute="height" constant="50" id="fc5-Hc-RXl"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DcG-EH-dt9" secondAttribute="trailing" constant="10" id="khe-X3-1fa"/>
+                                    <constraint firstAttribute="width" constant="270" id="oKC-RY-aR7"/>
+                                    <constraint firstItem="afu-NP-GoN" firstAttribute="leading" secondItem="K0y-r9-ZyZ" secondAttribute="leading" constant="10" id="x03-Ux-jSv"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="zgO-nI-bZi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Gwh-6t-Z6f" firstAttribute="leading" secondItem="zgO-nI-bZi" secondAttribute="leading" id="1Mp-mA-Ahw"/>
+                            <constraint firstItem="zgO-nI-bZi" firstAttribute="top" secondItem="K0y-r9-ZyZ" secondAttribute="top" id="5e4-Y5-g7b"/>
+                            <constraint firstItem="zgO-nI-bZi" firstAttribute="trailing" secondItem="Gwh-6t-Z6f" secondAttribute="trailing" id="9Fy-Zd-Jko"/>
+                            <constraint firstItem="m0E-Lo-Dks" firstAttribute="centerX" secondItem="zgO-nI-bZi" secondAttribute="centerX" id="Dop-I1-Jfn"/>
+                            <constraint firstItem="zgO-nI-bZi" firstAttribute="bottom" secondItem="Gwh-6t-Z6f" secondAttribute="bottom" id="V9B-Zo-mlK"/>
+                            <constraint firstItem="m0E-Lo-Dks" firstAttribute="centerY" secondItem="zgO-nI-bZi" secondAttribute="centerY" id="XDQ-JV-ji1"/>
+                            <constraint firstItem="K0y-r9-ZyZ" firstAttribute="centerX" secondItem="zgO-nI-bZi" secondAttribute="centerX" id="aaT-OZ-FBW"/>
+                            <constraint firstItem="Gwh-6t-Z6f" firstAttribute="top" secondItem="K0y-r9-ZyZ" secondAttribute="bottom" constant="20" id="jWz-mf-rof"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Map Shortest Route" id="K4u-o6-TeZ">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="PRl-1k-9Ai">
+                            <connections>
+                                <action selector="didTapDone:" destination="ZUm-Ys-76H" id="4J5-kw-9mB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="Gwh-6t-Z6f" id="AKn-yO-3XA"/>
+                        <outlet property="routeLoadingIndicator" destination="m0E-Lo-Dks" id="nfL-CS-Ba8"/>
+                        <outlet property="travelModeButton" destination="DcG-EH-dt9" id="pYZ-p1-fjD"/>
+                        <outlet property="travelModeMenu" destination="M2H-YQ-R2W" id="d1U-Wx-x4a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fjf-28-MQN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2921.739130434783" y="3908.7053571428569"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E5d-r0-0aV">
@@ -1051,8 +1256,10 @@
     <resources>
         <image name="arrow.down" catalog="system" width="120" height="128"/>
         <image name="arrow.up" catalog="system" width="120" height="128"/>
+        <image name="eyes" catalog="system" width="128" height="99"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
+        <image name="map" catalog="system" width="128" height="110"/>
         <image name="network" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>

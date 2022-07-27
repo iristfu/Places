@@ -16,6 +16,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.place.fetchIfNeeded;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

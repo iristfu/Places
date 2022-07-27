@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ParseUI.h"
 #import "ProfileViewController.h"
 #import "AppDelegate.h"
 #import "SceneDelegate.h"

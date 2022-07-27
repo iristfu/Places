@@ -6,8 +6,9 @@
 //
 
 #import "ComposeItineraryViewController.h"
-#import "ParseUI.h"
 #import "UIImageView+AFNetworking.h"
+#import "Activity.h"
+@import Parse;
 
 @interface ComposeItineraryViewController () <AddPlacesToGoViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -19,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *placesToGoTableView;
 - (IBAction)didTapClose:(id)sender;
 - (IBAction)didTapDone:(id)sender;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *creatingNewItineraryIndicator;
+
 
 @property (strong, nonatomic) Itinerary *itinerary;
 
@@ -68,6 +71,7 @@
     self.itinerary.travelDetails = self.travelDetails.text;
     self.itinerary.lodgingDetails = self.lodgingDetails.text;
     
+    // set dates
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterMediumStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
@@ -75,12 +79,26 @@
     self.itinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
     self.itinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
     
+    // set image
     if (self.itinerary.placesToGo) {
         NSLog(@"There are placesToGo for this itinerary filled out");
         [self setItineraryImageToBeFirstImageOfFirstPlaceToGo];
     }
     
-    [self.itinerary saveInBackground];
+    // set author
+    PFUser *currentUser = [PFUser currentUser];
+    self.itinerary.author = currentUser.username;
+    
+    // set activity history
+    Activity *creationActivity = [Activity new];
+    creationActivity.activityType = @"Created";
+    creationActivity.user = currentUser;
+    creationActivity.timestamp = [NSDate date];
+    [creationActivity save];
+    self.itinerary.activityHistory = [NSArray arrayWithObject:creationActivity];
+    NSLog(@"activityHistory updated with new creation activity %@", self.itinerary.activityHistory);
+    
+    [self.itinerary save]; // saveInBackground produces an error sometimes
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
 }
 
@@ -108,12 +126,16 @@
 
 
 - (IBAction)didTapDone:(id)sender {
+    self.creatingNewItineraryIndicator.hidden = NO;
+    [self.creatingNewItineraryIndicator startAnimating];
     // Create new Itinerary Parse object
     [self createNewItineraryInParse];
+    NSLog(@"Made it past createNewItineraryInParse");
     
     // Add Itinerary to User[@"itineraries"]
     [self addItineraryForCurrentUser:self.itinerary];
     
+    [self.creatingNewItineraryIndicator stopAnimating];
     [self.delegate didComposeItinerary:self.itinerary];
     [self dismissViewControllerAnimated:true completion:nil];
 }

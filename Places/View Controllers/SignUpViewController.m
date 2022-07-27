@@ -6,6 +6,7 @@
 //
 
 #import "SignUpViewController.h"
+#import "SceneDelegate.h"
 @import Parse;
 
 
@@ -46,8 +47,9 @@
         } else {
             NSLog(@"User registered successfully");
             
-            // display view controller that needs to shown after successful sign up
-            [self performSegueWithIdentifier:@"SignedUpSegue" sender:nil];
+            // call delegate after successful signup
+            self.delegate = self.view.window.windowScene.delegate;
+            [self.delegate userDidSignUp];
         }
     }];
 }

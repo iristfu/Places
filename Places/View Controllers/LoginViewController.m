@@ -6,6 +6,7 @@
 //
 
 #import "LoginViewController.h"
+#import "SceneDelegate.h"
 @import Parse;
 
 @interface LoginViewController ()
@@ -14,6 +15,7 @@
 - (IBAction)didTapLogin:(id)sender;
 
 @end
+
 
 @implementation LoginViewController
 
@@ -41,8 +43,9 @@
         } else {
             NSLog(@"User logged in successfully");
             
-            // display view controller that needs to shown after successful login
-            [self performSegueWithIdentifier:@"LoggedInSegue" sender:nil];
+            // call delegate after successful login
+            self.delegate = self.view.window.windowScene.delegate;
+            [self.delegate userDidLogin];
         }
     }];
 }

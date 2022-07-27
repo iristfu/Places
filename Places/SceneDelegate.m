@@ -8,14 +8,30 @@
 #import "SceneDelegate.h"
 #import "AppDelegate.h"
 #import "ItineraryDetailViewController.h"
+#import "LoginViewController.h"
+#import "SignUpViewController.h"
 @import Parse;
 
-@interface SceneDelegate ()
+
+@interface SceneDelegate () <LoginViewControllerDelegate, SignUpViewControllerDelegate>
 
 @end
 
 @implementation SceneDelegate
 
+- (void)userDidLogin {
+    NSLog(@"userDidLogin called");
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
+    NSLog(@"Performed userDidLogin");
+}
+
+- (void)userDidSignUp {
+    NSLog(@"userDidSignup called");
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
+    NSLog(@"Performed userDidSignup");
+}
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     NSLog(@"Will connect to session called with session %@ and options %@", session, connectionOptions);
@@ -23,7 +39,6 @@
     // If the user is already logged in, upon relaunching the app, don't need to login again
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
     }
     // In future PR: may need to handle custom URL here for when the app isn't launched and the user clicks a custom URL
