@@ -68,29 +68,42 @@
     self.mapView.camera = camera;
 }
 
+- (void)showCannotRouteAlert {
+    UIAlertController *cannotRouteAlert = [UIAlertController alertControllerWithTitle:@"Uh oh"
+                                                                               message:@"Cannot create a route with less than two places!"
+                                                                        preferredStyle:(UIAlertControllerStyleAlert)];
+
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * _Nonnull action) {}];
+    [cannotRouteAlert addAction:okAction];
+    [self presentViewController:cannotRouteAlert animated:YES completion:^{}];
+}
+
 - (void)getStartingWaypointsEndingParameters {
     NSArray *placesToGo = self.itinerary.placesToGo;
-    NSMutableArray *placesToGoIDs = [[NSMutableArray alloc] init];
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:placesToGo.count];
     for (Place *place in placesToGo) {
-        place.fetchIfNeeded;
-        [placesToGoIDs addObject:place.placeID];
+        place.fetchIfNeeded; // do you really need to fetch it just to get the ID? Maybe this isn't needed?
+        [parameters addObject:[NSString stringWithFormat:@"place_id:%@", place.placeID]];
     }
-    NSLog(@"This is the array of places to go IDs %@", placesToGoIDs);
-    
-    for (NSInteger i=0; i < [placesToGoIDs count]; i++) {
-        NSString *curPlaceID = placesToGoIDs[i];
-        if (i == 0) {
-            self.originParameter = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
-        } else if (i == (placesToGo.count - 1)) {
-            self.destinationParameter = [NSString stringWithFormat:@"place_id:%@", curPlaceID];
-        } else { // one of the waypoints
-            if (self.waypointsParameter) {
-                NSString *toAppend = [NSString stringWithFormat:@"|place_id:%@", curPlaceID];
-                [self.waypointsParameter appendString:toAppend];
-            } else { // first waypoint, don't need pipe
-                self.waypointsParameter = [NSMutableString stringWithFormat:@"place_id:%@", curPlaceID];
-            }
-        }
+    if (parameters.count > 1) { // ensure that there will be an origin and a destination
+       self.originParameter = parameters[0];
+       [parameters removeObjectAtIndex:0];
+    } else {
+       self.originParameter = nil;
+       [self showCannotRouteAlert];
+    }
+    if (parameters.count > 0) {
+       self.destinationParameter = parameters[parameters.count - 1];
+       [parameters removeObjectAtIndex:(parameters.count - 1)];
+    } else {
+       self.destinationParameter = nil;
+    }
+    if (parameters.count > 0) {
+        self.waypointsParameter = [parameters componentsJoinedByString:@"|"];
+    } else {
+        self.waypointsParameter = nil;
     }
     NSLog(@"waypointsParameter: %@", self.waypointsParameter);
     NSLog(@"originParameter: %@", self.originParameter);
