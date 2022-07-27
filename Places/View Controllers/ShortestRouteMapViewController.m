@@ -121,13 +121,23 @@
 }
 
 - (void)requestRouteToDraw {
-    NSString *urlString = [NSString stringWithFormat: @"%@?origin=%@&destination=%@&waypoints=%@&sensor=true&mode=%@&key=%@",
-                           @"https://maps.googleapis.com/maps/api/directions/json",
-                           self.originParameter,
-                           self.destinationParameter,
-                           self.waypointsParameter,
-                           self.selectedTravelMode,
-                           @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
+    NSString *urlString;
+    if (self.waypointsParameter) {
+        urlString = [NSString stringWithFormat: @"%@?origin=%@&destination=%@&waypoints=%@&sensor=true&mode=%@&key=%@",
+                               @"https://maps.googleapis.com/maps/api/directions/json",
+                               self.originParameter,
+                               self.destinationParameter,
+                               self.waypointsParameter,
+                               self.selectedTravelMode,
+                               @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
+    } else {
+        urlString = [NSString stringWithFormat: @"%@?origin=%@&destination=%@&sensor=true&mode=%@&key=%@",
+                               @"https://maps.googleapis.com/maps/api/directions/json",
+                               self.originParameter,
+                               self.destinationParameter,
+                               self.selectedTravelMode,
+                               @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
+    }
     NSLog(@"This is the urlString %@", urlString);
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *directionsURL = [NSURL URLWithString:urlString];

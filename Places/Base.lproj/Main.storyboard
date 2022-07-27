@@ -940,6 +940,9 @@
                                     </segue>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="SwT-XB-9xo">
+                                <rect key="frame" x="188.5" y="430.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="S3C-z6-xRB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -965,6 +968,7 @@
                             <constraint firstItem="IFj-5Y-7aq" firstAttribute="top" secondItem="EEB-qG-VD7" secondAttribute="top" id="XSE-Hb-InG"/>
                             <constraint firstItem="IFj-5Y-7aq" firstAttribute="bottom" secondItem="EEB-qG-VD7" secondAttribute="bottom" id="XZr-bA-48J"/>
                             <constraint firstItem="98z-yW-Mh6" firstAttribute="leading" secondItem="pcY-YA-1fD" secondAttribute="trailing" constant="140" id="Y5R-CA-wAT"/>
+                            <constraint firstItem="SwT-XB-9xo" firstAttribute="centerY" secondItem="S3C-z6-xRB" secondAttribute="centerY" id="bkA-uF-LhY"/>
                             <constraint firstItem="m8y-yo-ww8" firstAttribute="leading" secondItem="pcY-YA-1fD" secondAttribute="leading" id="eFO-Gg-EOm"/>
                             <constraint firstItem="m8y-yo-ww8" firstAttribute="top" secondItem="pcY-YA-1fD" secondAttribute="bottom" constant="5" id="eMK-gQ-snD"/>
                             <constraint firstItem="S3C-z6-xRB" firstAttribute="trailing" secondItem="IFj-5Y-7aq" secondAttribute="trailing" constant="10" id="fEg-wh-cr9"/>
@@ -974,6 +978,7 @@
                             <constraint firstItem="H0U-f4-muN" firstAttribute="trailing" secondItem="jUx-LA-yn0" secondAttribute="trailing" id="oPQ-UY-uKN"/>
                             <constraint firstItem="RfY-ka-wFq" firstAttribute="top" secondItem="m8y-yo-ww8" secondAttribute="top" id="oWn-mS-E9B"/>
                             <constraint firstItem="H0U-f4-muN" firstAttribute="leading" secondItem="jUx-LA-yn0" secondAttribute="leading" id="rGB-N3-stb"/>
+                            <constraint firstItem="SwT-XB-9xo" firstAttribute="centerX" secondItem="S3C-z6-xRB" secondAttribute="centerX" id="v2P-rO-P1L"/>
                             <constraint firstItem="fO7-T4-2ny" firstAttribute="top" secondItem="mWO-vs-VQA" secondAttribute="bottom" constant="5" id="wqz-l7-Y7r"/>
                         </constraints>
                     </view>
@@ -990,6 +995,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="creatingNewItineraryIndicator" destination="SwT-XB-9xo" id="1Sh-Vj-zBa"/>
                         <outlet property="endDatePicker" destination="RfY-ka-wFq" id="jL8-Bp-EJR"/>
                         <outlet property="itineraryName" destination="jUx-LA-yn0" id="lpQ-dP-AtA"/>
                         <outlet property="lodgingDetails" destination="fO7-T4-2ny" id="qI5-HQ-TCN"/>

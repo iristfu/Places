@@ -7,6 +7,7 @@
 
 #import "ComposeItineraryViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "Activity.h"
 @import Parse;
 
 @interface ComposeItineraryViewController () <AddPlacesToGoViewDelegate, UITableViewDelegate, UITableViewDataSource>
@@ -19,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *placesToGoTableView;
 - (IBAction)didTapClose:(id)sender;
 - (IBAction)didTapDone:(id)sender;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *creatingNewItineraryIndicator;
+
 
 @property (strong, nonatomic) Itinerary *itinerary;
 
@@ -87,12 +90,15 @@
     self.itinerary.author = currentUser.username;
     
     // set activity history
-    NSDate *currentDate = [NSDate date];
-    NSDateFormatter *creationDateFormatter = dateFormatter;
-    creationDateFormatter.timeStyle = NSDateFormatterShortStyle; // want to show creation time
-    self.itinerary.activityHistory = [NSArray arrayWithObjects:[NSString stringWithFormat:@"✅ Created by %@ on %@", currentUser.username, [creationDateFormatter stringFromDate:currentDate]], nil];
+    Activity *creationActivity = [Activity new];
+    creationActivity.activityType = @"Created";
+    creationActivity.user = currentUser;
+    creationActivity.timestamp = [NSDate date];
+    [creationActivity save];
+    self.itinerary.activityHistory = [NSArray arrayWithObject:creationActivity];
+    NSLog(@"activityHistory updated with new creation activity %@", self.itinerary.activityHistory);
     
-    [self.itinerary saveInBackground];
+    [self.itinerary save];
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
 }
 
@@ -120,12 +126,16 @@
 
 
 - (IBAction)didTapDone:(id)sender {
+    self.creatingNewItineraryIndicator.hidden = NO;
+    [self.creatingNewItineraryIndicator startAnimating];
     // Create new Itinerary Parse object
     [self createNewItineraryInParse];
+    NSLog(@"Made it past createNewItineraryInParse");
     
     // Add Itinerary to User[@"itineraries"]
     [self addItineraryForCurrentUser:self.itinerary];
     
+    [self.creatingNewItineraryIndicator stopAnimating];
     [self.delegate didComposeItinerary:self.itinerary];
     [self dismissViewControllerAnimated:true completion:nil];
 }

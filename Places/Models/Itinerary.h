@@ -6,6 +6,7 @@
 //
 
 #import <Parse/Parse.h>
+#import "Activity.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,9 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *travelDetails;
 @property (nonatomic, strong) NSArray *placesToGo;
 @property (nonatomic, strong) NSNumber *estimatedCost;
-
-// array of String, each elem representing an activity, e.g. ["Created by Senem on July 21st, 2022", "Viewed by Iris on July 21st, 2022"]
-@property (nonatomic, strong) NSArray *activityHistory;
+@property (nonatomic, strong) NSArray<Activity *> *activityHistory;
 
 @end
 

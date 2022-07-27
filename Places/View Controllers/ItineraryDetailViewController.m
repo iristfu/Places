@@ -38,14 +38,13 @@
     self.placesToGoTableView.dataSource = self;
     
     // update activity history for given itinerary
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-    dateFormatter.timeStyle = NSDateFormatterShortStyle;
-    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-    NSDate *currentDate = [NSDate date];
-
-    NSString *newActivityString = [NSString stringWithFormat:@"👀 Viewed by %@ on %@", [PFUser currentUser].username, [dateFormatter stringFromDate:currentDate]]; // Adds logged in user's view to Itinerary's activity history
-    self.itinerary.activityHistory = [self.itinerary.activityHistory arrayByAddingObject:newActivityString];
+    Activity *newViewActivity = [Activity new];
+    newViewActivity.activityType = @"Viewed";
+    newViewActivity.user = [PFUser currentUser];
+    newViewActivity.timestamp = [NSDate date];
+    [newViewActivity save];
+    
+    self.itinerary.activityHistory = [self.itinerary.activityHistory arrayByAddingObject:newViewActivity];
     NSLog(@"Updated itinerary activity history: %@", self.itinerary.activityHistory);
     [self.itinerary saveInBackground];
 }
