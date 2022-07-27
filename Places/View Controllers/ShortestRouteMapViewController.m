@@ -206,8 +206,6 @@
 
 # pragma mark - ASIHTTPRequest
 
-
-
 - (BOOL)includesValidPath:(NSDictionary *)json {
     if (json[@"routes"]) {
         if (json[@"routes"][0]) {
@@ -226,7 +224,7 @@
             } else {
                 NSLog(@"No overview polyline");
                 return false;
-            } 
+            }
         } else {
             NSLog(@"No json[routes][0]");
             return false;
