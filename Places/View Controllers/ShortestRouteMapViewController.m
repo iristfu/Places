@@ -123,23 +123,24 @@
     NSURL *directionsURL = [NSURL URLWithString:urlString];
     NSLog(@"This is the request url %@", directionsURL);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:directionsURL];
-    [request startSynchronous];
-    NSError *error = [request error];
-    if (!error) {
-        NSString *response = [request responseString];
-        NSLog(@"%@",response);
-        NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
-        GMSPath *path =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
-        GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
-        singleLine.strokeWidth = 7;
-        singleLine.strokeColor = [UIColor greenColor];
-        singleLine.map = self.mapView;
-        self.currentRoute = singleLine;
-        NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
-    }
-    else {
-        NSLog(@"%@",[request error]);
-    }
+    [request setDelegate:self];
+    [request startAsynchronous];
+//    NSError *error = [request error];
+//    if (!error) {
+//        NSString *response = [request responseString];
+//        NSLog(@"%@",response);
+//        NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
+//        GMSPath *path =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
+//        GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
+//        singleLine.strokeWidth = 7;
+//        singleLine.strokeColor = [UIColor greenColor];
+//        singleLine.map = self.mapView;
+//        self.currentRoute = singleLine;
+//        NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
+//    }
+//    else {
+//        NSLog(@"%@",[request error]);
+//    }
 }
 
 - (UIImage *)getNumberedIconFor:(NSInteger)i {
@@ -198,6 +199,28 @@
 
 - (IBAction)didTapDone:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
+}
+
+# pragma mark - ASIHTTPRequest
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    NSString *response = [request responseString];
+    NSLog(@"%@",response);
+    NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
+    GMSPath *path =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
+    GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
+    singleLine.strokeWidth = 7;
+    singleLine.strokeColor = [UIColor greenColor];
+    singleLine.map = self.mapView;
+    self.currentRoute = singleLine;
+    NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
+}
+ 
+- (void)requestFailed:(ASIHTTPRequest *)request {
+    NSError *error = [request error];
+    NSLog(@"%@",[request error]);
 }
 
 @end
