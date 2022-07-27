@@ -98,7 +98,7 @@
     self.itinerary.activityHistory = [NSArray arrayWithObject:creationActivity];
     NSLog(@"activityHistory updated with new creation activity %@", self.itinerary.activityHistory);
     
-    [self.itinerary save];
+    [self.itinerary save]; // saveInBackground produces an error sometimes
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
 }
 
