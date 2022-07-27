@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ShortestRouteMapViewController : UIViewController
 
-@property (strong, nonatomic) Itinerary *itinerary;
+@property (strong, nonatomic, nullable) Itinerary *itinerary;
 
 @end
 
