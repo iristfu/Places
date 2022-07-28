@@ -241,7 +241,12 @@
     NSLog(@"Got %lu pairsOfPlaces %@", (unsigned long)pairsOfPlaces.count, pairsOfPlaces);
     
     [self getDurationsAndDistancesBetween:pairsOfPlaces];
+    
+    NSDate *methodStart = [NSDate date];
     self.optimalOrderingOfPlacesToGo = [self getOptimalOrderingOfPlacesToGoUsingBruteForce];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+    NSLog(@"executionTime = %f", executionTime);
     
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:self.optimalOrderingOfPlacesToGo.count];
     for (Place *place in self.optimalOrderingOfPlacesToGo) {
