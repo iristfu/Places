@@ -46,27 +46,27 @@
 
 @implementation ShortestRouteMapViewController
 
+- (void)reroute {
+    [self getStartingWaypointsEndingParameters];
+    self.currentRoute.map = nil; // remove previous route
+    [self requestRouteToDraw];
+}
+
 - (void)configureTravelModeButton {
     UIAction *driving = [UIAction actionWithTitle:@"driving" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedTravelMode = @"driving";
-        [self getStartingWaypointsEndingParameters];
-        self.currentRoute.map = nil; // remove previous route
-        [self requestRouteToDraw];
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
+        [self reroute];
     }];
     UIAction *bicycling = [UIAction actionWithTitle:@"bicycling" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedTravelMode = @"bicycling";
-        [self getStartingWaypointsEndingParameters];
-        self.currentRoute.map = nil; // remove previous route
-        [self requestRouteToDraw];
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
+        [self reroute];
     }];
     UIAction *walking = [UIAction actionWithTitle:@"walking" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedTravelMode = @"walking";
-        [self getStartingWaypointsEndingParameters];
-        self.currentRoute.map = nil; // remove previous route
-        [self requestRouteToDraw];
         NSLog(@"Just set selectedTravelMode to %@", self.selectedTravelMode);
+        [self reroute];
     }];
     UIMenu *menu = [UIMenu menuWithChildren:@[driving, bicycling, walking]];
     self.travelModeButton.menu = menu;
@@ -77,13 +77,13 @@
 - (void)configureOptimizedCriteriaButton {
     UIAction *duration = [UIAction actionWithTitle:@"duration" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedOptimizationCriteria = @"duration";
-        // may need to reload map here
         NSLog(@"Just set selectedOptimizationCriteria to %@", self.selectedOptimizationCriteria);
+        [self reroute];
     }];
     UIAction *distance = [UIAction actionWithTitle:@"distance" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.selectedOptimizationCriteria = @"distance";
-        // may need to reload map here
         NSLog(@"Just set selectedOptimizationCriteria to %@", self.selectedOptimizationCriteria);
+        [self reroute];
     }];
     UIMenu *menu = [UIMenu menuWithChildren:@[duration, distance]];
     self.optimizedCriteriaButton.menu = menu;
