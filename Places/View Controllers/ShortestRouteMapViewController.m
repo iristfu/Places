@@ -129,65 +129,71 @@
             }
         }
     }
-    return [pairsOfPlaces copy];
+    return pairsOfPlaces;
 }
 
 
 - (void)getDurationsAndDistancesBetween:(NSArray *)pairsOfPlaces {
-    for (NSSet *pair in pairsOfPlaces) {
-        NSArray *pairAsArray = [pair allObjects];
-        Place *origin = pairAsArray[0];
-        Place *dest = pairAsArray[1];
-        origin.fetchIfNeeded;
-        dest.fetchIfNeeded;
-        NSString *originParam = [NSString stringWithFormat:@"place_id:%@", origin.placeID];
-        NSString *destParam = [NSString stringWithFormat:@"place_id:%@", dest.placeID];
-        
-        NSString *urlString = [NSString stringWithFormat: @"https://maps.googleapis.com/maps/api/distancematrix/json?destinations=%@&origins=%@&key=%@", destParam, originParam, @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
-        NSLog(@"This is the distance matrix urlString %@", urlString);
-        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:urlString];
-        
-        __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-        [request setCompletionBlock:^{
-            NSError *error = [request error];
-            NSString *response = [request responseString];
-            NSLog(@"%@",response);
-            NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
+    @autoreleasepool {
+        for (NSSet *pair in pairsOfPlaces) {
+            NSArray *pairAsArray = [pair allObjects];
+            Place *origin = pairAsArray[0];
+            Place *dest = pairAsArray[1];
+            origin.fetchIfNeeded;
+            dest.fetchIfNeeded;
+            NSString *originParam = [NSString stringWithFormat:@"place_id:%@", origin.placeID];
+            NSString *destParam = [NSString stringWithFormat:@"place_id:%@", dest.placeID];
             
-            NSLog(@"This is json %@", json);
-            // check valid json
-            if ([self includesValidDistanceAndDuration:json]) {
-                NSNumber *duration = json[@"rows"][0][@"elements"][0][@"duration"][@"value"];
-                NSNumber *distance = json[@"rows"][0][@"elements"][0][@"distance"][@"value"];
-                NSLog(@"The duration is %@ and distance is %@", duration, distance);
-                // store smaller values so when adding total value for a given route, no overflows occur
-                float durationToStore = [duration floatValue] / 1000;
-                float distanceToStore = [distance floatValue] / 1000;
-                // Objective C seems to be able to use sets as keys in a dictionary?
-                [self.durationsBetweenPlaces setObject:[NSNumber numberWithFloat: durationToStore] forKey:pair];
-                [self.distancesBetweenPlaces setObject:[NSNumber numberWithFloat: distanceToStore] forKey:pair];
-            } else {
+            NSString *urlString = [NSString stringWithFormat: @"https://maps.googleapis.com/maps/api/distancematrix/json?destinations=%@&origins=%@&key=%@", destParam, originParam, @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
+            NSLog(@"This is the distance matrix urlString %@", urlString);
+            urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSURL *url = [NSURL URLWithString:urlString];
+            
+            __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+            [request setCompletionBlock:^{
+                NSError *error = [request error];
+                NSString *response = [request responseString];
+                NSLog(@"%@",response);
+                NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
+                
+                NSLog(@"This is json %@", json);
+                // check valid json
+                if ([self includesValidDistanceAndDuration:json]) {
+                    NSNumber *duration = json[@"rows"][0][@"elements"][0][@"duration"][@"value"];
+                    NSNumber *distance = json[@"rows"][0][@"elements"][0][@"distance"][@"value"];
+                    NSLog(@"The duration is %@ and distance is %@", duration, distance);
+                    // store smaller values so when adding total value for a given route, no overflows occur
+                    float durationToStore = [duration floatValue] / 1000;
+                    float distanceToStore = [distance floatValue] / 1000;
+                    // Objective C seems to be able to use sets as keys in a dictionary?
+                    [self.durationsBetweenPlaces setObject:[NSNumber numberWithFloat: durationToStore] forKey:pair];
+                    [self.distancesBetweenPlaces setObject:[NSNumber numberWithFloat: distanceToStore] forKey:pair];
+                } else {
+                    [self couldNotLoadRequestAlert];
+                }
+//                [self.routeLoadingIndicator stopAnimating];
+            }];
+            [request setFailedBlock:^{
+                NSLog(@"error occured, %@", [request error]);
                 [self couldNotLoadRequestAlert];
-            }
-            [self.routeLoadingIndicator stopAnimating];
-        }];
-        [request setFailedBlock:^{
-            NSLog(@"error occured, %@", [request error]);
-            [self couldNotLoadRequestAlert];
-            [self.routeLoadingIndicator stopAnimating];
-        }];
-        [request startSynchronous];
+                [self.routeLoadingIndicator stopAnimating];
+            }];
+            [request startSynchronous];
+        }
+        // might have to release pairsOfPlaces here
+//        NSLog(@"Got durations between places dictionary with %lu entries: %@", (unsigned long)self.durationsBetweenPlaces.count, self.durationsBetweenPlaces);
+//        NSLog(@"Got distances between places dictionary with %lu entires: %@", (unsigned long)self.distancesBetweenPlaces.count, self.distancesBetweenPlaces);
+//
     }
-    NSLog(@"Got durations between places dictionary with %lu entries: %@", (unsigned long)self.durationsBetweenPlaces.count, self.durationsBetweenPlaces);
-    NSLog(@"Got distances between places dictionary with %lu entires: %@", (unsigned long)self.distancesBetweenPlaces.count, self.distancesBetweenPlaces);
 }
+    
 
 - (NSArray<NSArray*>*)getPermutations:(NSArray*)placesToGo {
     NSMutableArray *permutations = [[NSMutableArray alloc]init];
     if (placesToGo.count == 1) {
         [permutations addObject:placesToGo];
-        return permutations;
+//        NSLog(@"Reached base case, returning %@", permutations);
+        return [permutations copy];
     } else {
         for (int i = 0; i < placesToGo.count; i++) {
             Place *origin = placesToGo[i];
@@ -198,6 +204,7 @@
                 [permutations addObject:newPermutation];
             }
         }
+        NSLog(@"Built new permutations");
         return [permutations copy];
     }
 }
@@ -217,23 +224,28 @@
 }
 
 - (NSArray *)getOptimalOrderingOfPlacesToGoUsingBruteForce {
-    NSArray<NSArray*> *allPossibleRoutes = [self getPermutations:self.itinerary.placesToGo];
-    NSLog(@"This is all possible routes %@", allPossibleRoutes);
-    float shortestRouteValue = MAXFLOAT;
-    NSLog(@"shortestRouteValue initiated to %f", shortestRouteValue);
-    NSArray *shortestRoute = [NSArray array];
-    for (NSArray *route in allPossibleRoutes) {
-        NSLog(@"This is one possible route %@", route);
-        float value = [self getValue:route];
-        NSLog(@"The value is %f", value);
-        if (value < shortestRouteValue) {
-            shortestRouteValue = value;
-            NSLog(@"New shortestRouteValue is %f", shortestRouteValue);
-            shortestRoute = route;
+    @autoreleasepool {
+        NSArray<NSArray*> *allPossibleRoutes = [self getPermutations:self.itinerary.placesToGo];
+        NSLog(@"This is all possible routes %@", allPossibleRoutes);
+        float shortestRouteValue = MAXFLOAT;
+        NSLog(@"shortestRouteValue initiated to %f", shortestRouteValue);
+        NSArray *shortestRoute = [NSArray array];
+        for (NSArray *route in allPossibleRoutes) {
+            NSLog(@"This is one possible route %@", route);
+            float value = [self getValue:route];
+            NSLog(@"The value is %f", value);
+            if (value < shortestRouteValue) {
+                shortestRouteValue = value;
+                NSLog(@"New shortestRouteValue is %f", shortestRouteValue);
+                shortestRoute = route;
+            }
         }
+        self.durationsBetweenPlaces = nil;
+        self.distancesBetweenPlaces = nil;
+        NSLog(@"The shortest route is %@", shortestRoute);
+        // might need to release allPossibleRoutes somewhere here
+        return shortestRoute;
     }
-    NSLog(@"The shortest route is %@", shortestRoute);
-    return shortestRoute;
 }
 
 - (void)getStartingWaypointsEndingParameters {
