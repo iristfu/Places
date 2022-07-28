@@ -208,7 +208,6 @@
     for (int i = 0; i < route.count - 1; i++) {
         NSSet *pair = [NSSet setWithObjects:route[i], route[i+1], nil];
         NSLog(@"One pair %@", pair);
-//        NSLog(@"Durations value between this pair %@", self.durationsBetweenPlaces[pair]);
         NSNumber *value = [self.selectedOptimizationCriteria  isEqual: @"duration"] ? self.durationsBetweenPlaces[pair] : self.distancesBetweenPlaces[pair];
         NSLog(@"This pair's value is %@", value);
         totalValue += [value floatValue];
@@ -238,8 +237,6 @@
 }
 
 - (void)getStartingWaypointsEndingParameters {
-    // this is the part where you need to get the optimized ordering of places to go, which you will then use to iterate over in the for loop
-    // first, get a dict which maps each pair of places with their distance or duration
     NSArray *pairsOfPlaces = [self getPairsOfPlaces];
     NSLog(@"Got %lu pairsOfPlaces %@", (unsigned long)pairsOfPlaces.count, pairsOfPlaces);
     
@@ -251,18 +248,15 @@
         place.fetchIfNeeded;
         [parameters addObject:[NSString stringWithFormat:@"place_id:%@", place.placeID]];
     }
-    if (parameters.count > 1) { // ensure that there will be an origin and a destination
-       self.originParameter = parameters[0];
-       [parameters removeObjectAtIndex:0];
+    if (parameters.count >= 2) { // ensure that there will be an origin and a destination
+        self.originParameter = parameters[0];
+        [parameters removeObjectAtIndex:0];
+        self.destinationParameter = parameters[parameters.count - 1];
+        [parameters removeObjectAtIndex:(parameters.count - 1)];
     } else {
-       self.originParameter = nil;
-       [self showCannotRouteAlert];
-    }
-    if (parameters.count > 0) {
-       self.destinationParameter = parameters[parameters.count - 1];
-       [parameters removeObjectAtIndex:(parameters.count - 1)];
-    } else {
-       self.destinationParameter = nil;
+        self.originParameter = nil;
+        self.destinationParameter = nil;
+        [self showCannotRouteAlert];
     }
     if (parameters.count > 0) {
         self.waypointsParameter = [parameters componentsJoinedByString:@"|"];
