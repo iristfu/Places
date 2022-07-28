@@ -337,7 +337,7 @@
     [self configureCameraPosition];
     [self getStartingWaypointsEndingParameters];
     [self requestRouteToDraw];
-    [self addMarkersForAllPlacesToGo];
+    [self addMarkersForAllPlacesToGo]; // must come after getStartingWaypointsEndingParameters because that's where the ordering of places is determined
 }
 
 - (void)viewDidLoad {
