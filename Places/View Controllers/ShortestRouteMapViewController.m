@@ -26,6 +26,10 @@
 @property (strong, nonatomic) GMSPolyline *currentRoute;
 @property (strong, nonatomic) NSMutableArray *markers;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *routeLoadingIndicator;
+
+@property (strong, nonatomic) NSMutableDictionary *durationsBetweenPlaces;
+@property (strong, nonatomic) NSMutableDictionary *distancesBetweenPlaces;
+
 @end
 
 @interface NSObject (SafeCast)
@@ -110,11 +114,82 @@
     [self presentViewController:cannotRouteAlert animated:YES completion:^{}];
 }
 
+- (NSArray<NSSet*> *)getPairsOfPlaces {
+    NSArray *placesToGo = self.itinerary.placesToGo;
+    NSInteger numPlacesToGo = placesToGo.count;
+    NSMutableArray *pairsOfPlaces = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < numPlacesToGo; i++) {
+        if (i + 1 < numPlacesToGo) {
+            for (int j = i + 1; j < numPlacesToGo; j++) {
+                NSSet *newPair = [NSSet setWithObjects:placesToGo[i], placesToGo[j], nil];
+                [pairsOfPlaces addObject:newPair];
+            }
+        }
+    }
+    return [pairsOfPlaces copy];
+}
+
+
+- (void)getDurationsAndDistancesBetween:(NSArray *)pairsOfPlaces {
+    for (NSSet *pair in pairsOfPlaces) {
+        NSArray *pairAsArray = [pair allObjects];
+        Place *origin = pairAsArray[0];
+        Place *dest = pairAsArray[1];
+        origin.fetchIfNeeded;
+        dest.fetchIfNeeded;
+        NSString *originParam = [NSString stringWithFormat:@"place_id:%@", origin.placeID];
+        NSString *destParam = [NSString stringWithFormat:@"place_id:%@", dest.placeID];
+        
+        NSString *urlString = [NSString stringWithFormat: @"https://maps.googleapis.com/maps/api/distancematrix/json?destinations=%@&origins=%@&key=%@", destParam, originParam, @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
+        NSLog(@"This is the distance matrix urlString %@", urlString);
+        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:urlString];
+        
+        __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+        [request setCompletionBlock:^{
+            NSError *error = [request error];
+            NSString *response = [request responseString];
+            NSLog(@"%@",response);
+            NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
+            
+            NSLog(@"This is json %@", json);
+            // check valid json
+            if ([self includesValidDistanceAndDuration:json]) {
+                NSNumber *duration = json[@"rows"][0][@"elements"][0][@"duration"][@"value"];
+                NSNumber *distance = json[@"rows"][0][@"elements"][0][@"distance"][@"value"];
+                NSLog(@"The duration is %@ and distance is %@", duration, distance);
+                [self.durationsBetweenPlaces setObject:duration forKey:pair];
+                [self.distancesBetweenPlaces setObject:distance forKey:pair];
+            } else {
+                [self couldNotLoadRequestAlert];
+            }
+            [self.routeLoadingIndicator stopAnimating];
+        }];
+        [request setFailedBlock:^{
+            NSLog(@"error occured, %@", [request error]);
+            [self couldNotLoadRequestAlert];
+            [self.routeLoadingIndicator stopAnimating];
+        }];
+        [request startSynchronous];
+    }
+    NSLog(@"Got durations between places dictionary with %lu entries: %@", (unsigned long)self.durationsBetweenPlaces.count, self.durationsBetweenPlaces);
+    NSLog(@"Got distances between places dictionary with %lu entires: %@", (unsigned long)self.distancesBetweenPlaces.count, self.distancesBetweenPlaces);
+}
+
 - (void)getStartingWaypointsEndingParameters {
+    // this is the part where you need to get the optimized ordering of places to go, which you will then use to iterate over in the for loop
+    // first, get a dict which maps each pair of places with their distance or duration
+    NSArray *pairsOfPlaces = [self getPairsOfPlaces];
+    NSLog(@"Got %lu pairsOfPlaces %@", (unsigned long)pairsOfPlaces.count, pairsOfPlaces);
+    
+    [self getDurationsAndDistancesBetween:pairsOfPlaces];
+ 
+    
     NSArray *placesToGo = self.itinerary.placesToGo;
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:placesToGo.count];
     for (Place *place in placesToGo) {
-        place.fetchIfNeeded; // do you really need to fetch it just to get the ID? Maybe this isn't needed?
+        place.fetchIfNeeded;
         [parameters addObject:[NSString stringWithFormat:@"place_id:%@", place.placeID]];
     }
     if (parameters.count > 1) { // ensure that there will be an origin and a destination
@@ -225,6 +300,8 @@
     NSLog(@"In view will Appear");
     
     self.markers = [[NSMutableArray alloc] init];
+    self.distancesBetweenPlaces = [[NSMutableDictionary alloc] init];
+    self.durationsBetweenPlaces = [[NSMutableDictionary alloc] init];
     self.selectedTravelMode = @"driving";
     [self configureOptimizedCriteriaButton];
     [self configureTravelModeButton];
@@ -266,6 +343,42 @@
     }
 }
 
+- (BOOL)includesValidDistanceAndDuration:(NSDictionary *)json {
+    if (json[@"rows"]) {
+        if (json[@"rows"][0][@"elements"]) {
+            if (json[@"rows"][0][@"elements"][0][@"distance"] && json[@"rows"][0][@"elements"][0][@"duration"]) {
+                if (json[@"rows"][0][@"elements"][0][@"distance"][@"value"] && json[@"rows"][0][@"elements"][0][@"duration"][@"value"]) {
+                    return true;
+                } else {
+                    NSLog(@"No value");
+                    return false;
+                }
+            } else {
+                NSLog(@"No distance or duration");
+                return false;
+            }
+        } else {
+            NSLog(@"No json[rows][0][elements]");
+            return false;
+        }
+    } else {
+        NSLog(@"No json[rows]");
+        return false;
+    }
+}
+
+- (void)couldNotLoadRequestAlert {
+    NSLog(@"Could not load, showing alert");
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh oh"
+                                                                   message:@"Could not fetch the route from server"
+                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{}];
+}
+
 - (void)requestFinished:(ASIHTTPRequest *)request {
     NSError *error = [request error];
     NSString *response = [request responseString];
@@ -283,21 +396,14 @@
         self.currentRoute = singleLine;
         NSLog(@"Just updated currentRoute to be %@", self.currentRoute);
     } else {
-        NSLog(@"Could not load, showing alert");
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh oh"
-                                                                                       message:@"Could not fetch the route from server"
-                                                                                preferredStyle:(UIAlertControllerStyleAlert)];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction * _Nonnull action) {}];
-        [alert addAction:okAction];
-        [self presentViewController:alert animated:YES completion:^{}];
+        [self couldNotLoadRequestAlert];
     }
     [self.routeLoadingIndicator stopAnimating];
 }
  
 - (void)requestFailed:(ASIHTTPRequest *)request {
     NSLog(@"%@",[request error]);
+    [self couldNotLoadRequestAlert];
     [self.routeLoadingIndicator stopAnimating];
 }
 
