@@ -1097,16 +1097,16 @@
                                 <rect key="frame" x="188.5" y="430.5" width="37" height="37"/>
                             </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0y-r9-ZyZ">
-                                <rect key="frame" x="72" y="56" width="270" height="50"/>
+                                <rect key="frame" x="52" y="56" width="310" height="50"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map shortest route by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afu-NP-GoN">
-                                        <rect key="frame" x="10" y="15" width="168" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map shortest" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afu-NP-GoN">
+                                        <rect key="frame" x="10" y="14.5" width="101" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DcG-EH-dt9">
-                                        <rect key="frame" x="183" y="8.5" width="52" height="33"/>
+                                        <rect key="frame" x="253" y="8.5" width="52" height="33"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <menu key="menu" id="M2H-YQ-R2W">
                                             <children>
@@ -1118,15 +1118,35 @@
                                         </menu>
                                         <state key="normal" title="Button"/>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bx7-1P-FW3">
+                                        <rect key="frame" x="116" y="8.5" width="64" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <menu key="menu" id="9Iz-ac-Fq6">
+                                            <children>
+                                                <command title="duration" id="Spe-r3-0wp"/>
+                                                <command title="distance" id="Sas-h1-Ujo"/>
+                                            </children>
+                                        </menu>
+                                        <state key="normal" title="duration"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="route by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cdw-aE-D8R">
+                                        <rect key="frame" x="185" y="14.5" width="63" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="DcG-EH-dt9" firstAttribute="centerY" secondItem="afu-NP-GoN" secondAttribute="centerY" id="0pP-9H-qgE"/>
+                                    <constraint firstItem="bx7-1P-FW3" firstAttribute="centerY" secondItem="K0y-r9-ZyZ" secondAttribute="centerY" id="7oS-4G-CPT"/>
                                     <constraint firstItem="afu-NP-GoN" firstAttribute="centerY" secondItem="K0y-r9-ZyZ" secondAttribute="centerY" id="8jb-b6-ddW"/>
-                                    <constraint firstItem="DcG-EH-dt9" firstAttribute="leading" secondItem="afu-NP-GoN" secondAttribute="trailing" constant="5" id="KjE-m0-xJK"/>
+                                    <constraint firstItem="Cdw-aE-D8R" firstAttribute="leading" secondItem="bx7-1P-FW3" secondAttribute="trailing" constant="5" id="ECs-Zy-2Ml"/>
+                                    <constraint firstItem="Cdw-aE-D8R" firstAttribute="centerY" secondItem="K0y-r9-ZyZ" secondAttribute="centerY" id="XdM-cd-Swo"/>
+                                    <constraint firstItem="bx7-1P-FW3" firstAttribute="leading" secondItem="afu-NP-GoN" secondAttribute="trailing" constant="5" id="fbN-HU-IAr"/>
                                     <constraint firstAttribute="height" constant="50" id="fc5-Hc-RXl"/>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DcG-EH-dt9" secondAttribute="trailing" constant="10" id="khe-X3-1fa"/>
-                                    <constraint firstAttribute="width" constant="270" id="oKC-RY-aR7"/>
+                                    <constraint firstAttribute="trailing" secondItem="DcG-EH-dt9" secondAttribute="trailing" constant="5" id="khe-X3-1fa"/>
+                                    <constraint firstItem="DcG-EH-dt9" firstAttribute="leading" secondItem="Cdw-aE-D8R" secondAttribute="trailing" constant="5" id="lLj-CK-nDh"/>
                                     <constraint firstItem="afu-NP-GoN" firstAttribute="leading" secondItem="K0y-r9-ZyZ" secondAttribute="leading" constant="10" id="x03-Ux-jSv"/>
                                 </constraints>
                             </view>
@@ -1153,6 +1173,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Gwh-6t-Z6f" id="AKn-yO-3XA"/>
+                        <outlet property="optimizedCriteriaButton" destination="bx7-1P-FW3" id="480-DS-EY3"/>
+                        <outlet property="optimizedCriteriaMenu" destination="9Iz-ac-Fq6" id="Dni-5d-3nv"/>
                         <outlet property="routeLoadingIndicator" destination="m0E-Lo-Dks" id="nfL-CS-Ba8"/>
                         <outlet property="travelModeButton" destination="DcG-EH-dt9" id="pYZ-p1-fjD"/>
                         <outlet property="travelModeMenu" destination="M2H-YQ-R2W" id="d1U-Wx-x4a"/>

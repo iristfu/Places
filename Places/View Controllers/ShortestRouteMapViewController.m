@@ -16,7 +16,10 @@
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIMenu *travelModeMenu;
 @property (weak, nonatomic) IBOutlet UIButton *travelModeButton;
+@property (weak, nonatomic) IBOutlet UIButton *optimizedCriteriaButton;
+@property (weak, nonatomic) IBOutlet UIMenu *optimizedCriteriaMenu;
 @property (weak, nonatomic) NSString *selectedTravelMode;
+@property (weak, nonatomic) NSString *selectedOptimizationCriteria;
 @property (weak, nonatomic) NSString *originParameter;
 @property (weak, nonatomic) NSString *destinationParameter;
 @property (weak, nonatomic) NSMutableString *waypointsParameter;
@@ -63,6 +66,23 @@
     self.travelModeButton.menu = menu;
     self.travelModeButton.showsMenuAsPrimaryAction = true;
     self.travelModeButton.changesSelectionAsPrimaryAction = true;
+}
+
+- (void)configureOptimizedCriteriaButton {
+    UIAction *duration = [UIAction actionWithTitle:@"duration" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
+        self.selectedOptimizationCriteria = @"duration";
+        // may need to reload map here
+        NSLog(@"Just set selectedOptimizationCriteria to %@", self.selectedOptimizationCriteria);
+    }];
+    UIAction *distance = [UIAction actionWithTitle:@"distance" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
+        self.selectedOptimizationCriteria = @"distance";
+        // may need to reload map here
+        NSLog(@"Just set selectedOptimizationCriteria to %@", self.selectedOptimizationCriteria);
+    }];
+    UIMenu *menu = [UIMenu menuWithChildren:@[duration, distance]];
+    self.optimizedCriteriaButton.menu = menu;
+    self.optimizedCriteriaButton.showsMenuAsPrimaryAction = true;
+    self.optimizedCriteriaButton.changesSelectionAsPrimaryAction = true;
 }
 
 - (void)configureCameraPosition {
@@ -206,6 +226,7 @@
     
     self.markers = [[NSMutableArray alloc] init];
     self.selectedTravelMode = @"driving";
+    [self configureOptimizedCriteriaButton];
     [self configureTravelModeButton];
     [self configureMapView];
 }
