@@ -159,8 +159,12 @@
                 NSNumber *duration = json[@"rows"][0][@"elements"][0][@"duration"][@"value"];
                 NSNumber *distance = json[@"rows"][0][@"elements"][0][@"distance"][@"value"];
                 NSLog(@"The duration is %@ and distance is %@", duration, distance);
-                [self.durationsBetweenPlaces setObject:duration forKey:pair];
-                [self.distancesBetweenPlaces setObject:distance forKey:pair];
+                // store smaller values so when adding total value for a given route, no overflows occur
+                float durationToStore = [duration floatValue] / 1000;
+                float distanceToStore = [distance floatValue] / 1000;
+                // Objective C seems to be able to use sets as keys in a dictionary?
+                [self.durationsBetweenPlaces setObject:[NSNumber numberWithFloat: durationToStore] forKey:pair];
+                [self.distancesBetweenPlaces setObject:[NSNumber numberWithFloat: distanceToStore] forKey:pair];
             } else {
                 [self couldNotLoadRequestAlert];
             }
@@ -177,6 +181,60 @@
     NSLog(@"Got distances between places dictionary with %lu entires: %@", (unsigned long)self.distancesBetweenPlaces.count, self.distancesBetweenPlaces);
 }
 
+- (NSArray<NSArray*>*)getPermutations:(NSArray*)placesToGo {
+    NSMutableArray *permutations = [[NSMutableArray alloc]init];
+    if (placesToGo.count == 1) {
+        [permutations addObject:placesToGo];
+        return permutations;
+    } else {
+        for (int i = 0; i < placesToGo.count; i++) {
+            Place *origin = placesToGo[i];
+            NSArray<Place *> *otherDestinations = [[placesToGo subarrayWithRange:NSMakeRange(0, i)] arrayByAddingObjectsFromArray:[placesToGo subarrayWithRange:NSMakeRange(i+1, placesToGo.count-i-1)]];
+            for (NSArray *otherDestinationsPermutation in [self getPermutations:otherDestinations]) {
+                NSArray *originArray = [NSArray arrayWithObject:origin];
+                NSArray *newPermutation = [originArray arrayByAddingObjectsFromArray:otherDestinationsPermutation];
+                [permutations addObject:newPermutation];
+            }
+        }
+        return [permutations copy];
+    }
+}
+
+// The value this function returns is dependent on the selected optimization criteria, duration or distance
+- (float)getValue:(NSArray *)route {
+    float totalValue = 0;
+    for (int i = 0; i < route.count - 1; i++) {
+        NSSet *pair = [NSSet setWithObjects:route[i], route[i+1], nil];
+        NSLog(@"One pair %@", pair);
+//        NSLog(@"Durations value between this pair %@", self.durationsBetweenPlaces[pair]);
+        NSNumber *value = [self.selectedOptimizationCriteria  isEqual: @"duration"] ? self.durationsBetweenPlaces[pair] : self.distancesBetweenPlaces[pair];
+        NSLog(@"This pair's value is %@", value);
+        totalValue += [value floatValue];
+        NSLog(@"Just updated totalValue to %f", totalValue);
+    }
+    return totalValue;
+}
+
+- (NSArray *)getOptimalOrderingOfPlacesToGoUsingBruteForce {
+    NSArray<NSArray*> *allPossibleRoutes = [self getPermutations:self.itinerary.placesToGo];
+    NSLog(@"This is all possible routes %@", allPossibleRoutes);
+    float shortestRouteValue = MAXFLOAT;
+    NSLog(@"shortestRouteValue initiated to %f", shortestRouteValue);
+    NSArray *shortestRoute = [NSArray array];
+    for (NSArray *route in allPossibleRoutes) {
+        NSLog(@"This is one possible route %@", route);
+        float value = [self getValue:route];
+        NSLog(@"The value is %f", value);
+        if (value < shortestRouteValue) {
+            shortestRouteValue = value;
+            NSLog(@"New shortestRouteValue is %f", shortestRouteValue);
+            shortestRoute = route;
+        }
+    }
+    NSLog(@"The shortest route is %@", shortestRoute);
+    return shortestRoute;
+}
+
 - (void)getStartingWaypointsEndingParameters {
     // this is the part where you need to get the optimized ordering of places to go, which you will then use to iterate over in the for loop
     // first, get a dict which maps each pair of places with their distance or duration
@@ -184,11 +242,10 @@
     NSLog(@"Got %lu pairsOfPlaces %@", (unsigned long)pairsOfPlaces.count, pairsOfPlaces);
     
     [self getDurationsAndDistancesBetween:pairsOfPlaces];
- 
+    NSArray *optimalOrderingOfPlacesToGo = [self getOptimalOrderingOfPlacesToGoUsingBruteForce];
     
-    NSArray *placesToGo = self.itinerary.placesToGo;
-    NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:placesToGo.count];
-    for (Place *place in placesToGo) {
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:optimalOrderingOfPlacesToGo.count];
+    for (Place *place in optimalOrderingOfPlacesToGo) {
         place.fetchIfNeeded;
         [parameters addObject:[NSString stringWithFormat:@"place_id:%@", place.placeID]];
     }
@@ -302,6 +359,7 @@
     self.markers = [[NSMutableArray alloc] init];
     self.distancesBetweenPlaces = [[NSMutableDictionary alloc] init];
     self.durationsBetweenPlaces = [[NSMutableDictionary alloc] init];
+    self.selectedOptimizationCriteria = @"duration";
     self.selectedTravelMode = @"driving";
     [self configureOptimizedCriteriaButton];
     [self configureTravelModeButton];
