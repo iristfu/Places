@@ -30,6 +30,8 @@
 @property (strong, nonatomic) NSMutableDictionary *durationsBetweenPlaces;
 @property (strong, nonatomic) NSMutableDictionary *distancesBetweenPlaces;
 
+@property (strong, nonatomic) NSArray *optimalOrderingOfPlacesToGo;
+
 @end
 
 @interface NSObject (SafeCast)
@@ -242,10 +244,10 @@
     NSLog(@"Got %lu pairsOfPlaces %@", (unsigned long)pairsOfPlaces.count, pairsOfPlaces);
     
     [self getDurationsAndDistancesBetween:pairsOfPlaces];
-    NSArray *optimalOrderingOfPlacesToGo = [self getOptimalOrderingOfPlacesToGoUsingBruteForce];
+    self.optimalOrderingOfPlacesToGo = [self getOptimalOrderingOfPlacesToGoUsingBruteForce];
     
-    NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:optimalOrderingOfPlacesToGo.count];
-    for (Place *place in optimalOrderingOfPlacesToGo) {
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:self.optimalOrderingOfPlacesToGo.count];
+    for (Place *place in self.optimalOrderingOfPlacesToGo) {
         place.fetchIfNeeded;
         [parameters addObject:[NSString stringWithFormat:@"place_id:%@", place.placeID]];
     }
@@ -310,10 +312,8 @@
 }
 
 - (void)addMarkersForAllPlacesToGo {
-    NSArray *placesToGo = self.itinerary.placesToGo;
-    // in the future, use an ordered version of placesToGo that portrays the shortest route
-    for (NSInteger i=0; i < [placesToGo count]; i++) {
-        Place *place = placesToGo[i];
+    for (NSInteger i=0; i < [self.optimalOrderingOfPlacesToGo count]; i++) {
+        Place *place = self.optimalOrderingOfPlacesToGo[i];
         place.fetchIfNeeded;
         double lat = [place.lat doubleValue];
         double lng = [place.lng doubleValue];
@@ -341,9 +341,9 @@
 
 - (void)configureMapView {
     [self configureCameraPosition];
-    [self addMarkersForAllPlacesToGo];
     [self getStartingWaypointsEndingParameters];
     [self requestRouteToDraw];
+    [self addMarkersForAllPlacesToGo];
 }
 
 - (void)viewDidLoad {
