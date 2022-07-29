@@ -188,26 +188,54 @@
 }
     
 
+//- (NSArray<NSArray*>*)getPermutations:(NSArray*)placesToGo {
+//    @autoreleasepool {
+//        NSMutableArray *permutations = [[NSMutableArray alloc]init];
+//        if (placesToGo.count == 1) {
+//            [permutations addObject:placesToGo];
+//            return [permutations copy];
+//        }
+//        @autoreleasepool {
+//            for (int i = 0; i < placesToGo.count; i++) {
+//                Place *origin = placesToGo[i];
+//                NSArray<Place *> *otherDestinations = [[placesToGo subarrayWithRange:NSMakeRange(0, i)] arrayByAddingObjectsFromArray:[placesToGo subarrayWithRange:NSMakeRange(i+1, placesToGo.count-i-1)]];
+//                for (NSArray *otherDestinationsPermutation in [self getPermutations:otherDestinations]) {
+//                    @autoreleasepool {
+//                        NSArray *originArray = [NSArray arrayWithObject:origin];
+//                        NSArray *newPermutation = [originArray arrayByAddingObjectsFromArray:otherDestinationsPermutation];
+//                        [permutations addObject:newPermutation];
+//                    }
+//                }
+//            }
+//            return [permutations copy];
+//        }
+//    }
+//}
+
 - (NSArray<NSArray*>*)getPermutations:(NSArray*)placesToGo {
-    NSMutableArray *permutations = [[NSMutableArray alloc]init];
-    if (placesToGo.count == 1) {
-        [permutations addObject:placesToGo];
-//        NSLog(@"Reached base case, returning %@", permutations);
-        return [permutations copy];
-    } else {
-        for (int i = 0; i < placesToGo.count; i++) {
-            Place *origin = placesToGo[i];
-            NSArray<Place *> *otherDestinations = [[placesToGo subarrayWithRange:NSMakeRange(0, i)] arrayByAddingObjectsFromArray:[placesToGo subarrayWithRange:NSMakeRange(i+1, placesToGo.count-i-1)]];
-            for (NSArray *otherDestinationsPermutation in [self getPermutations:otherDestinations]) {
-                NSArray *originArray = [NSArray arrayWithObject:origin];
-                NSArray *newPermutation = [originArray arrayByAddingObjectsFromArray:otherDestinationsPermutation];
-                [permutations addObject:newPermutation];
-            }
+    @autoreleasepool {
+        NSMutableArray *permutations = [[NSMutableArray alloc]init];
+        if (placesToGo.count == 1) {
+            [permutations addObject:placesToGo];
+            return [permutations copy];
         }
-        NSLog(@"Built new permutations");
-        return [permutations copy];
+        @autoreleasepool {
+            for (int i = 0; i < placesToGo.count; i++) {
+                Place *origin = placesToGo[i];
+                NSArray<Place *> *otherDestinations = [[placesToGo subarrayWithRange:NSMakeRange(0, i)] arrayByAddingObjectsFromArray:[placesToGo subarrayWithRange:NSMakeRange(i+1, placesToGo.count-i-1)]];
+                for (NSArray *otherDestinationsPermutation in [self getPermutations:otherDestinations]) {
+                    @autoreleasepool {
+                        NSArray *originArray = [NSArray arrayWithObject:origin];
+                        NSArray *newPermutation = [originArray arrayByAddingObjectsFromArray:otherDestinationsPermutation];
+                        [permutations addObject:newPermutation];
+                    }
+                }
+            }
+            return [permutations copy];
+        }
     }
 }
+
 
 // The value this function returns is dependent on the selected optimization criteria, duration or distance
 - (float)getValue:(NSArray *)route {
