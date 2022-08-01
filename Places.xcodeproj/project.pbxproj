@@ -113,6 +113,7 @@
 		7B2F652D28984796000C3D9C /* ExactOptimalRouteAlgorithm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExactOptimalRouteAlgorithm.m; sourceTree = "<group>"; };
 		7B2F652F289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApproximateOptimalRouteAlgorithm.h; sourceTree = "<group>"; };
 		7B2F6530289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApproximateOptimalRouteAlgorithm.m; sourceTree = "<group>"; };
+		7B2F653228984E8E000C3D9C /* OptimalRouteAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptimalRouteAlgorithm.h; sourceTree = "<group>"; };
 		7B39FC17288797A5002D3607 /* ItineraryDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItineraryDetailViewController.h; sourceTree = "<group>"; };
 		7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItineraryDetailViewController.m; sourceTree = "<group>"; };
 		7B39FC1A288A315D002D3607 /* ActivityHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityHistoryViewController.h; sourceTree = "<group>"; };
@@ -266,6 +267,7 @@
 		7B2F652B28984733000C3D9C /* Algorithms */ = {
 			isa = PBXGroup;
 			children = (
+				7B2F653228984E8E000C3D9C /* OptimalRouteAlgorithm.h */,
 				7B2F652C28984796000C3D9C /* ExactOptimalRouteAlgorithm.h */,
 				7B2F652D28984796000C3D9C /* ExactOptimalRouteAlgorithm.m */,
 				7B2F652F289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.h */,

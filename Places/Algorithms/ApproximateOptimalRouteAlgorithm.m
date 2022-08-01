@@ -9,4 +9,9 @@
 
 @implementation ApproximateOptimalRouteAlgorithm
 
+- (Route *)optimalRouteForPlacesToVisit:(NSArray<Place *> *)places
+                             withValues:(NSDictionary<PlaceTuple *, NSNumber *> *)values {
+    
+}
+
 @end

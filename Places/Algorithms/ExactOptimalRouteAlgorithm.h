@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ExactOptimalRouteAlgorithm : NSObject
+@interface ExactOptimalRouteAlgorithm : NSObject <OptimalRouteAlgorithm>
 
 @end
 
