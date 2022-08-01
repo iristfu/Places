@@ -35,6 +35,7 @@
 		7B2F65272898465D000C3D9C /* PlaceTuple.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F65262898465D000C3D9C /* PlaceTuple.m */; };
 		7B2F652E28984796000C3D9C /* ExactOptimalRouteAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F652D28984796000C3D9C /* ExactOptimalRouteAlgorithm.m */; };
 		7B2F6531289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F6530289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m */; };
+		7B2F653528985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F653428985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m */; };
 		7B39FC19288797A5002D3607 /* ItineraryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */; };
 		7B39FC1C288A315D002D3607 /* ActivityHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC1B288A315D002D3607 /* ActivityHistoryViewController.m */; };
 		7B39FC1F288F03F7002D3607 /* ShortestRouteMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC1E288F03F7002D3607 /* ShortestRouteMapViewController.m */; };
@@ -114,6 +115,8 @@
 		7B2F652F289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApproximateOptimalRouteAlgorithm.h; sourceTree = "<group>"; };
 		7B2F6530289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApproximateOptimalRouteAlgorithm.m; sourceTree = "<group>"; };
 		7B2F653228984E8E000C3D9C /* OptimalRouteAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptimalRouteAlgorithm.h; sourceTree = "<group>"; };
+		7B2F653328985BF1000C3D9C /* OptimalRouteAlgorithmFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptimalRouteAlgorithmFactory.h; sourceTree = "<group>"; };
+		7B2F653428985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptimalRouteAlgorithmFactory.m; sourceTree = "<group>"; };
 		7B39FC17288797A5002D3607 /* ItineraryDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItineraryDetailViewController.h; sourceTree = "<group>"; };
 		7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItineraryDetailViewController.m; sourceTree = "<group>"; };
 		7B39FC1A288A315D002D3607 /* ActivityHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityHistoryViewController.h; sourceTree = "<group>"; };
@@ -268,6 +271,8 @@
 			isa = PBXGroup;
 			children = (
 				7B2F653228984E8E000C3D9C /* OptimalRouteAlgorithm.h */,
+				7B2F653328985BF1000C3D9C /* OptimalRouteAlgorithmFactory.h */,
+				7B2F653428985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m */,
 				7B2F652C28984796000C3D9C /* ExactOptimalRouteAlgorithm.h */,
 				7B2F652D28984796000C3D9C /* ExactOptimalRouteAlgorithm.m */,
 				7B2F652F289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.h */,
@@ -599,6 +604,7 @@
 				7B2F65272898465D000C3D9C /* PlaceTuple.m in Sources */,
 				7B297EAD287CDB4700B5BCB4 /* Place.m in Sources */,
 				7B297EB32881325100B5BCB4 /* ItinerariesTableViewController.m in Sources */,
+				7B2F653528985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m in Sources */,
 				7B297E9E28789D2500B5BCB4 /* ProfileViewController.m in Sources */,
 				7B297EA5287C907E00B5BCB4 /* APIManager.m in Sources */,
 				7B297EA9287CD61800B5BCB4 /* PlaceTableViewCell.m in Sources */,
