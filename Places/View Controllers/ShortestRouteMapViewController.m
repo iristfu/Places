@@ -12,6 +12,7 @@
 #import "ItineraryDetailViewController.h"
 #import "OptimalRouteAlgorithm.h"
 #import "OptimalRouteAlgorithmFactory.h"
+#import "PlaceTuple.h"
 @import GoogleMaps;
 
 @interface ShortestRouteMapViewController ()
@@ -107,7 +108,7 @@
     self.mapView.camera = camera;
 }
 
-- (void)showCannotRouteAlert {
+- (void)showTooFewPlacesToGoAlert {
     UIAlertController *cannotRouteAlert = [UIAlertController alertControllerWithTitle:@"Uh oh"
                                                                                message:@"Cannot create a route with less than two places!"
                                                                         preferredStyle:(UIAlertControllerStyleAlert)];
@@ -119,16 +120,34 @@
     [self presentViewController:cannotRouteAlert animated:YES completion:^{}];
 }
 
-- (NSArray<NSSet*> *)getPairsOfPlaces {
+- (void)showTooManyPlacesToGoAlert {
+    NSLog(@"Could not load, showing alert");
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh oh"
+                                                                   message:@"Unfortunately, we can't route itineraries with more than 27 places to go"
+                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * _Nonnull action) {
+        [self.routeLoadingIndicator stopAnimating];
+    }];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{}];
+}
+
+
+- (NSMutableSet<PlaceTuple *> *)getPairsOfPlaces {
     NSArray *placesToGo = self.itinerary.placesToGo;
     NSInteger numPlacesToGo = placesToGo.count;
-    NSMutableArray *pairsOfPlaces = [[NSMutableArray alloc] init];
+    NSMutableSet *pairsOfPlaces = [[NSMutableSet alloc] init];
     
     for (int i = 0; i < numPlacesToGo; i++) {
         if (i + 1 < numPlacesToGo) {
             for (int j = i + 1; j < numPlacesToGo; j++) {
-                NSSet *newPair = [NSSet setWithObjects:placesToGo[i], placesToGo[j], nil];
-                [pairsOfPlaces addObject:newPair];
+                PlaceTuple *newPlaceTupleA = [[PlaceTuple alloc] initWithOrigin:placesToGo[i] andDestination:placesToGo[j]];
+                PlaceTuple *newPlaceTupleB = [[PlaceTuple alloc] initWithOrigin:placesToGo[j] andDestination:placesToGo[i]];
+//                NSSet *newPair = [NSSet setWithObjects:placesToGo[i], placesToGo[j], nil];
+                [pairsOfPlaces addObject:newPlaceTupleA];
+                [pairsOfPlaces addObject:newPlaceTupleB];
             }
         }
     }
@@ -136,12 +155,11 @@
 }
 
 
-- (void)getDurationsAndDistancesBetween:(NSArray *)pairsOfPlaces {
+- (void)getDurationsAndDistancesBetween:(NSMutableSet *)pairsOfPlaces {
     @autoreleasepool {
-        for (NSSet *pair in pairsOfPlaces) {
-            NSArray *pairAsArray = [pair allObjects];
-            Place *origin = pairAsArray[0];
-            Place *dest = pairAsArray[1];
+        for (PlaceTuple *pair in pairsOfPlaces) {
+            Place *origin = pair.origin;
+            Place *dest = pair.destination;
             origin.fetchIfNeeded;
             dest.fetchIfNeeded;
             NSString *originParam = [NSString stringWithFormat:@"place_id:%@", origin.placeID];
@@ -192,7 +210,7 @@
 
 - (void)getStartingWaypointsEndingParameters {
     // TODO: make pairs of places directional and conform to placetuple
-    NSArray *pairsOfPlaces = [self getPairsOfPlaces];
+    NSMutableSet *pairsOfPlaces = [self getPairsOfPlaces];
     NSLog(@"Got %lu pairsOfPlaces %@", (unsigned long)pairsOfPlaces.count, pairsOfPlaces);
     
     [self getDurationsAndDistancesBetween:pairsOfPlaces];
@@ -218,7 +236,7 @@
     } else {
         self.originParameter = nil;
         self.destinationParameter = nil;
-        [self showCannotRouteAlert];
+        [self showTooFewPlacesToGoAlert];
     }
     if (parameters.count > 0) {
         self.waypointsParameter = [parameters componentsJoinedByString:@"|"];
@@ -298,12 +316,12 @@
 - (void)configureMapView {
     [self configureCameraPosition];
     if (self.itinerary.placesToGo.count > 27) { // Google API cannot handle more than 25 waypoints
-        [self tooManyPlacesToGoAlert];
+        [self showTooManyPlacesToGoAlert];
     } else {
         [self getStartingWaypointsEndingParameters];
         [self requestRouteToDraw];
-        [self addMarkersForAllPlacesToGo]; // must come after getStartingWaypointsEndingParameters because that's where the ordering of places is determined
     }
+    [self addMarkersForAllPlacesToGo]; // must come after getStartingWaypointsEndingParameters because that's where the ordering of places is determined
 }
 
 - (void)viewDidLoad {
@@ -319,11 +337,13 @@
     self.markers = [[NSMutableArray alloc] init];
     self.distancesBetweenPlaces = [[NSMutableDictionary alloc] init];
     self.durationsBetweenPlaces = [[NSMutableDictionary alloc] init];
+    self.optimalRoute = self.itinerary.placesToGo; // just for initialization purposes
     self.selectedOptimizationCriteria = @"duration";
     self.selectedTravelMode = @"driving";
     [self configureOptimizedCriteriaButton];
     [self configureTravelModeButton];
     [self configureMapView];
+
 }
 
 - (IBAction)didTapDone:(id)sender {
@@ -390,18 +410,6 @@
     NSLog(@"Could not load, showing alert");
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh oh"
                                                                    message:@"Could not fetch the route from server"
-                                                            preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:^(UIAlertAction * _Nonnull action) {}];
-    [alert addAction:okAction];
-    [self presentViewController:alert animated:YES completion:^{}];
-}
-
-- (void)tooManyPlacesToGoAlert {
-    NSLog(@"Could not load, showing alert");
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh oh"
-                                                                   message:@"Unfortunately, we can't route itineraries with more than 27 places to go"
                                                             preferredStyle:(UIAlertControllerStyleAlert)];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
                                                        style:UIAlertActionStyleDefault
