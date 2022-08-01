@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Place.h"
+@class Place;
 
 @protocol OptimalRouteAlgorithm;
 
