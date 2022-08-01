@@ -10,6 +10,8 @@
 #import "Place.h"
 #import "UIImageView+AFNetworking.h"
 #import "ItineraryDetailViewController.h"
+#import "OptimalRouteAlgorithm.h"
+#import "OptimalRouteAlgorithmFactory.h"
 @import GoogleMaps;
 
 @interface ShortestRouteMapViewController ()
@@ -31,7 +33,7 @@
 @property (strong, nonatomic) NSMutableDictionary *durationsBetweenPlaces;
 @property (strong, nonatomic) NSMutableDictionary *distancesBetweenPlaces;
 
-@property (strong, nonatomic) NSArray *optimalOrderingOfPlacesToGo;
+@property (strong, nonatomic) Route *optimalRoute;
 
 @end
 
@@ -189,20 +191,22 @@
 }
 
 - (void)getStartingWaypointsEndingParameters {
+    // TODO: make pairs of places directional and conform to placetuple
     NSArray *pairsOfPlaces = [self getPairsOfPlaces];
     NSLog(@"Got %lu pairsOfPlaces %@", (unsigned long)pairsOfPlaces.count, pairsOfPlaces);
     
     [self getDurationsAndDistancesBetween:pairsOfPlaces];
     
     NSDate *methodStart = [NSDate date];
-//    self.optimalOrderingOfPlacesToGo = [self getOptimalPlacesToGoOrderingUsingBruteForce];
-    self.optimalOrderingOfPlacesToGo = [self getPlacesToGoOrderUsingApproximation];
+    id<OptimalRouteAlgorithm> algorithm = [[OptimalRouteAlgorithmFactory sharedInstance] optimalRouteAlgorithmForPlacesToVisit:self.itinerary.placesToGo];
+    NSDictionary<PlaceTuple *, NSNumber *> *values = [self.selectedOptimizationCriteria isEqual: @"duration"] ? self.durationsBetweenPlaces : self.distancesBetweenPlaces;
+    self.optimalRoute = [algorithm optimalRouteForPlacesToVisit:self.itinerary.placesToGo withValues:values];
     NSDate *methodFinish = [NSDate date];
     NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
     NSLog(@"executionTime = %f", executionTime);
     
-    NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:self.optimalOrderingOfPlacesToGo.count];
-    for (Place *place in self.optimalOrderingOfPlacesToGo) {
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithCapacity:self.optimalRoute.count];
+    for (Place *place in self.optimalRoute) {
         place.fetchIfNeeded;
         [parameters addObject:[NSString stringWithFormat:@"place_id:%@", place.placeID]];
     }
@@ -264,8 +268,8 @@
 }
 
 - (void)addMarkersForAllPlacesToGo {
-    for (NSInteger i=0; i < [self.optimalOrderingOfPlacesToGo count]; i++) {
-        Place *place = self.optimalOrderingOfPlacesToGo[i];
+    for (NSInteger i=0; i < [self.optimalRoute count]; i++) {
+        Place *place = self.optimalRoute[i];
         place.fetchIfNeeded;
         double lat = [place.lat doubleValue];
         double lng = [place.lng doubleValue];
@@ -293,9 +297,13 @@
 
 - (void)configureMapView {
     [self configureCameraPosition];
-    [self getStartingWaypointsEndingParameters];
-    [self requestRouteToDraw];
-    [self addMarkersForAllPlacesToGo]; // must come after getStartingWaypointsEndingParameters because that's where the ordering of places is determined
+    if (self.itinerary.placesToGo.count > 27) { // Google API cannot handle more than 25 waypoints
+        [self tooManyPlacesToGoAlert];
+    } else {
+        [self getStartingWaypointsEndingParameters];
+        [self requestRouteToDraw];
+        [self addMarkersForAllPlacesToGo]; // must come after getStartingWaypointsEndingParameters because that's where the ordering of places is determined
+    }
 }
 
 - (void)viewDidLoad {
@@ -382,6 +390,18 @@
     NSLog(@"Could not load, showing alert");
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh oh"
                                                                    message:@"Could not fetch the route from server"
+                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{}];
+}
+
+- (void)tooManyPlacesToGoAlert {
+    NSLog(@"Could not load, showing alert");
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh oh"
+                                                                   message:@"Unfortunately, we can't route itineraries with more than 27 places to go"
                                                             preferredStyle:(UIAlertControllerStyleAlert)];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
                                                        style:UIAlertActionStyleDefault
