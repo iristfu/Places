@@ -30,11 +30,8 @@
                 shortestRoute = route;
             }
         }
-//        self.durationsBetweenPlaces = nil;
-//        self.distancesBetweenPlaces = nil;
         NSLog(@"The shortest route is %@", shortestRoute);
-        // might need to release allPossibleRoutes somewhere here
-        return [shortestRoute mutableCopy]; 
+        return [shortestRoute mutableCopy];
     }
 }
 
@@ -65,7 +62,6 @@
 - (float)getValue:(NSArray *)route withValues:(NSDictionary<PlaceTuple *, NSNumber *> *)values {
     float totalValue = 0;
     for (int i = 0; i < route.count - 1; i++) {
-//        NSSet *pair = [NSSet setWithObjects:route[i], route[i+1], nil];
         PlaceTuple *placeTuple = [[PlaceTuple alloc] initWithOrigin:route[i] andDestination:route[i+1]];
         NSLog(@"One pair %@", placeTuple);
         NSNumber *value = values[placeTuple];

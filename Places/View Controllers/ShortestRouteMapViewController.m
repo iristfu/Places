@@ -31,8 +31,8 @@
 @property (strong, nonatomic) NSMutableArray *markers;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *routeLoadingIndicator;
 
-@property (strong, nonatomic) NSMutableDictionary *durationsBetweenPlaces;
-@property (strong, nonatomic) NSMutableDictionary *distancesBetweenPlaces;
+@property (strong, nonatomic) NSMutableDictionary<PlaceTuple *, NSNumber *> *durationsBetweenPlaces;
+@property (strong, nonatomic) NSMutableDictionary<PlaceTuple *, NSNumber *> *distancesBetweenPlaces;
 
 @property (strong, nonatomic) Route *optimalRoute;
 
@@ -145,7 +145,6 @@
             for (int j = i + 1; j < numPlacesToGo; j++) {
                 PlaceTuple *newPlaceTupleA = [[PlaceTuple alloc] initWithOrigin:placesToGo[i] andDestination:placesToGo[j]];
                 PlaceTuple *newPlaceTupleB = [[PlaceTuple alloc] initWithOrigin:placesToGo[j] andDestination:placesToGo[i]];
-//                NSSet *newPair = [NSSet setWithObjects:placesToGo[i], placesToGo[j], nil];
                 [pairsOfPlaces addObject:newPlaceTupleA];
                 [pairsOfPlaces addObject:newPlaceTupleB];
             }
@@ -166,33 +165,26 @@
             NSString *destParam = [NSString stringWithFormat:@"place_id:%@", dest.placeID];
             
             NSString *urlString = [NSString stringWithFormat: @"https://maps.googleapis.com/maps/api/distancematrix/json?destinations=%@&origins=%@&key=%@", destParam, originParam, @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
-//            NSLog(@"This is the distance matrix urlString %@", urlString);
             urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSURL *url = [NSURL URLWithString:urlString];
             
             __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
             [request setCompletionBlock:^{
                 NSError *error = [request error];
-                NSString *response = [request responseString];
-//                NSLog(@"%@",response);
                 NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
                 
-//                NSLog(@"This is json %@", json);
-                // check valid json
                 if ([self includesValidDistanceAndDuration:json]) {
                     NSNumber *duration = json[@"rows"][0][@"elements"][0][@"duration"][@"value"];
                     NSNumber *distance = json[@"rows"][0][@"elements"][0][@"distance"][@"value"];
-//                    NSLog(@"The duration is %@ and distance is %@", duration, distance);
-                    // store smaller values so when adding total value for a given route, no overflows occur
+                    // store smaller values so when adding total value for a given route, so no overflows occur
                     float durationToStore = [duration floatValue] / 1000;
                     float distanceToStore = [distance floatValue] / 1000;
-                    // Objective C seems to be able to use sets as keys in a dictionary?
                     [self.durationsBetweenPlaces setObject:[NSNumber numberWithFloat: durationToStore] forKey:pair];
                     [self.distancesBetweenPlaces setObject:[NSNumber numberWithFloat: distanceToStore] forKey:pair];
                 } else {
                     [self couldNotLoadRequestAlert];
                 }
-//                [self.routeLoadingIndicator stopAnimating];
+                [self.routeLoadingIndicator stopAnimating];
             }];
             [request setFailedBlock:^{
                 NSLog(@"error occured, %@", [request error]);
@@ -201,10 +193,6 @@
             }];
             [request startSynchronous];
         }
-        // might have to release pairsOfPlaces here
-//        NSLog(@"Got durations between places dictionary with %lu entries: %@", (unsigned long)self.durationsBetweenPlaces.count, self.durationsBetweenPlaces);
-//        NSLog(@"Got distances between places dictionary with %lu entires: %@", (unsigned long)self.distancesBetweenPlaces.count, self.distancesBetweenPlaces);
-//
     }
 }
 
@@ -266,11 +254,8 @@
                                self.selectedTravelMode,
                                @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
     }
-//    NSLog(@"This is the urlString %@", urlString);
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *directionsURL = [NSURL URLWithString:urlString];
-//    NSLog(@"This is the request url %@", directionsURL);
-    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:directionsURL];
     [request setDelegate:self];
     [request startAsynchronous];
@@ -321,7 +306,8 @@
         [self getStartingWaypointsEndingParameters];
         [self requestRouteToDraw];
     }
-    [self addMarkersForAllPlacesToGo]; // must come after getStartingWaypointsEndingParameters because that's where the ordering of places is determined
+    // for itineraries with over 27 places to go, add markers with no optimized route
+    [self addMarkersForAllPlacesToGo];
 }
 
 - (void)viewDidLoad {
@@ -332,7 +318,6 @@
 // called after viewDidLoad
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"In view will Appear");
     
     self.markers = [[NSMutableArray alloc] init];
     self.distancesBetweenPlaces = [[NSMutableDictionary alloc] init];
@@ -424,8 +409,6 @@
     NSLog(@"%@",response);
     NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
     
-//    NSLog(@"This is json %@", json);
-    // check valid json
     if ([self includesValidPath:json]) {
         GMSPath *path =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
         GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];

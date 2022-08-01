@@ -31,7 +31,6 @@
             placeFrom = nextPlace;
             NSInteger closestPlaceValue = [closestPlaceInfo[1] integerValue];
             totalValue += closestPlaceValue;
-            
         }
         if (totalValue < smallestValue) {
             smallestValue = totalValue;
@@ -48,7 +47,6 @@
     Place *closestPlace;
     
     for (Place *potentialPlace in unvisited) {
-//        NSSet *pair = [NSSet setWithObjects:placeFrom, potentialPlace, nil];
         PlaceTuple *placeTuple = [[PlaceTuple alloc] initWithOrigin:placeFrom andDestination:potentialPlace];
         NSInteger value = [values[placeTuple] integerValue];
         if (value < smallestValue) {
@@ -56,8 +54,7 @@
             closestPlace = potentialPlace;
         }
     }
-    NSArray *closestInfo = [NSArray arrayWithObjects:closestPlace,[NSNumber numberWithInteger: smallestValue],nil];
-//    NSLog(@"closest place info %@", closestInfo);
+    NSArray *closestInfo = [NSArray arrayWithObjects:closestPlace, [NSNumber numberWithInteger: smallestValue], nil];
     return closestInfo;
 }
 
