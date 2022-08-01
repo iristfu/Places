@@ -188,54 +188,6 @@
     }
 }
 
-
-- (NSArray *)getClosest:(Place *)placeFrom toPlaces:(NSSet<Place *> *)unvisited {
-    NSInteger smallestValue = INT_MAX;
-    Place *closestPlace;
-    
-    for (Place *potentialPlace in unvisited) {
-        NSSet *pair = [NSSet setWithObjects:placeFrom, potentialPlace, nil];
-        NSInteger value = [[self.selectedOptimizationCriteria  isEqual: @"duration"] ? self.durationsBetweenPlaces[pair] : self.distancesBetweenPlaces[pair] integerValue];
-        if (value < smallestValue) {
-            smallestValue = value;
-            closestPlace = potentialPlace;
-        }
-    }
-    NSArray *closestInfo = [NSArray arrayWithObjects:closestPlace,[NSNumber numberWithInt: smallestValue],nil];
-//    NSLog(@"closest place info %@", closestInfo);
-    return closestInfo;
-}
-
-typedef NSMutableArray<Place *> Route;
-
-- (NSArray *)getPlacesToGoOrderUsingApproximation {
-    NSInteger smallestValue = INT_MAX;
-    Route *shortestRoute = [[NSMutableArray alloc]init];
-    for (Place *startingPlace in self.itinerary.placesToGo)  {
-        NSInteger totalValue = 0;
-        NSMutableSet<Place *> *unvisited = [NSMutableSet setWithArray:self.itinerary.placesToGo];
-        [unvisited removeObject:startingPlace];
-        Route *route = [[NSMutableArray alloc]initWithObjects:startingPlace, nil];
-        Place *placeFrom = startingPlace;
-        
-        while ([unvisited count] != 0) {
-            NSArray *closestPlaceInfo = [self getClosest:placeFrom toPlaces:unvisited];
-            Place *nextPlace = closestPlaceInfo[0];
-            [route addObject:nextPlace];
-            [unvisited removeObject:nextPlace];
-            placeFrom = nextPlace;
-            NSInteger closestPlaceValue = [closestPlaceInfo[1] integerValue];
-            totalValue += closestPlaceValue;
-            
-        }
-        if (totalValue < smallestValue) {
-            smallestValue = totalValue;
-            shortestRoute = route;
-        }
-    }
-    return shortestRoute;
-}
-
 - (void)getStartingWaypointsEndingParameters {
     NSArray *pairsOfPlaces = [self getPairsOfPlaces];
     NSLog(@"Got %lu pairsOfPlaces %@", (unsigned long)pairsOfPlaces.count, pairsOfPlaces);
