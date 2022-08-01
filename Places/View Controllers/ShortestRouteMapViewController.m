@@ -9,6 +9,7 @@
 #import "ASIHTTPRequest.h"
 #import "Place.h"
 #import "UIImageView+AFNetworking.h"
+#import "ItineraryDetailViewController.h"
 @import GoogleMaps;
 
 @interface ShortestRouteMapViewController ()
@@ -94,7 +95,7 @@
 - (void)configureCameraPosition {
     Place *firstPlaceToGo = self.itinerary.placesToGo[0];
     firstPlaceToGo.fetchIfNeeded;
-    NSLog(@"This is the first place to go %@", firstPlaceToGo);
+//    NSLog(@"This is the first place to go %@", firstPlaceToGo);
     double lat = [firstPlaceToGo.lat doubleValue];
     double lng = [firstPlaceToGo.lng doubleValue];
     NSLog(@"lat: %f lng: %f", lat, lng);
@@ -145,7 +146,7 @@
             NSString *destParam = [NSString stringWithFormat:@"place_id:%@", dest.placeID];
             
             NSString *urlString = [NSString stringWithFormat: @"https://maps.googleapis.com/maps/api/distancematrix/json?destinations=%@&origins=%@&key=%@", destParam, originParam, @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
-            NSLog(@"This is the distance matrix urlString %@", urlString);
+//            NSLog(@"This is the distance matrix urlString %@", urlString);
             urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSURL *url = [NSURL URLWithString:urlString];
             
@@ -153,15 +154,15 @@
             [request setCompletionBlock:^{
                 NSError *error = [request error];
                 NSString *response = [request responseString];
-                NSLog(@"%@",response);
+//                NSLog(@"%@",response);
                 NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
                 
-                NSLog(@"This is json %@", json);
+//                NSLog(@"This is json %@", json);
                 // check valid json
                 if ([self includesValidDistanceAndDuration:json]) {
                     NSNumber *duration = json[@"rows"][0][@"elements"][0][@"duration"][@"value"];
                     NSNumber *distance = json[@"rows"][0][@"elements"][0][@"distance"][@"value"];
-                    NSLog(@"The duration is %@ and distance is %@", duration, distance);
+//                    NSLog(@"The duration is %@ and distance is %@", duration, distance);
                     // store smaller values so when adding total value for a given route, no overflows occur
                     float durationToStore = [duration floatValue] / 1000;
                     float distanceToStore = [distance floatValue] / 1000;
@@ -354,10 +355,10 @@ typedef NSMutableArray<Place *> Route;
                                self.selectedTravelMode,
                                @"AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE"];
     }
-    NSLog(@"This is the urlString %@", urlString);
+//    NSLog(@"This is the urlString %@", urlString);
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *directionsURL = [NSURL URLWithString:urlString];
-    NSLog(@"This is the request url %@", directionsURL);
+//    NSLog(@"This is the request url %@", directionsURL);
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:directionsURL];
     [request setDelegate:self];
@@ -430,6 +431,7 @@ typedef NSMutableArray<Place *> Route;
 
 - (IBAction)didTapDone:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
+    [self.delegate stopLoadingIndicator];
 }
 
 # pragma mark - ASIHTTPRequest
@@ -505,7 +507,7 @@ typedef NSMutableArray<Place *> Route;
     NSLog(@"%@",response);
     NSDictionary *json =[NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:&error];
     
-    NSLog(@"This is json %@", json);
+//    NSLog(@"This is json %@", json);
     // check valid json
     if ([self includesValidPath:json]) {
         GMSPath *path =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];

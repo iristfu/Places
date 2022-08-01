@@ -12,13 +12,14 @@
 #import "ActivityHistoryViewController.h"
 #import "ShortestRouteMapViewController.h"
 
-@interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource, MapShortestRouteDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *itineraryDatesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *transportationDetailsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lodgingDetailsLabel;
 @property (weak, nonatomic) IBOutlet UITableView *placesToGoTableView;
 - (IBAction)didTapShare:(id)sender;
+
 
 @end
 
@@ -27,6 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.mapLoadingIndicator.hidden = YES;
+    self.mapLoadingIndicator.hidesWhenStopped = YES;
     self.itinerary.fetchIfNeeded;
     
     self.itineraryNameLabel.text = self.itinerary[@"name"];
@@ -152,10 +155,20 @@
         activityHistoryViewController.itinerary = self.itinerary;
     } else if ([[segue identifier] isEqualToString:@"ShortestRouteMapSegue"]) {
         NSLog(@"Preparing for ShortestRouteMapSegue");
+        self.mapLoadingIndicator.hidden = NO;
+        [self.mapLoadingIndicator startAnimating];
         UINavigationController *navigationController = [segue destinationViewController];
         ShortestRouteMapViewController *shortestRouteMapViewController = (ShortestRouteMapViewController *)navigationController.topViewController;
         shortestRouteMapViewController.itinerary = self.itinerary;
+        shortestRouteMapViewController.delegate = self;
     }
 }
+
+- (void)stopLoadingIndicator {
+    NSLog(@"stopLoadingIndicator called");
+    [self.mapLoadingIndicator stopAnimating];
+    self.mapLoadingIndicator.hidden = YES;
+}
+
 
 @end

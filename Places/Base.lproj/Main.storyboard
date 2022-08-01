@@ -671,11 +671,15 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="KJn-Ul-xlV">
+                                <rect key="frame" x="188.5" y="416" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ki7-Mw-El8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vwr-IP-LBK" firstAttribute="centerX" secondItem="ki7-Mw-El8" secondAttribute="centerX" id="3fb-UJ-vzf"/>
+                            <constraint firstItem="KJn-Ul-xlV" firstAttribute="centerY" secondItem="ki7-Mw-El8" secondAttribute="centerY" id="4u4-TG-ErO"/>
                             <constraint firstItem="iYo-vi-myU" firstAttribute="top" secondItem="I6j-Hu-iK0" secondAttribute="bottom" constant="20" id="7RU-EF-NlP"/>
                             <constraint firstItem="ki7-Mw-El8" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="I6j-Hu-iK0" secondAttribute="trailing" constant="10" id="8mP-dQ-hvU"/>
                             <constraint firstItem="Epi-nC-QzM" firstAttribute="top" secondItem="kM7-WP-U3k" secondAttribute="bottom" constant="5" id="8rW-Df-Za5"/>
@@ -696,6 +700,7 @@
                             <constraint firstItem="ki7-Mw-El8" firstAttribute="trailing" secondItem="1Ve-Io-yvJ" secondAttribute="trailing" constant="10" id="tL6-9B-DoW"/>
                             <constraint firstItem="1Ve-Io-yvJ" firstAttribute="leading" secondItem="ki7-Mw-El8" secondAttribute="leading" constant="10" id="v49-qy-fAd"/>
                             <constraint firstItem="ki7-Mw-El8" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kM7-WP-U3k" secondAttribute="trailing" constant="20" id="wIM-ew-52t"/>
+                            <constraint firstItem="KJn-Ul-xlV" firstAttribute="centerX" secondItem="ki7-Mw-El8" secondAttribute="centerX" id="yPA-uA-0CK"/>
                             <constraint firstItem="ed2-R0-cYs" firstAttribute="leading" secondItem="kM7-WP-U3k" secondAttribute="leading" id="z45-et-Qgd"/>
                             <constraint firstItem="iYo-vi-myU" firstAttribute="leading" secondItem="ed2-R0-cYs" secondAttribute="leading" id="zT2-AQ-grG"/>
                         </constraints>
@@ -723,6 +728,7 @@
                         <outlet property="itineraryDatesLabel" destination="IuP-Bh-diN" id="IWU-Qw-r3S"/>
                         <outlet property="itineraryNameLabel" destination="vwr-IP-LBK" id="Em3-ie-J42"/>
                         <outlet property="lodgingDetailsLabel" destination="I6j-Hu-iK0" id="klR-nz-pam"/>
+                        <outlet property="mapLoadingIndicator" destination="KJn-Ul-xlV" id="kvN-jf-FIL"/>
                         <outlet property="placesToGoTableView" destination="1Ve-Io-yvJ" id="uCT-WP-D6c"/>
                         <outlet property="transportationDetailsLabel" destination="Epi-nC-QzM" id="ipD-IF-6wt"/>
                     </connections>

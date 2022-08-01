@@ -10,8 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ShortestRouteMapViewController : UIViewController
+@protocol MapShortestRouteDelegate
 
+- (void)stopLoadingIndicator;
+
+@end
+
+
+@interface ShortestRouteMapViewController : UIViewController
+@property (nonatomic, weak) id<MapShortestRouteDelegate> delegate;
 @property (strong, nonatomic, nullable) Itinerary *itinerary;
 
 @end
