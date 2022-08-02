@@ -21,6 +21,8 @@
 - (IBAction)didTapClose:(id)sender;
 - (IBAction)didTapDone:(id)sender;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *creatingNewItineraryIndicator;
+- (IBAction)didTapEdit:(id)sender;
+
 
 
 @end
@@ -228,4 +230,6 @@
 
 
 
+- (IBAction)didTapEdit:(id)sender {
+}
 @end

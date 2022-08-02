@@ -955,6 +955,14 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="SwT-XB-9xo">
                                 <rect key="frame" x="188.5" y="430.5" width="37" height="37"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yp2-ju-dod">
+                                <rect key="frame" x="306" y="449" width="49" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Edit"/>
+                                <connections>
+                                    <action selector="didTapEdit:" destination="G67-Q5-rUM" eventType="touchUpInside" id="OJI-I9-LCl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="S3C-z6-xRB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -966,9 +974,11 @@
                             <constraint firstItem="S3C-z6-xRB" firstAttribute="trailing" secondItem="eYG-pn-GOQ" secondAttribute="trailing" id="CRa-Hv-wIv"/>
                             <constraint firstItem="S3C-z6-xRB" firstAttribute="bottom" secondItem="eYG-pn-GOQ" secondAttribute="bottom" id="DOG-qR-SXR"/>
                             <constraint firstItem="EEB-qG-VD7" firstAttribute="leading" secondItem="fO7-T4-2ny" secondAttribute="leading" id="EIB-i5-6Qd"/>
+                            <constraint firstItem="Yp2-ju-dod" firstAttribute="centerY" secondItem="IFj-5Y-7aq" secondAttribute="centerY" id="FJp-Vy-3yX"/>
                             <constraint firstItem="fO7-T4-2ny" firstAttribute="leading" secondItem="H0U-f4-muN" secondAttribute="leading" id="JFB-TN-RWU"/>
                             <constraint firstItem="eYG-pn-GOQ" firstAttribute="leading" secondItem="S3C-z6-xRB" secondAttribute="leading" id="JLf-vF-gCv"/>
                             <constraint firstItem="fO7-T4-2ny" firstAttribute="trailing" secondItem="H0U-f4-muN" secondAttribute="trailing" id="JUi-QS-GKO"/>
+                            <constraint firstItem="IFj-5Y-7aq" firstAttribute="leading" secondItem="Yp2-ju-dod" secondAttribute="trailing" constant="5" id="Kzx-mc-HOc"/>
                             <constraint firstItem="pcY-YA-1fD" firstAttribute="leading" secondItem="jUx-LA-yn0" secondAttribute="leading" id="N9P-pY-uqQ"/>
                             <constraint firstItem="hWn-Uy-jiu" firstAttribute="top" secondItem="m8y-yo-ww8" secondAttribute="bottom" constant="20" id="NE7-hA-qMx"/>
                             <constraint firstItem="hWn-Uy-jiu" firstAttribute="leading" secondItem="jUx-LA-yn0" secondAttribute="leading" id="OMb-ph-D7n"/>
