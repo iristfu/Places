@@ -185,9 +185,9 @@
 - (void)finishedAddingPlacesToGo:(nonnull NSArray *)placesToGo {
     NSLog(@"finishedAddingPlacesToGo method executing");
     if (self.itinerary.placesToGo) {
-        self.itinerary.placesToGo = [self.itinerary.placesToGo arrayByAddingObjectsFromArray:placesToGo];
+        [self.itinerary.placesToGo addObject:placesToGo];
     } else {
-        self.itinerary.placesToGo = placesToGo;
+        self.itinerary.placesToGo = [placesToGo mutableCopy];
     }
     [self.placesToGoTableView reloadData];
 }
@@ -224,7 +224,6 @@
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // QUESTION: Why is this becoming 0? 
     NSLog(@"places to go count is %lu", (unsigned long)self.itinerary.placesToGo.count);
     return self.itinerary.placesToGo.count;
 }
