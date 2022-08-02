@@ -707,6 +707,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="lAx-0t-LCy">
                         <rightBarButtonItems>
+                            <barButtonItem title="Edit" id="epF-jr-abn">
+                                <connections>
+                                    <segue destination="UrR-5c-aj0" kind="presentation" identifier="EditItinerarySegue" id="hiJ-s2-rp9"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="eyes" catalog="system" id="uup-hF-KoT">
                                 <connections>
                                     <segue destination="p22-jp-3nr" kind="presentation" identifier="ActivityHistorySegue" id="f77-Lg-oDB"/>
@@ -741,6 +746,7 @@
         <scene sceneID="IqS-LU-a4C">
             <objects>
                 <navigationController id="UrR-5c-aj0" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="WzO-7i-NCk"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8eS-pI-tB1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -751,7 +757,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zHr-HD-wwS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1296" y="3200"/>
+            <point key="canvasLocation" x="1316" y="3319"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9fP-WK-ZQq">
@@ -767,7 +773,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dx7-rz-Hba" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2129" y="3200"/>
+            <point key="canvasLocation" x="2129" y="3319"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="D9k-7U-nUB">
@@ -783,7 +789,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZdT-FJ-qcC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2922" y="3200"/>
+            <point key="canvasLocation" x="2922" y="3319"/>
         </scene>
         <!--Compose Itinerary View Controller-->
         <scene sceneID="jdr-Av-g1a">
@@ -1012,7 +1018,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pla-w1-Hzb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1295.6521739130435" y="3908.7053571428569"/>
+            <point key="canvasLocation" x="1296" y="4031"/>
         </scene>
         <!--Activity History-->
         <scene sceneID="e1v-ui-Mws">
@@ -1085,7 +1091,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UDF-FG-jzY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2128.985507246377" y="3908.7053571428569"/>
+            <point key="canvasLocation" x="2129" y="4031"/>
         </scene>
         <!--Map Shortest Route-->
         <scene sceneID="eG1-9c-LaF">
@@ -1188,7 +1194,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fjf-28-MQN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2921.739130434783" y="3908.7053571428569"/>
+            <point key="canvasLocation" x="2922" y="4031"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E5d-r0-0aV">
@@ -1278,6 +1284,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="hiJ-s2-rp9"/>
         <segue reference="4U7-ob-Tl9"/>
         <segue reference="jge-a7-93w"/>
     </inferredMetricsTieBreakers>

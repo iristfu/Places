@@ -23,8 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *creatingNewItineraryIndicator;
 
 
-@property (strong, nonatomic) Itinerary *itinerary;
-
 @end
 
 @implementation ComposeItineraryViewController
@@ -32,6 +30,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"loaded compose view controller");
+    
+    if (self.editingMode) {
+//        [self showExistingItineraryDetails];
+    }
     
     self.placesToGoTableView.dataSource = self;
     self.placesToGoTableView.delegate = self;

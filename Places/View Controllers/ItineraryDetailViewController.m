@@ -11,6 +11,7 @@
 #import "Place.h"
 #import "ActivityHistoryViewController.h"
 #import "ShortestRouteMapViewController.h"
+#import "ComposeItineraryViewController.h"
 
 @interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource, MapShortestRouteDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
@@ -141,6 +142,7 @@
     return self.itinerary.placesToGo.count;
 }
 
+
 - (IBAction)didTapShare:(id)sender {
     [self shareItinerary];
 }
@@ -148,6 +150,7 @@
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"Got segue %@", [segue identifier]);
     if ([[segue identifier] isEqualToString:@"ActivityHistorySegue"]) {
         NSLog(@"Preparing for ActivityHistorySegue");
         UINavigationController *navigationController = [segue destinationViewController];
@@ -161,6 +164,13 @@
         ShortestRouteMapViewController *shortestRouteMapViewController = (ShortestRouteMapViewController *)navigationController.topViewController;
         shortestRouteMapViewController.itinerary = self.itinerary;
         shortestRouteMapViewController.delegate = self;
+    } else if ([[segue identifier] isEqualToString:@"EditItinerarySegue"]) {
+        NSLog(@"Preparing for EditItinerarySegue");
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeItineraryViewController *composeItineraryViewController = (ComposeItineraryViewController *)navigationController.topViewController;
+        composeItineraryViewController.delegate = self; // TODO: figure this out
+        composeItineraryViewController.editingMode = YES;
+        composeItineraryViewController.itinerary = self.itinerary;
     }
 }
 
