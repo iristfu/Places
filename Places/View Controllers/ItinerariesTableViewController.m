@@ -91,8 +91,12 @@
 - (void)didComposeItinerary:(Itinerary *)itinerary {
     NSLog(@"did compose itinerary called with %@", itinerary);
     [self.itinerariesToDisplay insertObject:itinerary atIndex:0]; // newly created itineraries show up at the top of the page
-//    [self.itinerariesTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
     NSLog(@"itineraries to display is now %@", self.itinerariesToDisplay);
+    [self.itinerariesTableView reloadData];
+}
+
+- (void)didUpdateItinerary:(Itinerary *)itinerary {
+    NSLog(@"did update itinerary called with %@", itinerary);
     [self.itinerariesTableView reloadData];
 }
 

@@ -13,7 +13,7 @@
 #import "ShortestRouteMapViewController.h"
 #import "ComposeItineraryViewController.h"
 
-@interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource, MapShortestRouteDelegate>
+@interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource, MapShortestRouteDelegate, EditItineraryViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *itineraryDatesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *transportationDetailsLabel;
@@ -31,7 +31,6 @@
     
     self.mapLoadingIndicator.hidden = YES;
     self.mapLoadingIndicator.hidesWhenStopped = YES;
-    self.itinerary.fetchIfNeeded;
     
     self.itineraryNameLabel.text = self.itinerary[@"name"];
     self.itineraryDatesLabel.text = [NSString stringWithFormat:@"%@ - %@", self.itinerary[@"startDate"], self.itinerary[@"endDate"]];
@@ -47,10 +46,13 @@
     newViewActivity.user = [PFUser currentUser];
     newViewActivity.timestamp = [NSDate date];
     [newViewActivity save];
-    
     self.itinerary.activityHistory = [self.itinerary.activityHistory arrayByAddingObject:newViewActivity];
     NSLog(@"Updated itinerary activity history: %@", self.itinerary.activityHistory);
     [self.itinerary saveInBackground];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
@@ -131,7 +133,7 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     PlaceTableViewCell *placeCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
-    NSLog(@"In Itinerary Detail View Controller - Dequed a placeCell to set up");
+    NSLog(@"In Itinerary Detail View Controller tableview should have %lu places to go", self.itinerary.placesToGo.count);
     Place *placeToGo = self.itinerary.placesToGo[indexPath.row];
     [self setAttributesOfPlaceCell:placeToGo placeTableViewCell:placeCell];
     NSLog(@"Finished setting up attributes of place cell");
@@ -168,7 +170,7 @@
         NSLog(@"Preparing for EditItinerarySegue");
         UINavigationController *navigationController = [segue destinationViewController];
         ComposeItineraryViewController *composeItineraryViewController = (ComposeItineraryViewController *)navigationController.topViewController;
-        composeItineraryViewController.delegate = self; // TODO: figure this out
+        composeItineraryViewController.editDelegate = self;
         composeItineraryViewController.editingMode = YES;
         composeItineraryViewController.itinerary = self.itinerary;
     }
@@ -178,6 +180,19 @@
     NSLog(@"stopLoadingIndicator called");
     [self.mapLoadingIndicator stopAnimating];
     self.mapLoadingIndicator.hidden = YES;
+}
+
+
+- (void)didEditItinerary:(nonnull Itinerary *)itinerary {
+    NSLog(@"In didEditItinerary with itinerary %@", itinerary);
+    NSLog(@"The itinerary we're showing updated details for has %lu places to go and is called %@", self.itinerary.placesToGo.count, self.itinerary.name);
+    
+    self.itineraryNameLabel.text = self.itinerary[@"name"];
+    self.itineraryDatesLabel.text = [NSString stringWithFormat:@"%@ - %@", self.itinerary[@"startDate"], self.itinerary[@"endDate"]];
+    self.transportationDetailsLabel.text = self.itinerary[@"travelDetails"];
+    self.lodgingDetailsLabel.text = self.itinerary[@"lodgingDetails"];
+    [self.placesToGoTableView reloadData];
+
 }
 
 

@@ -17,8 +17,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol EditItineraryViewControllerDelegate
+
+- (void)didEditItinerary:(Itinerary *)itinerary;
+
+@end
+
 @interface ComposeItineraryViewController : UIViewController
 @property (nonatomic, weak) id<ComposeItineraryViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<EditItineraryViewControllerDelegate> editDelegate;
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic) BOOL editingMode;
 @property (strong, nonatomic) Itinerary *itinerary;

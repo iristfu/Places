@@ -54,6 +54,14 @@
     }
 }
 
+//- (void)viewWillDisappear:(BOOL)animated {
+//    NSLog(@"viewWillDisappear called");
+//    [super viewWillDisappear:animated];
+//    NSLog(@"The presenting view controller is %@", self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2]);
+//
+//    self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2].loadView;
+//}
+
 - (void)didTapAnywhere:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
 }
@@ -72,8 +80,6 @@
 }
 
 - (void)showExistingItineraryDetails {
-    self.itinerary.fetchIfNeeded;
-    
     self.itineraryName.text = self.itinerary.name;
     self.travelDetails.text = self.itinerary.travelDetails;
     self.lodgingDetails.text = self.itinerary.lodgingDetails;
@@ -128,6 +134,43 @@
     NSLog(@"Created new Itinerary for %@", self.itineraryName.text);
 }
 
+- (void)updateItineraryInParse {
+    NSLog(@"updateItineraryInParse called");
+    self.itinerary.name = self.itineraryName.text;
+    self.itinerary.travelDetails = self.travelDetails.text;
+    self.itinerary.lodgingDetails = self.lodgingDetails.text;
+    
+    // set dates
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    self.itinerary.startDate = [dateFormatter stringFromDate:[self.startDatePicker date]]; // Jan 2, 2001
+    self.itinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
+    
+    // set image
+    if (self.itinerary.placesToGo) {
+        NSLog(@"There are placesToGo for this itinerary filled out");
+        [self setItineraryImageToBeFirstImageOfFirstPlaceToGo];
+    }
+    
+    // set places to go
+    [self.itinerary setObject:self.itinerary.placesToGo forKey:@"placesToGo"];
+    [self.itinerary save];
+    
+    // set activity history
+    Activity *creationActivity = [Activity new];
+    creationActivity.activityType = @"Edited";
+    creationActivity.user = [PFUser currentUser];;
+    creationActivity.timestamp = [NSDate date];
+    [creationActivity save];
+    self.itinerary.activityHistory = [NSArray arrayWithObject:creationActivity];
+    NSLog(@"activityHistory updated with new creation activity %@", self.itinerary.activityHistory);
+    
+    [self.itinerary save]; // saveInBackground produces an error sometimes
+    NSLog(@"Updated Itinerary for %@ and it now has %lu places to go", self.itineraryName.text, self.itinerary.placesToGo.count);
+}
+
 - (void)addItineraryForCurrentUser:(Itinerary *)newItinerary {
     PFUser *currentUser = [PFUser currentUser];
     [currentUser addObject:newItinerary forKey:@"itineraries"];
@@ -154,15 +197,20 @@
 - (IBAction)didTapDone:(id)sender {
     self.creatingNewItineraryIndicator.hidden = NO;
     [self.creatingNewItineraryIndicator startAnimating];
-    // Create new Itinerary Parse object
-    [self createNewItineraryInParse];
-    NSLog(@"Made it past createNewItineraryInParse");
     
-    // Add Itinerary to User[@"itineraries"]
-    [self addItineraryForCurrentUser:self.itinerary];
-    
+    if (self.editingMode) {
+        [self updateItineraryInParse];
+        NSLog(@"About to call didEditItinerary on %@", self.itinerary);
+        [self.editDelegate didEditItinerary:self.itinerary];
+    } else {
+        // Create new Itinerary Parse object
+        [self createNewItineraryInParse];
+
+        // Add Itinerary to User[@"itineraries"]
+        [self addItineraryForCurrentUser:self.itinerary];
+        [self.delegate didComposeItinerary:self.itinerary];
+    }
     [self.creatingNewItineraryIndicator stopAnimating];
-    [self.delegate didComposeItinerary:self.itinerary];
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
@@ -185,9 +233,14 @@
 - (void)finishedAddingPlacesToGo:(nonnull NSArray *)placesToGo {
     NSLog(@"finishedAddingPlacesToGo method executing");
     if (self.itinerary.placesToGo) {
-        [self.itinerary.placesToGo addObject:placesToGo];
+        [self.itinerary.placesToGo addObjectsFromArray:placesToGo];
     } else {
         self.itinerary.placesToGo = [placesToGo mutableCopy];
+    }
+    if (self.editingMode) {
+        [self.itinerary setObject:self.itinerary.placesToGo forKey:@"placesToGo"];
+        [self.itinerary save];
+        NSLog(@"Just saved itinerary after getting new places to go and it now has %lu places to go", (unsigned long)self.itinerary.placesToGo.count);
     }
     [self.placesToGoTableView reloadData];
 }
@@ -199,6 +252,7 @@
 #pragma mark - places to go table view
 
 - (void)setAttributesOfPlaceCell:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
+    NSLog(@"Setting attributes for %@", place);
     place.fetchIfNeeded;
     placeTableViewCell.placeName.text = place[@"name"];
     NSLog(@"Setting places to go cell for %@ and the whole place dict is %@", place[@"name"], place);
@@ -216,8 +270,8 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     PlaceTableViewCell *placeCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
-    NSLog(@"For placesToGoTableView of %@, dequed a placeCell to set up", self.itinerary.name);
-    NSDictionary *placeToGo = self.itinerary.placesToGo[indexPath.row];
+    NSLog(@"For placesToGoTableView of %@ with %lu places to go, dequed a placeCell to set up", self.itinerary.name, self.itinerary.placesToGo.count);
+    Place *placeToGo = self.itinerary.placesToGo[indexPath.row];
     [self setAttributesOfPlaceCell:placeToGo placeTableViewCell:placeCell];
 
     return placeCell;
