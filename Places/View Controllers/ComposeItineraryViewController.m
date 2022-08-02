@@ -22,7 +22,8 @@
 - (IBAction)didTapDone:(id)sender;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *creatingNewItineraryIndicator;
 - (IBAction)didTapEdit:(id)sender;
-
+@property (nonatomic, getter=isEditing) BOOL editing;
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated;
 
 
 @end
@@ -228,8 +229,23 @@
     return self.itinerary.placesToGo.count;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+   if (editingStyle == UITableViewCellEditingStyleDelete) {
+      [self.itinerary.placesToGo removeObjectAtIndex:[indexPath row]];
+      [tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+   }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
+}
 
 
 - (IBAction)didTapEdit:(id)sender {
+    UITableView *tableView = [self placesToGoTableView];
+    [tableView setEditing:![tableView isEditing] animated:YES];
+    [sender setTitle:([tableView isEditing]) ? @"Done" : @"Edit" forState:UIControlStateNormal];
 }
+
 @end

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *endDate;
 @property (nonatomic, strong) NSString *lodgingDetails;
 @property (nonatomic, strong) NSString *travelDetails;
-@property (nonatomic, strong) NSArray *placesToGo;
+@property (nonatomic, strong) NSMutableArray *placesToGo;
 @property (nonatomic, strong) NSNumber *estimatedCost;
 @property (nonatomic, strong) NSArray<Activity *> *activityHistory;
 
