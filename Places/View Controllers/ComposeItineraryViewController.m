@@ -31,10 +31,6 @@
     [super viewDidLoad];
     NSLog(@"loaded compose view controller");
     
-    if (self.editingMode) {
-//        [self showExistingItineraryDetails];
-    }
-    
     self.placesToGoTableView.dataSource = self;
     self.placesToGoTableView.delegate = self;
     self.placesToGoTableView.rowHeight = UITableViewAutomaticDimension;
@@ -48,7 +44,11 @@
     self.lodgingDetails.layer.borderWidth = 1.0f;
     self.lodgingDetails.layer.borderColor = [[UIColor grayColor] CGColor];
     
-    self.itinerary = [Itinerary new];
+    if (self.editingMode) {
+        [self showExistingItineraryDetails];
+    } else {
+        self.itinerary = [Itinerary new];
+    }
 }
 
 - (void)didTapAnywhere:(UITapGestureRecognizer *) sender {
@@ -66,6 +66,27 @@
     NSLog(@"There is imageData %@", imageData);
     self.itinerary.image = [self getPFFileFromImage:[UIImage imageWithData:imageData]];
     NSLog(@"Just set new itinerary's image to %@", self.itinerary.image);
+}
+
+- (void)showExistingItineraryDetails {
+    self.itinerary.fetchIfNeeded;
+    
+    self.itineraryName.text = self.itinerary.name;
+    self.travelDetails.text = self.itinerary.travelDetails;
+    self.lodgingDetails.text = self.itinerary.lodgingDetails;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    NSDate *startDate = [dateFormatter dateFromString:self.itinerary.startDate];
+    NSDate *endDate = [dateFormatter dateFromString:self.itinerary.endDate];
+    [self.startDatePicker setDate:startDate];
+    [self.endDatePicker setDate:endDate];
+    
+    NSLog(@"The %lu places to go for this existing itinerary are %@",  (unsigned long)self.itinerary.placesToGo.count, self.itinerary.placesToGo);
+    [self.placesToGoTableView reloadData];
+    
 }
 
 - (void)createNewItineraryInParse {
@@ -174,7 +195,8 @@
 
 #pragma mark - places to go table view
 
-- (void)setAttributesOfPlaceCell:(NSDictionary *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
+- (void)setAttributesOfPlaceCell:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
+    place.fetchIfNeeded;
     placeTableViewCell.placeName.text = place[@"name"];
     NSLog(@"Setting places to go cell for %@ and the whole place dict is %@", place[@"name"], place);
     placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
@@ -191,7 +213,7 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     PlaceTableViewCell *placeCell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell" forIndexPath:indexPath];
-    NSLog(@"Dequed a placeCell to set up");
+    NSLog(@"For placesToGoTableView of %@, dequed a placeCell to set up", self.itinerary.name);
     NSDictionary *placeToGo = self.itinerary.placesToGo[indexPath.row];
     [self setAttributesOfPlaceCell:placeToGo placeTableViewCell:placeCell];
 
@@ -199,6 +221,8 @@
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // QUESTION: Why is this becoming 0? 
+    NSLog(@"places to go count is %lu", (unsigned long)self.itinerary.placesToGo.count);
     return self.itinerary.placesToGo.count;
 }
 
