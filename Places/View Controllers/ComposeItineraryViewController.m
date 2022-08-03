@@ -54,14 +54,6 @@
     }
 }
 
-//- (void)viewWillDisappear:(BOOL)animated {
-//    NSLog(@"viewWillDisappear called");
-//    [super viewWillDisappear:animated];
-//    NSLog(@"The presenting view controller is %@", self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2]);
-//
-//    self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2].loadView;
-//}
-
 - (void)didTapAnywhere:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
 }
@@ -156,7 +148,6 @@
     
     // set places to go
     [self.itinerary setObject:self.itinerary.placesToGo forKey:@"placesToGo"];
-    [self.itinerary save];
     
     // set activity history
     Activity *creationActivity = [Activity new];

@@ -51,10 +51,6 @@
     [self.itinerary saveInBackground];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
 - (void)presentActivityController:(UIActivityViewController *)controller {
     // for iPad: make the presentation a Popover
     controller.modalPresentationStyle = UIModalPresentationPopover;
