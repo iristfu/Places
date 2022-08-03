@@ -470,7 +470,7 @@
             </objects>
             <point key="canvasLocation" x="4007" y="1696"/>
         </scene>
-        <!--Itineraries-->
+        <!--My Itineraries-->
         <scene sceneID="lZK-ba-NeA">
             <objects>
                 <tableViewController id="g0x-kb-0km" customClass="ItinerariesTableViewController" sceneMemberID="viewController">
@@ -533,7 +533,7 @@
                             <outlet property="delegate" destination="g0x-kb-0km" id="jNP-6d-n9m"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Itineraries" id="yZF-WW-h45">
+                    <navigationItem key="navigationItem" title="My Itineraries" id="yZF-WW-h45">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="56e-nv-8k9">
                             <connections>
                                 <segue destination="UrR-5c-aj0" kind="presentation" identifier="ComposeItinerarySegue" id="gmm-SR-1l6"/>
@@ -1294,7 +1294,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hiJ-s2-rp9"/>
+        <segue reference="gmm-SR-1l6"/>
         <segue reference="4U7-ob-Tl9"/>
         <segue reference="jge-a7-93w"/>
     </inferredMetricsTieBreakers>
