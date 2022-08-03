@@ -468,7 +468,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qEU-HS-c5M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4007" y="1696"/>
+            <point key="canvasLocation" x="5272" y="1696"/>
         </scene>
         <!--My Itineraries-->
         <scene sceneID="lZK-ba-NeA">
@@ -725,6 +725,7 @@
                             <barButtonItem title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
                                 <connections>
                                     <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
+                                    <segue destination="557-un-SRu" kind="presentation" id="Xtn-0z-JHv"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -790,6 +791,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZdT-FJ-qcC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2922" y="3319"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="acv-8e-zhy">
+            <objects>
+                <navigationController id="557-un-SRu" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vTT-FK-6nb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="p2V-id-bhk" kind="relationship" relationship="rootViewController" id="N1h-3G-Yqm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L5e-Xe-6gR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3791" y="3319"/>
+        </scene>
+        <!--Share Itinerary View Controller-->
+        <scene sceneID="jll-fu-ELS">
+            <objects>
+                <viewController id="p2V-id-bhk" customClass="ShareItineraryViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FbK-Zv-tMS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="L4n-aw-Lz9"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="IOr-pF-b7t"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ve9-C1-tem" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3790" y="4031"/>
         </scene>
         <!--Compose Itinerary View Controller-->
         <scene sceneID="jdr-Av-g1a">
@@ -1273,7 +1306,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNy-2R-9KD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4006" y="2515"/>
+            <point key="canvasLocation" x="5271" y="2515"/>
         </scene>
         <!--Itineraries-->
         <scene sceneID="hZX-df-Zat">
@@ -1294,7 +1327,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gmm-SR-1l6"/>
+        <segue reference="hiJ-s2-rp9"/>
         <segue reference="4U7-ob-Tl9"/>
         <segue reference="jge-a7-93w"/>
     </inferredMetricsTieBreakers>
