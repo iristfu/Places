@@ -808,21 +808,103 @@
             </objects>
             <point key="canvasLocation" x="3791" y="3319"/>
         </scene>
-        <!--Share Itinerary View Controller-->
+        <!--Share Itinerary-->
         <scene sceneID="jll-fu-ELS">
             <objects>
                 <viewController id="p2V-id-bhk" customClass="ShareItineraryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FbK-Zv-tMS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ln-DS-5iM">
+                                <rect key="frame" x="0.0" y="56" width="414" height="139"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share a link:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="km2-qM-36L">
+                                        <rect key="frame" x="30" y="8" width="93" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RAc-DH-8Ib">
+                                        <rect key="frame" x="30" y="37" width="354" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="tinted" title="View Only"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Mz-pQ-CSM">
+                                        <rect key="frame" x="30" y="76" width="354" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="tinted" title="View and Edit"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="RAc-DH-8Ib" firstAttribute="centerX" secondItem="9Ln-DS-5iM" secondAttribute="centerX" id="DCz-lK-1tS"/>
+                                    <constraint firstItem="RAc-DH-8Ib" firstAttribute="leading" secondItem="km2-qM-36L" secondAttribute="leading" id="EBt-VW-plR"/>
+                                    <constraint firstItem="RAc-DH-8Ib" firstAttribute="top" secondItem="km2-qM-36L" secondAttribute="bottom" constant="8" symbolic="YES" id="EQ5-aF-ecU"/>
+                                    <constraint firstItem="5Mz-pQ-CSM" firstAttribute="leading" secondItem="RAc-DH-8Ib" secondAttribute="leading" id="FV7-tr-6ia"/>
+                                    <constraint firstItem="km2-qM-36L" firstAttribute="leading" secondItem="9Ln-DS-5iM" secondAttribute="leading" constant="30" id="LNf-cC-UTI"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RAc-DH-8Ib" secondAttribute="trailing" constant="20" id="MjN-eo-VKV"/>
+                                    <constraint firstItem="km2-qM-36L" firstAttribute="top" secondItem="9Ln-DS-5iM" secondAttribute="top" constant="8" id="Tg8-6w-3IV"/>
+                                    <constraint firstAttribute="height" constant="139" id="gxw-jK-Xmk"/>
+                                    <constraint firstItem="5Mz-pQ-CSM" firstAttribute="top" secondItem="RAc-DH-8Ib" secondAttribute="bottom" constant="8" symbolic="YES" id="h1j-ux-8XU"/>
+                                    <constraint firstItem="5Mz-pQ-CSM" firstAttribute="centerX" secondItem="9Ln-DS-5iM" secondAttribute="centerX" id="v5l-p9-M6p"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5Mz-pQ-CSM" secondAttribute="trailing" constant="20" id="ygF-zf-WKA"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XfS-aO-y4b">
+                                <rect key="frame" x="0.0" y="215" width="414" height="426"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Wp-eb-4Mq">
+                                        <rect key="frame" x="20" y="54" width="374" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jr9-OR-NIc">
+                                        <rect key="frame" x="318" y="98" width="41" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <menu key="menu" id="iIb-AC-JiF">
+                                            <children>
+                                                <command title="Editor" id="8ry-zi-OMn"/>
+                                                <command title="Viewer" id="KZG-Nh-bdO"/>
+                                            </children>
+                                        </menu>
+                                        <state key="normal" title="Editor"/>
+                                    </button>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="kUJ-aQ-6vx">
+                                        <rect key="frame" x="33" y="124" width="326" height="296"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </tableView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add a user:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52l-hs-Z4F">
+                                        <rect key="frame" x="30" y="20" width="87" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="L4n-aw-Lz9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="L4n-aw-Lz9" firstAttribute="trailing" secondItem="XfS-aO-y4b" secondAttribute="trailing" id="5cG-s7-gVB"/>
+                            <constraint firstItem="9Ln-DS-5iM" firstAttribute="top" secondItem="L4n-aw-Lz9" secondAttribute="top" id="60R-Op-Rj6"/>
+                            <constraint firstItem="L4n-aw-Lz9" firstAttribute="trailing" secondItem="9Ln-DS-5iM" secondAttribute="trailing" id="F6D-mm-hjN"/>
+                            <constraint firstItem="L4n-aw-Lz9" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="XfS-aO-y4b" secondAttribute="bottom" id="G0j-vE-TUr"/>
+                            <constraint firstItem="XfS-aO-y4b" firstAttribute="top" secondItem="9Ln-DS-5iM" secondAttribute="bottom" constant="20" id="oin-ic-LRy"/>
+                            <constraint firstItem="XfS-aO-y4b" firstAttribute="leading" secondItem="L4n-aw-Lz9" secondAttribute="leading" id="uYJ-hs-xQh"/>
+                            <constraint firstItem="9Ln-DS-5iM" firstAttribute="leading" secondItem="L4n-aw-Lz9" secondAttribute="leading" id="v1i-1u-y7G"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="IOr-pF-b7t"/>
+                    <navigationItem key="navigationItem" title="Share Itinerary" id="IOr-pF-b7t">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="pum-o2-jp2"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ve9-C1-tem" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3790" y="4031"/>
+            <point key="canvasLocation" x="3789.8550724637685" y="4030.5803571428569"/>
         </scene>
         <!--Compose Itinerary View Controller-->
         <scene sceneID="jdr-Av-g1a">
