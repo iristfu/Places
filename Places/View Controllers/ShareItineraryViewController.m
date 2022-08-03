@@ -8,6 +8,9 @@
 #import "ShareItineraryViewController.h"
 
 @interface ShareItineraryViewController ()
+- (IBAction)didTapShareViewOnlyLink:(id)sender;
+- (IBAction)didTapShareEditLink:(id)sender;
+
 
 @end
 
@@ -15,7 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    NSLog(@"Itinerary for sharing is set to be %@", self.itinerary);
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
@@ -61,10 +65,10 @@
     };
 }
 
--(void)shareItinerary {
+-(void)shareItineraryWithEditLink {
     //create a message
-    NSURL *itineraryURL = [NSURL URLWithString:[NSString stringWithFormat:@"places://itinerary/%@", self.itinerary.objectId]];
-    NSString *theMessage = [NSString stringWithFormat:@"Checkout my itinerary %@ that I created in the Places app! %@", self.itinerary.name, itineraryURL];
+    NSURL *itineraryURL = [NSURL URLWithString:[NSString stringWithFormat:@"places://itinerary/%@?access=edit", self.itinerary.objectId]];
+    NSString *theMessage = [NSString stringWithFormat:@"View and edit my itinerary %@ that I created in the Places app! %@", self.itinerary.name, itineraryURL];
     NSArray *items = @[theMessage];
 
     // build an activity view controller
@@ -74,14 +78,25 @@
     [self presentActivityController:controller];
 }
 
-/*
-#pragma mark - Navigation
+-(void)shareItineraryWithViewOnlyLink {
+    //create a message
+    NSURL *itineraryURL = [NSURL URLWithString:[NSString stringWithFormat:@"places://itinerary/%@?access=view", self.itinerary.objectId]];
+    NSString *theMessage = [NSString stringWithFormat:@"View my itinerary %@ that I created in the Places app! %@", self.itinerary.name, itineraryURL];
+    NSArray *items = @[theMessage];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // build an activity view controller
+    UIActivityViewController *controller = [[UIActivityViewController alloc]initWithActivityItems:items applicationActivities:nil];
+
+    // and present it
+    [self presentActivityController:controller];
 }
-*/
 
+
+- (IBAction)didTapShareEditLink:(id)sender {
+    [self shareItineraryWithEditLink];
+}
+
+- (IBAction)didTapShareViewOnlyLink:(id)sender {
+    [self shareItineraryWithViewOnlyLink];
+}
 @end

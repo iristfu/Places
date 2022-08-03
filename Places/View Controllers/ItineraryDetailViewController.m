@@ -28,6 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"Access permission for this itinerary is %@", self.accessPermission);
     
     self.mapLoadingIndicator.hidden = YES;
     self.mapLoadingIndicator.hidesWhenStopped = YES;

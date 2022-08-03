@@ -725,7 +725,7 @@
                             <barButtonItem title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
                                 <connections>
                                     <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
-                                    <segue destination="557-un-SRu" kind="presentation" id="Xtn-0z-JHv"/>
+                                    <segue destination="557-un-SRu" kind="presentation" identifier="ShareItinerarySegue" id="Xtn-0z-JHv"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -829,11 +829,17 @@
                                         <rect key="frame" x="30" y="37" width="354" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="View Only"/>
+                                        <connections>
+                                            <action selector="didTapShareViewOnlyLink:" destination="p2V-id-bhk" eventType="touchUpInside" id="VdH-xl-Ceb"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Mz-pQ-CSM">
                                         <rect key="frame" x="30" y="76" width="354" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="View and Edit"/>
+                                        <connections>
+                                            <action selector="didTapShareEditLink:" destination="p2V-id-bhk" eventType="touchUpInside" id="N7f-hX-G3z"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>

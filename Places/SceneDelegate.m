@@ -71,11 +71,14 @@
     NSLog(@"url recieved: %@", url.absoluteString);
     NSLog(@"host: %@", [url host]);
     NSLog(@"url path: %@", [url path]);
+    NSString *access = [[url query] componentsSeparatedByString: @"="][1];
+    NSLog(@"access is: %@", access);
     NSString *itineraryObjectID = [[url path] substringFromIndex:1]; // remove "/" from path
     NSLog(@"itineraryObjectID: %@", itineraryObjectID);
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ItineraryDetailViewController *itineraryDetailViewController =[storyboard instantiateViewControllerWithIdentifier:@"ItineraryDetailView"];
+    itineraryDetailViewController.accessPermission = access;
     NSLog(@"Have an itinerary Detail View Controller %@", itineraryDetailViewController);
     
     PFQuery *query = [PFQuery queryWithClassName:@"Itinerary"];
