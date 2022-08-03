@@ -18,7 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
 @property (strong, nonatomic) NSMutableArray* itinerariesToDisplay; // Array of Itinerary Parse objects
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-
+@property (strong, nonatomic) NSString *typeOfItineraries;
 @end
 
 @implementation ItinerariesTableViewController
@@ -40,6 +40,7 @@
     
     self.itinerariesToDisplay = [[NSMutableArray alloc] init];
     
+    self.typeOfItineraries = @"My Itineraries";
     [self fetchItineraries];
 }
 
@@ -48,7 +49,9 @@
     PFNavigationDropdownMenu *dropdownMenu = [[PFNavigationDropdownMenu alloc] initWithFrame:CGRectMake(0, 0, 300, 44) title:dropdownMenuOptions.firstObject items:dropdownMenuOptions containerView:self.view];
     
     dropdownMenu.didSelectItemAtIndexHandler = ^(NSUInteger indexPath) {
-        NSLog(@"Did select item at index: %ld", indexPath);
+        NSLog(@"Did select item at index: %ld which is %@", indexPath, dropdownMenuOptions[indexPath]);
+        self.typeOfItineraries = dropdownMenuOptions[indexPath];
+        [self fetchItineraries];
     };
     self.navigationItem.titleView = dropdownMenu;
     
@@ -63,6 +66,7 @@
 }
 
 - (void)fetchItineraries {
+    
     PFUser *user = [PFUser currentUser];
     if (user[@"itineraries"]) {
         self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
