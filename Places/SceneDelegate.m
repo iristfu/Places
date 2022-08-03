@@ -60,7 +60,6 @@
     if (![currentSharedItinerariesObjectIDS containsObject:newItinerary.objectId]) {
         [currentUser addObject:newItinerary forKey:@"sharedItineraries"];
         [currentUser saveInBackground];
-        NSLog(@"The user's shared itineraries array is now: %@", currentUser[@"sharedItineraries"]);
     } else {
         NSLog(@"Already stored shared itinerary");
     }

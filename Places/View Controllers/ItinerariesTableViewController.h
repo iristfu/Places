@@ -10,7 +10,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ItinerariesTableViewController : UITableViewController
-@property (strong, nonatomic) NSString *typeOfItineraries;
 
 @end
 

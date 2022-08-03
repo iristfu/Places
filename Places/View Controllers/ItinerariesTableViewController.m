@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
 @property (strong, nonatomic) NSMutableArray* itinerariesToDisplay; // Array of Itinerary Parse objects
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSString *typeOfItineraries;
 
 @end
 
