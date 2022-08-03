@@ -11,6 +11,7 @@
 #import "ComposeItineraryViewController.h"
 #import "UIKit+AFNetworking.h"
 #import "ItineraryDetailViewController.h"
+#import "PFNavigationDropdownMenu.h"
 @import Parse;
 
 @interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
@@ -31,6 +32,7 @@
     [self.tableView insertSubview:self.refreshControl atIndex:0];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    [self setupNavigationDropdownMenu];
     
     self.itinerariesTableView.dataSource = self;
     self.itinerariesTableView.delegate = self;
@@ -39,6 +41,25 @@
     self.itinerariesToDisplay = [[NSMutableArray alloc] init];
     
     [self fetchItineraries];
+}
+
+- (void)setupNavigationDropdownMenu {
+    NSArray *dropdownMenuOptions = [NSArray arrayWithObjects:@"My Itineraries", @"Shared Itineraries", nil];
+    PFNavigationDropdownMenu *dropdownMenu = [[PFNavigationDropdownMenu alloc] initWithFrame:CGRectMake(0, 0, 300, 44) title:dropdownMenuOptions.firstObject items:dropdownMenuOptions containerView:self.view];
+    
+    dropdownMenu.didSelectItemAtIndexHandler = ^(NSUInteger indexPath) {
+        NSLog(@"Did select item at index: %ld", indexPath);
+    };
+    self.navigationItem.titleView = dropdownMenu;
+    
+//    // example:
+//    PFNavigationDropdownMenu *menuView = [[PFNavigationDropdownMenu alloc]initWithFrame:CGRectMake(0, 0, 300, 44)title:items.firstObjects items:items containerView:self.view];
+//    menuView.didSelectItemAtIndexHandler = ^(NSUInteger indexPath){
+//        NSLog(@"Did select item at index: %ld", indexPath);
+//        self.selectedCellLabel.text = items[indexPath];
+//    };
+//    self.navigationItem.titleView = menuView;
+
 }
 
 - (void)fetchItineraries {
