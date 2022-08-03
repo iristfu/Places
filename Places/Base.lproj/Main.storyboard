@@ -724,13 +724,13 @@
                             </barButtonItem>
                             <barButtonItem title="Share" image="square.and.arrow.up" catalog="system" id="JeT-yz-nMQ">
                                 <connections>
-                                    <action selector="didTapShare:" destination="BnL-j1-YeD" id="F1h-uI-cdL"/>
                                     <segue destination="557-un-SRu" kind="presentation" identifier="ShareItinerarySegue" id="Xtn-0z-JHv"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="editItineraryButton" destination="epF-jr-abn" id="LTI-pY-yl9"/>
                         <outlet property="itineraryDatesLabel" destination="IuP-Bh-diN" id="IWU-Qw-r3S"/>
                         <outlet property="itineraryNameLabel" destination="vwr-IP-LBK" id="Em3-ie-J42"/>
                         <outlet property="lodgingDetailsLabel" destination="I6j-Hu-iK0" id="klR-nz-pam"/>

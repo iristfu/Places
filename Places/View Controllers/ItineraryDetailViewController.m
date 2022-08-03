@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *transportationDetailsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lodgingDetailsLabel;
 @property (weak, nonatomic) IBOutlet UITableView *placesToGoTableView;
-
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *editItineraryButton;
 
 @end
 
@@ -28,7 +28,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     NSLog(@"Access permission for this itinerary is %@", self.accessPermission);
+    // Get the reference to the current toolbar buttons
+    NSMutableArray *rightBarButtonItems = [self.navigationItem.rightBarButtonItems mutableCopy];
+    // Remove edit button from the toolbar
+    if ([self.accessPermission isEqualToString:@"view"]) {
+        NSLog(@"Removing edit itinerary button");
+        [rightBarButtonItems removeObject:self.editItineraryButton];
+        [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:NO];
+    }
     
     self.mapLoadingIndicator.hidden = YES;
     self.mapLoadingIndicator.hidesWhenStopped = YES;
