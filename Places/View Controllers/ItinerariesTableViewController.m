@@ -48,7 +48,7 @@
 }
 
 - (void)setupNavigationDropdownMenu {
-    NSArray *dropdownMenuOptions = [NSArray arrayWithObjects:@"My Itineraries", @"Shared Itineraries", nil];
+    NSArray *dropdownMenuOptions = [NSArray arrayWithObjects:@"My Itineraries", @"Shared With Me", nil];
     PFNavigationDropdownMenu *dropdownMenu = [[PFNavigationDropdownMenu alloc] initWithFrame:CGRectMake(0, 0, 300, 44) title:dropdownMenuOptions.firstObject items:dropdownMenuOptions containerView:self.view];
     dropdownMenu.didSelectItemAtIndexHandler = ^(NSUInteger indexPath) {
         NSLog(@"Did select item at index: %ld which is %@", indexPath, dropdownMenuOptions[indexPath]);

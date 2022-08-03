@@ -54,7 +54,8 @@
     return [objectIDs copy];
 }
 
-- (void)addSharedItineraryForCurrentUser:(Itinerary *)newItinerary {
+- (void)addSharedItineraryForCurrentUser:(Itinerary *)newItinerary
+                    withAccessPermission:(NSString *)accessPermission {
     PFUser *currentUser = [PFUser currentUser];
     NSArray<NSString *> *currentSharedItinerariesObjectIDS = [self getCurrentSharedItinerariesObjectIDs];
     if (![currentSharedItinerariesObjectIDS containsObject:newItinerary.objectId]) {
@@ -62,6 +63,12 @@
         [currentUser saveInBackground];
     } else {
         NSLog(@"Already stored shared itinerary");
+    }
+    
+    // store user's access permission to shared itinerary
+    if ([accessPermission isEqualToString:@"view"]) {
+        [currentUser addObject:newItinerary.objectId forKey:@"viewOnlyItineraryIDs"];
+        [currentUser saveInBackground];
     }
 }
 
@@ -84,7 +91,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Itinerary"];
     [query getObjectInBackgroundWithId:itineraryObjectID block:^(PFObject *itinerary, NSError *error) {
         if (!error) {
-            [self addSharedItineraryForCurrentUser:itinerary];
+            [self addSharedItineraryForCurrentUser:itinerary withAccessPermission:access];
             itineraryDetailViewController.itinerary = itinerary;
             NSLog(@"Got the itinerary to set the detail view with itinerary %@", itineraryDetailViewController.itinerary);
             
