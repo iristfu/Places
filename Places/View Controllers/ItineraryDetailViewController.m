@@ -181,14 +181,11 @@
 
 - (void)didEditItinerary:(nonnull Itinerary *)itinerary {
     NSLog(@"In didEditItinerary with itinerary %@", itinerary);
-    NSLog(@"The itinerary we're showing updated details for has %lu places to go and is called %@", self.itinerary.placesToGo.count, self.itinerary.name);
-    
     self.itineraryNameLabel.text = self.itinerary[@"name"];
     self.itineraryDatesLabel.text = [NSString stringWithFormat:@"%@ - %@", self.itinerary[@"startDate"], self.itinerary[@"endDate"]];
     self.transportationDetailsLabel.text = self.itinerary[@"travelDetails"];
     self.lodgingDetailsLabel.text = self.itinerary[@"lodgingDetails"];
     [self.placesToGoTableView reloadData];
-
 }
 
 
