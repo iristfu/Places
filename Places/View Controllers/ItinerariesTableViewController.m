@@ -18,7 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
 @property (strong, nonatomic) NSMutableArray* itinerariesToDisplay; // Array of Itinerary Parse objects
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) NSString *typeOfItineraries;
+
 @end
 
 @implementation ItinerariesTableViewController
@@ -40,53 +40,40 @@
     
     self.itinerariesToDisplay = [[NSMutableArray alloc] init];
     
-    self.typeOfItineraries = @"My Itineraries";
+    if (!self.typeOfItineraries) {
+        self.typeOfItineraries = @"My Itineraries";
+    }
     [self fetchItineraries];
 }
 
 - (void)setupNavigationDropdownMenu {
     NSArray *dropdownMenuOptions = [NSArray arrayWithObjects:@"My Itineraries", @"Shared Itineraries", nil];
     PFNavigationDropdownMenu *dropdownMenu = [[PFNavigationDropdownMenu alloc] initWithFrame:CGRectMake(0, 0, 300, 44) title:dropdownMenuOptions.firstObject items:dropdownMenuOptions containerView:self.view];
-    
     dropdownMenu.didSelectItemAtIndexHandler = ^(NSUInteger indexPath) {
         NSLog(@"Did select item at index: %ld which is %@", indexPath, dropdownMenuOptions[indexPath]);
         self.typeOfItineraries = dropdownMenuOptions[indexPath];
         [self fetchItineraries];
     };
     self.navigationItem.titleView = dropdownMenu;
-    
-//    // example:
-//    PFNavigationDropdownMenu *menuView = [[PFNavigationDropdownMenu alloc]initWithFrame:CGRectMake(0, 0, 300, 44)title:items.firstObjects items:items containerView:self.view];
-//    menuView.didSelectItemAtIndexHandler = ^(NSUInteger indexPath){
-//        NSLog(@"Did select item at index: %ld", indexPath);
-//        self.selectedCellLabel.text = items[indexPath];
-//    };
-//    self.navigationItem.titleView = menuView;
-
 }
 
 - (void)fetchItineraries {
     PFUser *user = [PFUser currentUser];
     if ([self.typeOfItineraries  isEqual: @"My Itineraries"]) {
         if (user[@"itineraries"]) {
-            self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
             NSLog(@"The user's itineraries are: %@", self.itinerariesToDisplay);
         } else {
             NSLog(@"The user currently has no itineraries");
         }
-        [self.itinerariesTableView reloadData];
+        self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
     } else {
         NSLog(@"Going to load shared itineraries");
-        if (user[@"sharedItineraries"]) {
-            self.itinerariesToDisplay = [[[user[@"sharedItineraries"] reverseObjectEnumerator] allObjects] mutableCopy];
-        } else {
-            self.itinerariesToDisplay = [[[user[@"sharedItineraries"] reverseObjectEnumerator] allObjects] mutableCopy];
+        if (!user[@"sharedItineraries"]) {
             NSLog(@"The user has no shared itineraries");
-            
         }
-        [self.itinerariesTableView reloadData];
+        self.itinerariesToDisplay = [[[user[@"sharedItineraries"] reverseObjectEnumerator] allObjects] mutableCopy];
     }
-    
+    [self.itinerariesTableView reloadData];
     [self.refreshControl endRefreshing];
 }
 

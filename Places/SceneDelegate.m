@@ -10,6 +10,7 @@
 #import "ItineraryDetailViewController.h"
 #import "LoginViewController.h"
 #import "SignUpViewController.h"
+#import "ItinerariesTableViewController.h"
 @import Parse;
 
 
@@ -44,6 +45,26 @@
     // In future PR: may need to handle custom URL here for when the app isn't launched and the user clicks a custom URL
 }
 
+- (NSArray<NSString *> *)getCurrentSharedItinerariesObjectIDs {
+    NSMutableArray<NSString *> *objectIDs = [[NSMutableArray alloc] init];
+    PFUser *currentUser = [PFUser currentUser];
+    for (Itinerary *itinerary in currentUser[@"sharedItineraries"]) {
+        [objectIDs addObject:itinerary.objectId];
+    }
+    return [objectIDs copy];
+}
+
+- (void)addSharedItineraryForCurrentUser:(Itinerary *)newItinerary {
+    PFUser *currentUser = [PFUser currentUser];
+    NSArray<NSString *> *currentSharedItinerariesObjectIDS = [self getCurrentSharedItinerariesObjectIDs];
+    if (![currentSharedItinerariesObjectIDS containsObject:newItinerary.objectId]) {
+        [currentUser addObject:newItinerary forKey:@"sharedItineraries"];
+        [currentUser saveInBackground];
+        NSLog(@"The user's shared itineraries array is now: %@", currentUser[@"sharedItineraries"]);
+    } else {
+        NSLog(@"Already stored shared itinerary");
+    }
+}
 
 - (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts {
     NSLog(@"This should be called if app opens a URL while running or suspended in memory");
@@ -61,6 +82,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Itinerary"];
     [query getObjectInBackgroundWithId:itineraryObjectID block:^(PFObject *itinerary, NSError *error) {
         if (!error) {
+            [self addSharedItineraryForCurrentUser:itinerary];
             itineraryDetailViewController.itinerary = itinerary;
             NSLog(@"Got the itinerary to set the detail view with itinerary %@", itineraryDetailViewController.itinerary);
             
