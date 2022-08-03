@@ -66,15 +66,27 @@
 }
 
 - (void)fetchItineraries {
-    
     PFUser *user = [PFUser currentUser];
-    if (user[@"itineraries"]) {
-        self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
-        NSLog(@"The user's itineraries are: %@", self.itinerariesToDisplay);
+    if ([self.typeOfItineraries  isEqual: @"My Itineraries"]) {
+        if (user[@"itineraries"]) {
+            self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
+            NSLog(@"The user's itineraries are: %@", self.itinerariesToDisplay);
+        } else {
+            NSLog(@"The user currently has no itineraries");
+        }
         [self.itinerariesTableView reloadData];
     } else {
-        NSLog(@"The user currently has no itineraries");
+        NSLog(@"Going to load shared itineraries");
+        if (user[@"sharedItineraries"]) {
+            self.itinerariesToDisplay = [[[user[@"sharedItineraries"] reverseObjectEnumerator] allObjects] mutableCopy];
+        } else {
+            self.itinerariesToDisplay = [[[user[@"sharedItineraries"] reverseObjectEnumerator] allObjects] mutableCopy];
+            NSLog(@"The user has no shared itineraries");
+            
+        }
+        [self.itinerariesTableView reloadData];
     }
+    
     [self.refreshControl endRefreshing];
 }
 
