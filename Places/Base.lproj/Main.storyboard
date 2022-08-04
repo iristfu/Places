@@ -869,34 +869,40 @@
                                         <rect key="frame" x="30" y="92" width="354" height="535"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="127" id="mIE-fB-BZb">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ShareWithUsernameCell" rowHeight="127" id="mIE-fB-BZb" customClass="ShareWithUsernameCell">
                                                 <rect key="frame" x="0.0" y="44.5" width="354" height="127"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mIE-fB-BZb" id="SMA-CA-wfe" customClass="ShareWithUsernameCell">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mIE-fB-BZb" id="SMA-CA-wfe">
                                                     <rect key="frame" x="0.0" y="0.0" width="354" height="127"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSs-Ae-TJ4">
-                                                            <rect key="frame" x="5" y="5" width="79" height="117"/>
+                                                            <rect key="frame" x="5" y="10" width="79" height="107"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULg-4o-vWQ">
                                                             <rect key="frame" x="299" y="48" width="45" height="31"/>
                                                             <state key="normal" title="Button"/>
                                                             <buttonConfiguration key="configuration" style="plain" image="person.badge.plus" catalog="system"/>
+                                                            <connections>
+                                                                <action selector="didTapShare:" destination="mIE-fB-BZb" eventType="touchUpInside" id="yeM-mR-JDp"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="ULg-4o-vWQ" secondAttribute="trailing" constant="10" id="I1g-Jf-X8v"/>
-                                                        <constraint firstItem="CSs-Ae-TJ4" firstAttribute="top" secondItem="SMA-CA-wfe" secondAttribute="top" constant="5" id="UIa-iH-CxN"/>
+                                                        <constraint firstItem="CSs-Ae-TJ4" firstAttribute="top" secondItem="SMA-CA-wfe" secondAttribute="top" constant="10" id="UIa-iH-CxN"/>
                                                         <constraint firstItem="CSs-Ae-TJ4" firstAttribute="leading" secondItem="SMA-CA-wfe" secondAttribute="leading" constant="5" id="arn-Uh-7Se"/>
                                                         <constraint firstItem="ULg-4o-vWQ" firstAttribute="centerY" secondItem="CSs-Ae-TJ4" secondAttribute="centerY" id="nkn-HA-EpV"/>
                                                         <constraint firstItem="ULg-4o-vWQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CSs-Ae-TJ4" secondAttribute="trailing" constant="10" id="nug-fa-jXJ"/>
-                                                        <constraint firstAttribute="bottom" secondItem="CSs-Ae-TJ4" secondAttribute="bottom" constant="5" id="uP5-6R-MLi"/>
+                                                        <constraint firstAttribute="bottom" secondItem="CSs-Ae-TJ4" secondAttribute="bottom" constant="10" id="uP5-6R-MLi"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="username" destination="CSs-Ae-TJ4" id="bRx-3a-s4W"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>

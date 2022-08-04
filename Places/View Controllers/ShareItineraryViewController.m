@@ -6,8 +6,9 @@
 //
 
 #import "ShareItineraryViewController.h"
+#import "ShareWithUsernameCell.h"
 
-@interface ShareItineraryViewController ()
+@interface ShareItineraryViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 - (IBAction)didTapShareViewOnlyLink:(id)sender;
 - (IBAction)didTapShareEditLink:(id)sender;
@@ -32,7 +33,10 @@
     [self configureAccessPermissionsButton];
     self.sharingPermission = @"edit";
     
-    [self populateExistingUsersInTableView];
+    self.usersTableView.dataSource = self;
+    self.usersTableView.delegate = self;
+    self.usersTableView.rowHeight = UITableViewAutomaticDimension;
+    [self populateExistingUsers];
     self.searchResult =[[NSArray alloc]init];
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
@@ -56,7 +60,7 @@
 
 #pragma mark - table View methods
 
-- (void)populateExistingUsersInTableView {
+- (void)populateExistingUsers {
     PFQuery *query = [PFUser query];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable allUsers, NSError * _Nullable error) {
         if (!error) {
@@ -67,6 +71,7 @@
             }
             self.existingUsers = [allUsernames copy];
             NSLog(@"all usernames are %@", self.existingUsers);
+            [self.usersTableView reloadData];
         } else {
             NSLog(@"Couldn't get all users");
         }
@@ -78,14 +83,9 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *simpleTableIdentifier = @"CellID";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    cell.textLabel.text = [self.existingUsers objectAtIndex:indexPath.row];
-    return cell;
+    ShareWithUsernameCell *usernameCell = [tableView dequeueReusableCellWithIdentifier:@"ShareWithUsernameCell" forIndexPath:indexPath];
+    usernameCell.username = self.existingUsers[indexPath.row];
+    return usernameCell;
 }
 
 #pragma mark - search methods
@@ -98,7 +98,7 @@
 }
 
 
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString  {
+-(BOOL)searchDisplayController:(UISearchController *)controller shouldReloadTableForSearchString:(NSString *)searchString  {
     [self filterContentForSearchText:searchString scope:[[self.searchBar scopeButtonTitles] objectAtIndex:[self.searchBar selectedScopeButtonIndex]]] ;
     return YES;
 }
