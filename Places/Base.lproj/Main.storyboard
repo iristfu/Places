@@ -922,6 +922,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="accessPermissionsButton" destination="jr9-OR-NIc" id="B3E-EU-yaT"/>
+                        <outlet property="accessPermissionsMenu" destination="iIb-AC-JiF" id="x6Z-G8-G3x"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ve9-C1-tem" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

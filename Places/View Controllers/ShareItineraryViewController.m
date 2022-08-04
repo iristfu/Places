@@ -13,6 +13,9 @@
 - (IBAction)didTapShareEditLink:(id)sender;
 - (IBAction)didTapDone:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UIButton *accessPermissionsButton;
+@property (strong, nonatomic) IBOutlet UIMenu *accessPermissionsMenu;
+
 
 @end
 
@@ -21,9 +24,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self configureAccessPermissionsButton];
+    
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
     self.tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:self.tapRecognizer];
+}
+
+- (void)configureAccessPermissionsButton {
+    UIAction *Editor = [UIAction actionWithTitle:@"Editor" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
+        
+    }];
+    UIAction *Viewer = [UIAction actionWithTitle:@"Viewer" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
+        
+    }];
+    UIMenu *menu = [UIMenu menuWithChildren:@[Editor, Viewer]];
+    self.accessPermissionsButton.menu = menu;
+    self.accessPermissionsButton.showsMenuAsPrimaryAction = true;
+    self.accessPermissionsButton.changesSelectionAsPrimaryAction = true;
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
