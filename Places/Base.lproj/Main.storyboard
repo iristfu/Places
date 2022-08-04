@@ -925,6 +925,8 @@
                     <connections>
                         <outlet property="accessPermissionsButton" destination="jr9-OR-NIc" id="B3E-EU-yaT"/>
                         <outlet property="accessPermissionsMenu" destination="iIb-AC-JiF" id="x6Z-G8-G3x"/>
+                        <outlet property="searchBar" destination="5Wp-eb-4Mq" id="LeR-fE-ySU"/>
+                        <outlet property="usersTableView" destination="kUJ-aQ-6vx" id="hTr-MX-hDS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ve9-C1-tem" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

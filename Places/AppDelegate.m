@@ -21,8 +21,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     ParseClientConfiguration *config = [ParseClientConfiguration  configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
 
-        configuration.applicationId = @"ZT44nRZeD29iUf4OIYBLgw0gw79FkC1VGyruGBMb";
-        configuration.clientKey = @"XTQpnjPluMtMMNwmPibGJle4hLtAINA4XJaRmUTX";
+//        configuration.applicationId = @"ZT44nRZeD29iUf4OIYBLgw0gw79FkC1VGyruGBMb";
+//        configuration.clientKey = @"XTQpnjPluMtMMNwmPibGJle4hLtAINA4XJaRmUTX";
+//        configuration.server = @"https://parseapi.back4app.com";
+        
+        // Above App ran out of API calls for the month, temporarily using new app:
+        configuration.applicationId = @"l8u4FnBnx53P4URsz9evL0EVrzrsQVMudwBpu0XK";
+        configuration.clientKey = @"JtCjoyifT9dmmpPVW2uPCWYVuhI1CtOt6zL2dgJ0";
         configuration.server = @"https://parseapi.back4app.com";
     }];
 

@@ -15,6 +15,11 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *accessPermissionsButton;
 @property (strong, nonatomic) IBOutlet UIMenu *accessPermissionsMenu;
+@property (strong, nonatomic) NSString *sharingPermission;
+@property (strong, nonatomic) NSArray *existingUsers;
+@property (strong, nonatomic) NSArray *searchResult;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) IBOutlet UITableView *usersTableView;
 
 
 @end
@@ -25,6 +30,10 @@
     [super viewDidLoad];
     
     [self configureAccessPermissionsButton];
+    self.sharingPermission = @"edit";
+    
+    [self populateExistingUsersInTableView];
+    self.searchResult =[[NSArray alloc]init];
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
     self.tapRecognizer.cancelsTouchesInView = NO;
@@ -33,15 +42,65 @@
 
 - (void)configureAccessPermissionsButton {
     UIAction *Editor = [UIAction actionWithTitle:@"Editor" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
-        
+        self.sharingPermission = @"edit";
     }];
     UIAction *Viewer = [UIAction actionWithTitle:@"Viewer" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
-        
+        self.sharingPermission = @"view";
     }];
     UIMenu *menu = [UIMenu menuWithChildren:@[Editor, Viewer]];
     self.accessPermissionsButton.menu = menu;
     self.accessPermissionsButton.showsMenuAsPrimaryAction = true;
     self.accessPermissionsButton.changesSelectionAsPrimaryAction = true;
+}
+
+
+#pragma mark - table View methods
+
+- (void)populateExistingUsersInTableView {
+    PFQuery *query = [PFUser query];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable allUsers, NSError * _Nullable error) {
+        if (!error) {
+            NSLog(@"all users are %@", allUsers);
+            NSMutableArray *allUsernames = [[NSMutableArray alloc] init];
+            for (PFUser *user in allUsers) {
+                [allUsernames addObject:user.username];
+            }
+            self.existingUsers = [allUsernames copy];
+            NSLog(@"all usernames are %@", self.existingUsers);
+        } else {
+            NSLog(@"Couldn't get all users");
+        }
+    }];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.existingUsers.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *simpleTableIdentifier = @"CellID";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    cell.textLabel.text = [self.existingUsers objectAtIndex:indexPath.row];
+    return cell;
+}
+
+#pragma mark - search methods
+
+-(void) filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope
+{
+    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@", searchText];
+    self.searchResult = [self.existingUsers filteredArrayUsingPredicate:resultPredicate];
+    [self.usersTableView reloadData];
+}
+
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString  {
+    [self filterContentForSearchText:searchString scope:[[self.searchBar scopeButtonTitles] objectAtIndex:[self.searchBar selectedScopeButtonIndex]]] ;
+    return YES;
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
@@ -112,7 +171,6 @@
     // and present it
     [self presentActivityController:controller];
 }
-
 
 - (IBAction)didTapDone:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
