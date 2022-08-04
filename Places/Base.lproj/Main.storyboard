@@ -865,35 +865,65 @@
                                         <rect key="frame" x="30" y="41" width="354" height="51"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
-                                    <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jr9-OR-NIc">
-                                        <rect key="frame" x="343" y="97" width="41" height="30"/>
-                                        <menu key="menu" id="iIb-AC-JiF">
-                                            <children>
-                                                <command title="Editor" id="8ry-zi-OMn"/>
-                                                <command title="Viewer" id="KZG-Nh-bdO"/>
-                                            </children>
-                                        </menu>
-                                        <state key="normal" title="Editor"/>
-                                    </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="kUJ-aQ-6vx">
-                                        <rect key="frame" x="30" y="132" width="354" height="495"/>
+                                        <rect key="frame" x="30" y="92" width="354" height="535"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="127" id="mIE-fB-BZb">
+                                                <rect key="frame" x="0.0" y="44.5" width="354" height="127"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mIE-fB-BZb" id="SMA-CA-wfe" customClass="ShareWithUsernameCell">
+                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="127"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSs-Ae-TJ4">
+                                                            <rect key="frame" x="5" y="5" width="79" height="117"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULg-4o-vWQ">
+                                                            <rect key="frame" x="299" y="48" width="45" height="31"/>
+                                                            <state key="normal" title="Button"/>
+                                                            <buttonConfiguration key="configuration" style="plain" image="person.badge.plus" catalog="system"/>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="ULg-4o-vWQ" secondAttribute="trailing" constant="10" id="I1g-Jf-X8v"/>
+                                                        <constraint firstItem="CSs-Ae-TJ4" firstAttribute="top" secondItem="SMA-CA-wfe" secondAttribute="top" constant="5" id="UIa-iH-CxN"/>
+                                                        <constraint firstItem="CSs-Ae-TJ4" firstAttribute="leading" secondItem="SMA-CA-wfe" secondAttribute="leading" constant="5" id="arn-Uh-7Se"/>
+                                                        <constraint firstItem="ULg-4o-vWQ" firstAttribute="centerY" secondItem="CSs-Ae-TJ4" secondAttribute="centerY" id="nkn-HA-EpV"/>
+                                                        <constraint firstItem="ULg-4o-vWQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CSs-Ae-TJ4" secondAttribute="trailing" constant="10" id="nug-fa-jXJ"/>
+                                                        <constraint firstAttribute="bottom" secondItem="CSs-Ae-TJ4" secondAttribute="bottom" constant="5" id="uP5-6R-MLi"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
                                     </tableView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a user:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52l-hs-Z4F">
-                                        <rect key="frame" x="30" y="0.0" width="87" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a user as" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52l-hs-Z4F">
+                                        <rect key="frame" x="30" y="0.0" width="104" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jr9-OR-NIc">
+                                        <rect key="frame" x="139" y="-6" width="49" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <menu key="menu" id="iIb-AC-JiF">
+                                            <children>
+                                                <command title="editor:" id="8ry-zi-OMn"/>
+                                                <command title="viewer:" id="KZG-Nh-bdO"/>
+                                            </children>
+                                        </menu>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="jr9-OR-NIc" firstAttribute="top" secondItem="5Wp-eb-4Mq" secondAttribute="bottom" constant="5" id="3Zf-4O-9Bn"/>
-                                    <constraint firstItem="kUJ-aQ-6vx" firstAttribute="top" secondItem="jr9-OR-NIc" secondAttribute="bottom" constant="5" id="FRo-B8-Gix"/>
-                                    <constraint firstItem="jr9-OR-NIc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="XfS-aO-y4b" secondAttribute="leading" constant="10" id="K1S-hZ-Qoy"/>
+                                    <constraint firstItem="kUJ-aQ-6vx" firstAttribute="top" secondItem="5Wp-eb-4Mq" secondAttribute="bottom" id="4g7-0g-GSA"/>
+                                    <constraint firstItem="jr9-OR-NIc" firstAttribute="centerY" secondItem="52l-hs-Z4F" secondAttribute="centerY" id="Ke6-rC-CEM"/>
                                     <constraint firstAttribute="bottom" secondItem="kUJ-aQ-6vx" secondAttribute="bottom" id="Mt2-FV-CX2"/>
-                                    <constraint firstItem="jr9-OR-NIc" firstAttribute="trailing" secondItem="5Wp-eb-4Mq" secondAttribute="trailing" id="b7o-La-8w0"/>
                                     <constraint firstItem="52l-hs-Z4F" firstAttribute="leading" secondItem="XfS-aO-y4b" secondAttribute="leading" constant="30" id="eUN-q5-npC"/>
+                                    <constraint firstItem="jr9-OR-NIc" firstAttribute="leading" secondItem="52l-hs-Z4F" secondAttribute="trailing" constant="5" id="fWb-gp-cvJ"/>
                                     <constraint firstItem="kUJ-aQ-6vx" firstAttribute="leading" secondItem="5Wp-eb-4Mq" secondAttribute="leading" id="jN7-oy-V7s"/>
                                     <constraint firstItem="5Wp-eb-4Mq" firstAttribute="top" secondItem="52l-hs-Z4F" secondAttribute="bottom" constant="20" id="mjl-95-p9b"/>
                                     <constraint firstItem="5Wp-eb-4Mq" firstAttribute="centerX" secondItem="XfS-aO-y4b" secondAttribute="centerX" id="skg-Up-eNu"/>
@@ -1449,6 +1479,7 @@
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="network" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
+        <image name="person.badge.plus" catalog="system" width="128" height="124"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <image name="square.and.pencil" catalog="system" width="128" height="115"/>

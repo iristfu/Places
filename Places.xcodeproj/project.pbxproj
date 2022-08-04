@@ -37,6 +37,7 @@
 		7B2F6531289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F6530289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m */; };
 		7B2F653528985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F653428985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m */; };
 		7B2F6538289B0144000C3D9C /* ShareItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F6537289B0144000C3D9C /* ShareItineraryViewController.m */; };
+		7B2F653B289C4F30000C3D9C /* ShareWithUsernameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F653A289C4F30000C3D9C /* ShareWithUsernameCell.m */; };
 		7B39FC19288797A5002D3607 /* ItineraryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */; };
 		7B39FC1C288A315D002D3607 /* ActivityHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC1B288A315D002D3607 /* ActivityHistoryViewController.m */; };
 		7B39FC1F288F03F7002D3607 /* ShortestRouteMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC1E288F03F7002D3607 /* ShortestRouteMapViewController.m */; };
@@ -120,6 +121,8 @@
 		7B2F653428985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptimalRouteAlgorithmFactory.m; sourceTree = "<group>"; };
 		7B2F6536289B0144000C3D9C /* ShareItineraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareItineraryViewController.h; sourceTree = "<group>"; };
 		7B2F6537289B0144000C3D9C /* ShareItineraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareItineraryViewController.m; sourceTree = "<group>"; };
+		7B2F6539289C4F30000C3D9C /* ShareWithUsernameCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareWithUsernameCell.h; sourceTree = "<group>"; };
+		7B2F653A289C4F30000C3D9C /* ShareWithUsernameCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareWithUsernameCell.m; sourceTree = "<group>"; };
 		7B39FC17288797A5002D3607 /* ItineraryDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItineraryDetailViewController.h; sourceTree = "<group>"; };
 		7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItineraryDetailViewController.m; sourceTree = "<group>"; };
 		7B39FC1A288A315D002D3607 /* ActivityHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityHistoryViewController.h; sourceTree = "<group>"; };
@@ -250,6 +253,8 @@
 				7B297EA8287CD61800B5BCB4 /* PlaceTableViewCell.m */,
 				7B297EB42881365000B5BCB4 /* ItineraryTableViewCell.h */,
 				7B297EB52881365000B5BCB4 /* ItineraryTableViewCell.m */,
+				7B2F6539289C4F30000C3D9C /* ShareWithUsernameCell.h */,
+				7B2F653A289C4F30000C3D9C /* ShareWithUsernameCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -604,6 +609,7 @@
 			files = (
 				7B297E9B2877E82900B5BCB4 /* TabBarController.m in Sources */,
 				7B297EA1287C00EF00B5BCB4 /* DiscoverViewController.m in Sources */,
+				7B2F653B289C4F30000C3D9C /* ShareWithUsernameCell.m in Sources */,
 				7B2F6538289B0144000C3D9C /* ShareItineraryViewController.m in Sources */,
 				7B39FC1F288F03F7002D3607 /* ShortestRouteMapViewController.m in Sources */,
 				7B1A97B42874F7A9007D53F1 /* main.m in Sources */,
