@@ -916,7 +916,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Share Itinerary" id="IOr-pF-b7t">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="pum-o2-jp2"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="pum-o2-jp2">
+                            <connections>
+                                <action selector="didTapDone:" destination="p2V-id-bhk" id="Fsn-Vi-1me"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ve9-C1-tem" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -8,8 +8,10 @@
 #import "ShareItineraryViewController.h"
 
 @interface ShareItineraryViewController ()
+@property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 - (IBAction)didTapShareViewOnlyLink:(id)sender;
 - (IBAction)didTapShareEditLink:(id)sender;
+- (IBAction)didTapDone:(id)sender;
 
 
 @end
@@ -19,7 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"Itinerary for sharing is set to be %@", self.itinerary);
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
+    self.tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:self.tapRecognizer];
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
@@ -92,6 +96,10 @@
 }
 
 
+- (IBAction)didTapDone:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
 - (IBAction)didTapShareEditLink:(id)sender {
     [self shareItineraryWithEditLink];
 }
@@ -99,4 +107,9 @@
 - (IBAction)didTapShareViewOnlyLink:(id)sender {
     [self shareItineraryWithViewOnlyLink];
 }
+
+- (void)didTapAnywhere:(UITapGestureRecognizer *) sender {
+    [self.view endEditing:YES];
+}
+
 @end
