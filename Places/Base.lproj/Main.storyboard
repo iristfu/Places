@@ -901,7 +901,7 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
-                                                    <outlet property="username" destination="CSs-Ae-TJ4" id="bRx-3a-s4W"/>
+                                                    <outlet property="usernameLabel" destination="CSs-Ae-TJ4" id="Uch-Yf-tQY"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>

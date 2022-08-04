@@ -6,13 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@import Parse;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ShareWithUsernameCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UILabel *username;
 - (IBAction)didTapShare:(id)sender;
-
+@property (strong, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (strong, nonatomic) PFUser *user;
 @end
 
 NS_ASSUME_NONNULL_END

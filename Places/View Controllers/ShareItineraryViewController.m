@@ -17,7 +17,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *accessPermissionsButton;
 @property (strong, nonatomic) IBOutlet UIMenu *accessPermissionsMenu;
 @property (strong, nonatomic) NSString *sharingPermission;
-@property (strong, nonatomic) NSArray *existingUsers;
+@property (strong, nonatomic) NSArray<PFUser *> *existingUsers;
 @property (strong, nonatomic) NSArray *searchResult;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UITableView *usersTableView;
@@ -67,7 +67,7 @@
             NSLog(@"all users are %@", allUsers);
             NSMutableArray *allUsernames = [[NSMutableArray alloc] init];
             for (PFUser *user in allUsers) {
-                [allUsernames addObject:user.username];
+                [allUsernames addObject:user];
             }
             self.existingUsers = [allUsernames copy];
             NSLog(@"all usernames are %@", self.existingUsers);
@@ -84,7 +84,8 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ShareWithUsernameCell *usernameCell = [tableView dequeueReusableCellWithIdentifier:@"ShareWithUsernameCell" forIndexPath:indexPath];
-    usernameCell.username = self.existingUsers[indexPath.row];
+    usernameCell.usernameLabel.text = self.existingUsers[indexPath.row].username;
+    usernameCell.user = self.existingUsers[indexPath.row];
     return usernameCell;
 }
 

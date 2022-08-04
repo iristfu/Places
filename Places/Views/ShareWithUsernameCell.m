@@ -11,7 +11,9 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    
+//    NSLog(@"self.username in awakeFromNib is %@", self.username);
+//    self.usernameLabel.text = self.username;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -21,5 +23,7 @@
 }
 
 - (IBAction)didTapShare:(id)sender {
+    NSLog(@"tapped share on %@", self.user.username);
 }
+
 @end
