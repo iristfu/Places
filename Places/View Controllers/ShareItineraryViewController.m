@@ -16,7 +16,7 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *accessPermissionsButton;
 @property (strong, nonatomic) IBOutlet UIMenu *accessPermissionsMenu;
-@property (strong, nonatomic) NSString *sharingPermission;
+@property (strong, nonatomic) NSString *accessPermission;
 @property (strong, nonatomic) NSArray<PFUser *> *existingUsers;
 @property (strong, nonatomic) NSArray *searchResult;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -31,7 +31,7 @@
     [super viewDidLoad];
     
     [self configureAccessPermissionsButton];
-    self.sharingPermission = @"edit";
+    self.accessPermission = @"edit";
     
     self.usersTableView.dataSource = self;
     self.usersTableView.delegate = self;
@@ -46,10 +46,10 @@
 
 - (void)configureAccessPermissionsButton {
     UIAction *Editor = [UIAction actionWithTitle:@"Editor" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
-        self.sharingPermission = @"edit";
+        self.accessPermission = @"edit";
     }];
     UIAction *Viewer = [UIAction actionWithTitle:@"Viewer" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
-        self.sharingPermission = @"view";
+        self.accessPermission = @"view";
     }];
     UIMenu *menu = [UIMenu menuWithChildren:@[Editor, Viewer]];
     self.accessPermissionsButton.menu = menu;
@@ -86,6 +86,8 @@
     ShareWithUsernameCell *usernameCell = [tableView dequeueReusableCellWithIdentifier:@"ShareWithUsernameCell" forIndexPath:indexPath];
     usernameCell.usernameLabel.text = self.existingUsers[indexPath.row].username;
     usernameCell.user = self.existingUsers[indexPath.row];
+    usernameCell.itinerary = self.itinerary;
+    usernameCell.accessPermission = self.accessPermission;
     return usernameCell;
 }
 

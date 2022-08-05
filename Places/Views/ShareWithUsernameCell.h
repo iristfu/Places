@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Itinerary.h"
 @import Parse;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)didTapShare:(id)sender;
 @property (strong, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (strong, nonatomic) PFUser *user;
+@property (strong, nonatomic) Itinerary *itinerary;
+@property (strong, nonatomic) NSString *accessPermission;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -91,7 +91,10 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Itinerary"];
     [query getObjectInBackgroundWithId:itineraryObjectID block:^(PFObject *itinerary, NSError *error) {
         if (!error) {
-            [self addSharedItineraryForCurrentUser:itinerary withAccessPermission:access];
+//            [self addSharedItineraryForCurrentUser:itinerary withAccessPermission:access];
+            PFUser *currentUser = [PFUser currentUser];
+            [access isEqualToString:@"view"] ? [itinerary addObject:currentUser forKey:@"usersWithViewAccess"] : [itinerary addObject:currentUser forKey:@"usersWithEditAccess"];
+            [itinerary saveInBackground];
             itineraryDetailViewController.itinerary = itinerary;
             NSLog(@"Got the itinerary to set the detail view with itinerary %@", itineraryDetailViewController.itinerary);
             

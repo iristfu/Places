@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *placesToGo;
 @property (nonatomic, strong) NSNumber *estimatedCost;
 @property (nonatomic, strong) NSArray<Activity *> *activityHistory;
+@property (nonatomic, strong) NSMutableArray *usersWithEditAccess;
+@property (nonatomic, strong) NSMutableArray *usersWithViewAccess;
 
 @end
 
