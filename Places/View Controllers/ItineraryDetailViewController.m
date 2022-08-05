@@ -79,7 +79,7 @@
         
         NSArray<NSString *> *editAccessUserObjectIDs = [self getEditAccessUserObjectIDs];
         
-        if ([editAccessUserObjectIDs containsObject:[PFUser currentUser].objectId]) {
+        if ([editAccessUserObjectIDs containsObject:[PFUser currentUser].objectId] || [self.itinerary.author isEqual:[PFUser currentUser].username]) {
             self.accessPermission = @"edit";
         } else {
             self.accessPermission = @"view";

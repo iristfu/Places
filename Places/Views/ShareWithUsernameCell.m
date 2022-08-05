@@ -32,7 +32,7 @@
 
 
 - (IBAction)didTapShare:(id)sender {
-    NSLog(@"tapped share on %@", self.user.username);
+    NSLog(@"tapped share on %@ with access permission %@", self.user.username, self.accessPermission);
     
     // update itinerary's usersWithEditAccess or usersWithViewAccess field
     [self.accessPermission isEqualToString:@"view"] ? [self.itinerary addObject:self.user forKey:@"usersWithViewAccess"] : [self.itinerary addObject:self.user forKey:@"usersWithEditAccess"];

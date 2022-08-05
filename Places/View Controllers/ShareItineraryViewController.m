@@ -47,9 +47,13 @@
 - (void)configureAccessPermissionsButton {
     UIAction *Editor = [UIAction actionWithTitle:@"Editor" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.accessPermission = @"edit";
+        NSLog(@"Just set accessPermission to %@", self.accessPermission);
+        [self.usersTableView reloadData]; // update cell's accessPermission
     }];
     UIAction *Viewer = [UIAction actionWithTitle:@"Viewer" image:nil identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
         self.accessPermission = @"view";
+        NSLog(@"Just set accessPermission to %@", self.accessPermission);
+        [self.usersTableView reloadData]; // update cell's accessPermission
     }];
     UIMenu *menu = [UIMenu menuWithChildren:@[Editor, Viewer]];
     self.accessPermissionsButton.menu = menu;
