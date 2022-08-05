@@ -8,7 +8,7 @@
 #import "ShareItineraryViewController.h"
 #import "ShareWithUsernameCell.h"
 
-@interface ShareItineraryViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ShareItineraryViewController () <ShareWithUsernameCellDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 - (IBAction)didTapShareViewOnlyLink:(id)sender;
 - (IBAction)didTapShareEditLink:(id)sender;
@@ -92,6 +92,7 @@
     usernameCell.user = self.existingUsers[indexPath.row];
     usernameCell.itinerary = self.itinerary;
     usernameCell.accessPermission = self.accessPermission;
+    usernameCell.delegate = self;
     return usernameCell;
 }
 
@@ -194,5 +195,10 @@
 - (void)didTapAnywhere:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
 }
+
+- (void)showAlert:(nonnull UIAlertController *)alert {
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 
 @end

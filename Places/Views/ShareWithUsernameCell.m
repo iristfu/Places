@@ -11,15 +11,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
-//    NSLog(@"self.username in awakeFromNib is %@", self.username);
-//    self.usernameLabel.text = self.username;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
 }
 
 - (NSArray<NSString *> *)getCurrentSharedItinerariesObjectIDs {
@@ -43,22 +38,11 @@
     UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Success"
                                                                           message:[NSString stringWithFormat:@"Itinerary shared with %@ as %@er", self.user.username, self.accessPermission]
                                                                         preferredStyle:(UIAlertControllerStyleAlert)];
-//    [self presentViewController:successAlert animated:YES completion:^{}];
-    
-//    // add itinerary to self.user's "shared with me" itineraries
-//    NSArray<NSString *> *currentSharedItinerariesObjectIDS = [self getCurrentSharedItinerariesObjectIDs];
-//    if (![currentSharedItinerariesObjectIDS containsObject:self.itinerary.objectId]) {
-//        [self.user addObject:self.itinerary forKey:@"sharedItineraries"];
-//        [self.user saveInBackground];
-//    } else {
-//        NSLog(@"%@ already has this shared itinerary", self.user.username);
-//    }
-//
-//    // store access permissions
-//    if ([self.accessPermission isEqualToString:@"view"]) {
-//        [self.user addObject:self.itinerary.objectId forKey:@"viewOnlyItineraryIDs"];
-//        [self.user saveInBackground];
-//    }
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * _Nonnull action) {}];
+    [successAlert addAction:okAction];
+    [self.delegate showAlert:successAlert];
 }
 
 @end
