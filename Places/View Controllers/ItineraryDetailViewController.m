@@ -31,7 +31,6 @@
     
     [self setAccessPermission];
     
-    
     self.mapLoadingIndicator.hidden = YES;
     self.mapLoadingIndicator.hidesWhenStopped = YES;
     
@@ -66,25 +65,14 @@
     NSLog(@"Access permission for this itinerary is %@", self.accessPermission);
     
     if (!self.accessPermission) {
-        // fetch access permission from Parse. If already set, then permisison was set in scene delegate and user got to this view via link
-//        PFUser *currentUser = [PFUser currentUser];
-//        if ([currentUser[@"viewOnlyItineraryIDs"] containsObject:self.itinerary.objectId]) {
-//            self.accessPermission = @"view";
-//        } else {
-//            self.accessPermission = @"edit";
-//        }
-        NSLog(@"This is usersWithViewAccess %@", self.itinerary.usersWithViewAccess);
-        NSLog(@"This is usersWithEditAccess %@", self.itinerary.usersWithEditAccess);
-        NSLog(@"This is currentUser %@", [PFUser currentUser]);
-        
         NSArray<NSString *> *editAccessUserObjectIDs = [self getEditAccessUserObjectIDs];
-        
         if ([editAccessUserObjectIDs containsObject:[PFUser currentUser].objectId] || [self.itinerary.author isEqual:[PFUser currentUser].username]) {
             self.accessPermission = @"edit";
         } else {
             self.accessPermission = @"view";
         }
     }
+    
     if ([self.accessPermission isEqualToString:@"view"]) {
         // Remove edit button
         NSMutableArray *rightBarButtonItems = [self.navigationItem.rightBarButtonItems mutableCopy];

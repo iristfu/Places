@@ -69,11 +69,9 @@
         self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
     } else {
         NSLog(@"Going to load shared itineraries");
-        
+    
         NSPredicate *pred = [NSPredicate predicateWithFormat: @"usersWithViewAccess IN %@ OR usersWithEditAccess IN %@", @[[PFUser currentUser]], @[[PFUser currentUser]]];
         PFQuery *query = [PFQuery queryWithClassName:@"Itinerary" predicate:pred];
-//        [query whereKey:@"usersWithEditAccess" containedIn:@[[PFUser currentUser]]];
-//        [query whereKey:@"usersWithViewAccess" containedIn:@[[PFUser currentUser]]];
         [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable sharedItineraries, NSError * _Nullable error) {
             if (!error) {
                 NSLog(@"Got sharedItineraries: %@", sharedItineraries);
