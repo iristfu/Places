@@ -62,60 +62,6 @@
 }
 
 
-#pragma mark - table View methods
-
-- (void)populateUsersToDisplay {
-    PFQuery *query = [PFUser query];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable users, NSError * _Nullable error) {
-        if (!error) {
-            NSMutableArray *allUsers = [[NSMutableArray alloc] init];
-            for (PFUser *user in users) {
-                [allUsers addObject:user];
-            }
-            self.usersToDisplay = allUsers;
-            self.allUsers = [allUsers copy];
-            NSLog(@"usersToDisplay initially set to %@", self.usersToDisplay);
-            [self.usersTableView reloadData];
-        } else {
-            NSLog(@"Couldn't get all users");
-        }
-    }];
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.usersToDisplay.count;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ShareWithUsernameCell *usernameCell = [tableView dequeueReusableCellWithIdentifier:@"ShareWithUsernameCell" forIndexPath:indexPath];
-    usernameCell.usernameLabel.text = self.usersToDisplay[indexPath.row].username;
-    usernameCell.user = self.usersToDisplay[indexPath.row];
-    usernameCell.itinerary = self.itinerary;
-    usernameCell.accessPermission = self.accessPermission;
-    usernameCell.delegate = self;
-    return usernameCell;
-}
-
-#pragma mark - search methods
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSLog(@"searchBar textDidChange called");
-    if (searchText.length == 0) {
-        self.usersToDisplay = [self.allUsers mutableCopy];
-        [self.searchBar endEditing:YES];
-    } else {
-        self.usersToDisplay = [[NSMutableArray alloc]init];
-        for (PFUser *user in self.allUsers) {
-            NSRange range = [user.username rangeOfString:searchText options:NSCaseInsensitiveSearch];
-            if (range.location != NSNotFound) {
-                [self.usersToDisplay addObject:user];
-            }
-        }
-    }
-    NSLog(@"Just updated usersToDisplay to %@", self.usersToDisplay);
-    [self.usersTableView reloadData];
-}
-
 - (void)presentActivityController:(UIActivityViewController *)controller {
     // for iPad: make the presentation a Popover
     controller.modalPresentationStyle = UIModalPresentationPopover;
@@ -205,5 +151,59 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+
+#pragma mark - table View methods
+
+- (void)populateUsersToDisplay {
+    PFQuery *query = [PFUser query];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable users, NSError * _Nullable error) {
+        if (!error) {
+            NSMutableArray *allUsers = [[NSMutableArray alloc] init];
+            for (PFUser *user in users) {
+                [allUsers addObject:user];
+            }
+            self.usersToDisplay = allUsers;
+            self.allUsers = [allUsers copy];
+            NSLog(@"usersToDisplay initially set to %@", self.usersToDisplay);
+            [self.usersTableView reloadData];
+        } else {
+            NSLog(@"Couldn't get all users");
+        }
+    }];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.usersToDisplay.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    ShareWithUsernameCell *usernameCell = [tableView dequeueReusableCellWithIdentifier:@"ShareWithUsernameCell" forIndexPath:indexPath];
+    usernameCell.usernameLabel.text = self.usersToDisplay[indexPath.row].username;
+    usernameCell.user = self.usersToDisplay[indexPath.row];
+    usernameCell.itinerary = self.itinerary;
+    usernameCell.accessPermission = self.accessPermission;
+    usernameCell.delegate = self;
+    return usernameCell;
+}
+
+#pragma mark - search methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    NSLog(@"searchBar textDidChange called");
+    if (searchText.length == 0) {
+        self.usersToDisplay = [self.allUsers mutableCopy];
+        [self.searchBar endEditing:YES];
+    } else {
+        self.usersToDisplay = [[NSMutableArray alloc]init];
+        for (PFUser *user in self.allUsers) {
+            NSRange range = [user.username rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if (range.location != NSNotFound) {
+                [self.usersToDisplay addObject:user];
+            }
+        }
+    }
+    NSLog(@"Just updated usersToDisplay to %@", self.usersToDisplay);
+    [self.usersTableView reloadData];
+}
 
 @end
