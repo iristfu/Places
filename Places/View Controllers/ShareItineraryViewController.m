@@ -8,7 +8,7 @@
 #import "ShareItineraryViewController.h"
 #import "ShareWithUsernameCell.h"
 
-@interface ShareItineraryViewController () <ShareWithUsernameCellDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface ShareItineraryViewController () <ShareWithUsernameCellDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 - (IBAction)didTapShareViewOnlyLink:(id)sender;
 - (IBAction)didTapShareEditLink:(id)sender;
@@ -17,8 +17,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *accessPermissionsButton;
 @property (strong, nonatomic) IBOutlet UIMenu *accessPermissionsMenu;
 @property (strong, nonatomic) NSString *accessPermission;
-@property (strong, nonatomic) NSArray<PFUser *> *existingUsers;
-@property (strong, nonatomic) NSArray *searchResult;
+@property (strong, nonatomic) NSMutableArray<PFUser *> *usersToDisplay;
+@property (strong, nonatomic) NSArray<PFUser *> *allUsers;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UITableView *usersTableView;
 
@@ -33,11 +33,11 @@
     [self configureAccessPermissionsButton];
     self.accessPermission = @"edit";
     
+    self.searchBar.delegate = self;
     self.usersTableView.dataSource = self;
     self.usersTableView.delegate = self;
     self.usersTableView.rowHeight = UITableViewAutomaticDimension;
-    [self populateExistingUsers];
-    self.searchResult =[[NSArray alloc]init];
+    [self populateUsersToDisplay];
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnywhere:)];
     self.tapRecognizer.cancelsTouchesInView = NO;
@@ -64,17 +64,17 @@
 
 #pragma mark - table View methods
 
-- (void)populateExistingUsers {
+- (void)populateUsersToDisplay {
     PFQuery *query = [PFUser query];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable allUsers, NSError * _Nullable error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable users, NSError * _Nullable error) {
         if (!error) {
-            NSLog(@"all users are %@", allUsers);
-            NSMutableArray *allUsernames = [[NSMutableArray alloc] init];
-            for (PFUser *user in allUsers) {
-                [allUsernames addObject:user];
+            NSMutableArray *allUsers = [[NSMutableArray alloc] init];
+            for (PFUser *user in users) {
+                [allUsers addObject:user];
             }
-            self.existingUsers = [allUsernames copy];
-            NSLog(@"all usernames are %@", self.existingUsers);
+            self.usersToDisplay = allUsers;
+            self.allUsers = [allUsers copy];
+            NSLog(@"usersToDisplay initially set to %@", self.usersToDisplay);
             [self.usersTableView reloadData];
         } else {
             NSLog(@"Couldn't get all users");
@@ -83,13 +83,13 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.existingUsers.count;
+    return self.usersToDisplay.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ShareWithUsernameCell *usernameCell = [tableView dequeueReusableCellWithIdentifier:@"ShareWithUsernameCell" forIndexPath:indexPath];
-    usernameCell.usernameLabel.text = self.existingUsers[indexPath.row].username;
-    usernameCell.user = self.existingUsers[indexPath.row];
+    usernameCell.usernameLabel.text = self.usersToDisplay[indexPath.row].username;
+    usernameCell.user = self.usersToDisplay[indexPath.row];
     usernameCell.itinerary = self.itinerary;
     usernameCell.accessPermission = self.accessPermission;
     usernameCell.delegate = self;
@@ -98,17 +98,22 @@
 
 #pragma mark - search methods
 
--(void) filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope
-{
-    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@", searchText];
-    self.searchResult = [self.existingUsers filteredArrayUsingPredicate:resultPredicate];
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    NSLog(@"searchBar textDidChange called");
+    if (searchText.length == 0) {
+        self.usersToDisplay = [self.allUsers mutableCopy];
+        [self.searchBar endEditing:YES];
+    } else {
+        self.usersToDisplay = [[NSMutableArray alloc]init];
+        for (PFUser *user in self.allUsers) {
+            NSRange range = [user.username rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if (range.location != NSNotFound) {
+                [self.usersToDisplay addObject:user];
+            }
+        }
+    }
+    NSLog(@"Just updated usersToDisplay to %@", self.usersToDisplay);
     [self.usersTableView reloadData];
-}
-
-
--(BOOL)searchDisplayController:(UISearchController *)controller shouldReloadTableForSearchString:(NSString *)searchString  {
-    [self filterContentForSearchText:searchString scope:[[self.searchBar scopeButtonTitles] objectAtIndex:[self.searchBar selectedScopeButtonIndex]]] ;
-    return YES;
 }
 
 - (void)presentActivityController:(UIActivityViewController *)controller {
