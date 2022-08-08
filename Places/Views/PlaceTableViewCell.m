@@ -68,8 +68,14 @@
         [self.delegate addPlaceToPlacesToGoToAdd:self.place];
         
         // change the UI
-        [self.addToButton setTitle:@" Going" forState:UIControlStateNormal];
-        [self.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+
+        [UIView transitionWithView:self.addToButton
+                          duration:0.25f
+                           options:UIViewAnimationOptionTransitionFlipFromLeft
+                        animations:^{
+            [self.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+          } completion:nil];
+        
     } else {
         NSLog(@"%@ is already in places to go", self.place[@"name"]);
     }

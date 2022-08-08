@@ -193,10 +193,10 @@
         placeTableViewCell.delegate = self;
         
         if (![self.existingPlacesToGo containsObject:place.objectId]) {
-            [placeTableViewCell.addToButton setTitle:@" Add to places to go" forState:UIControlStateNormal];
+//            [placeTableViewCell.addToButton setTitle:@" Add to places to go" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"plus"] forState:UIControlStateNormal];
         } else {
-            [placeTableViewCell.addToButton setTitle:@" Going" forState:UIControlStateNormal];
+//            [placeTableViewCell.addToButton setTitle:@" Going" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
         }
         
