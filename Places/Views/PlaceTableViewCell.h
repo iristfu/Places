@@ -23,8 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *placeRatings;
 @property (weak, nonatomic) IBOutlet UILabel *placeAddress;
 @property (weak, nonatomic) IBOutlet UILabel *placeFavoriteCount;
+//- (IBAction)didTapAddToButton:(id)sender;
+//@property (weak, nonatomic) IBOutlet UIButton *addToButton;
 - (IBAction)didTapAddToButton:(id)sender;
-@property (weak, nonatomic) IBOutlet UIButton *addToButton;
+@property (strong, nonatomic) IBOutlet UIButton *addToButton;
+
+
 @property (weak, nonatomic) NSString *viewFrom; // string representing which view triggered the discover view
 
 @property (weak, nonatomic) Place *place;

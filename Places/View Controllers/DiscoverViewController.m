@@ -203,11 +203,11 @@
     } else {
         PFUser *currentUser = [PFUser currentUser];
         if ([self notFavoritedBy:currentUser forPlaceID:place[@"placeID"]]) {
-            [placeTableViewCell.addToButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
-            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
+//            [placeTableViewCell.addToButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart"] forState:UIControlStateNormal];
         } else {
-            [placeTableViewCell.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
-            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+//            [placeTableViewCell.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
         }
     }
 }

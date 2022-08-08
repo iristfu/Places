@@ -42,11 +42,19 @@
         NSLog(@"Incremented favorite count for %@", self.place[@"name"]);
         
         // Change button UI
-        [self.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
-        [self.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+//        [self.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
+        [self.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
         
         // Update favorite count label
-        self.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", self.place[@"favoriteCount"]];
+        [UIView transitionWithView:self.placeFavoriteCount
+                          duration:0.25f
+                           options:UIViewAnimationOptionTransitionFlipFromBottom
+                        animations:^{
+
+            self.placeFavoriteCount.text = [NSString stringWithFormat:@"❤️ %@", self.place[@"favoriteCount"]];
+
+          } completion:nil];
+//        self.placeFavoriteCount.text = [NSString stringWithFormat:@"❤️ %@", self.place[@"favoriteCount"]];
     } else {
         NSLog(@"%@ already favorited by user", self.place[@"name"]);
     }
@@ -69,6 +77,7 @@
         [self handleAddToPlacesToGoButtonFunctionalities];
     } else {
         [self handleAddToFavoriteButtonFunctionalities];
+        
     }
 }
 @end
