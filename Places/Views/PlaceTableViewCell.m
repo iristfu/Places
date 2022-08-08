@@ -43,18 +43,21 @@
         
         // Change button UI
 //        [self.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
-        [self.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
-        
+        [UIView transitionWithView:self.addToButton
+                          duration:0.25f
+                           options:UIViewAnimationOptionTransitionFlipFromBottom
+                        animations:^{
+            [self.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
+            self.addToButton.tintColor = [UIColor redColor];
+          } completion:nil];
+
         // Update favorite count label
         [UIView transitionWithView:self.placeFavoriteCount
                           duration:0.25f
                            options:UIViewAnimationOptionTransitionFlipFromBottom
                         animations:^{
-
             self.placeFavoriteCount.text = [NSString stringWithFormat:@"❤️ %@", self.place[@"favoriteCount"]];
-
           } completion:nil];
-//        self.placeFavoriteCount.text = [NSString stringWithFormat:@"❤️ %@", self.place[@"favoriteCount"]];
     } else {
         NSLog(@"%@ already favorited by user", self.place[@"name"]);
     }
