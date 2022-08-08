@@ -181,6 +181,10 @@
     NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
     NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
     [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
+    placeTableViewCell.placeImage.layer.cornerRadius = placeTableViewCell.placeImage.frame.size.height / 5;
+    placeTableViewCell.placeImage.layer.masksToBounds = YES;
+    placeTableViewCell.placeImage.layer.borderWidth = 0;
+    placeTableViewCell.placeImage.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)configureAddToButton:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
@@ -212,7 +216,7 @@
     placeTableViewCell.placeName.text = place[@"name"];
     placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
     placeTableViewCell.placeAddress.text = place[@"address"];
-    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]];
+    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"] ? place[@"favoriteCount"] : @"0"];
     [self displayFirstPhotoOf:place placeTableViewCell:placeTableViewCell];
     [self configureAddToButton:place placeTableViewCell:placeTableViewCell];
 }
