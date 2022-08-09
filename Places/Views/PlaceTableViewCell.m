@@ -42,7 +42,6 @@
         NSLog(@"Incremented favorite count for %@", self.place[@"name"]);
         
         // Change button UI
-//        [self.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
         [UIView transitionWithView:self.addToButton
                           duration:0.25f
                            options:UIViewAnimationOptionTransitionFlipFromBottom
