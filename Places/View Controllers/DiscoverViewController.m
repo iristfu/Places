@@ -38,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"Discover";
+    
     self.searchBar.delegate = self;
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;

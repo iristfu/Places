@@ -171,8 +171,8 @@
             <objects>
                 <navigationController id="nvN-OB-7sU" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Discover" image="network" catalog="system" id="aFf-su-Mym"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eBq-3a-GWJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="eBq-3a-GWJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -183,7 +183,7 @@
             </objects>
             <point key="canvasLocation" x="-1983" y="1696"/>
         </scene>
-        <!--Discover-->
+        <!--Discover View Controller-->
         <scene sceneID="h1H-V4-Qq2">
             <objects>
                 <viewController id="HV6-B5-JQC" customClass="DiscoverViewController" sceneMemberID="viewController">
@@ -192,7 +192,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="onh-dv-iNd">
-                                <rect key="frame" x="0.0" y="152" width="414" height="690"/>
+                                <rect key="frame" x="0.0" y="152" width="414" height="661"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceCell" rowHeight="469" id="02U-Pg-wkZ" customClass="PlaceTableViewCell">
@@ -331,7 +331,7 @@
                             <constraint firstItem="Ohj-g5-9Me" firstAttribute="top" secondItem="Z8x-UA-SPz" secondAttribute="top" id="sNV-Ah-W9v"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Discover" id="80M-Zo-ZwF">
+                    <navigationItem key="navigationItem" id="80M-Zo-ZwF">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="asb-67-xmM">
                             <connections>
                                 <action selector="didTapCancel:" destination="HV6-B5-JQC" id="Drj-Ty-zqg"/>
@@ -1475,7 +1475,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="hiJ-s2-rp9"/>
-        <segue reference="4U7-ob-Tl9"/>
+        <segue reference="LQT-IR-rHR"/>
         <segue reference="jge-a7-93w"/>
     </inferredMetricsTieBreakers>
     <resources>
