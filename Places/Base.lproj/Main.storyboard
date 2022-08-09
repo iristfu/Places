@@ -208,8 +208,8 @@
                                                         <constraint firstAttribute="height" constant="350" id="qyp-ji-102"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Place name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkw-bx-jWR">
-                                                    <rect key="frame" x="32" y="370" width="88" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Place name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkw-bx-jWR">
+                                                    <rect key="frame" x="32" y="370" width="226.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -223,7 +223,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place ratings" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WZC-Iv-7Ur">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Place ratings" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WZC-Iv-7Ur">
                                                     <rect key="frame" x="283.5" y="370" width="98.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -254,7 +254,7 @@
                                                 <constraint firstItem="1kV-OV-M8g" firstAttribute="top" secondItem="Oyk-YV-KjF" secondAttribute="top" constant="10" id="GuI-rz-1ol"/>
                                                 <constraint firstItem="WZC-Iv-7Ur" firstAttribute="top" secondItem="pkw-bx-jWR" secondAttribute="top" id="J6Y-zy-gWp"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1kV-OV-M8g" secondAttribute="trailing" constant="10" id="VMx-Dw-Xv2"/>
-                                                <constraint firstItem="WZC-Iv-7Ur" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pkw-bx-jWR" secondAttribute="trailing" constant="20" id="Y1T-NB-fT9"/>
+                                                <constraint firstItem="WZC-Iv-7Ur" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pkw-bx-jWR" secondAttribute="trailing" constant="25" id="Y1T-NB-fT9"/>
                                                 <constraint firstItem="al8-Zb-ESM" firstAttribute="top" secondItem="WZC-Iv-7Ur" secondAttribute="bottom" constant="10" id="ZyA-el-0wn"/>
                                                 <constraint firstItem="pkw-bx-jWR" firstAttribute="leading" secondItem="1kV-OV-M8g" secondAttribute="leading" id="cVv-qt-4tj"/>
                                                 <constraint firstItem="1kV-OV-M8g" firstAttribute="centerX" secondItem="Oyk-YV-KjF" secondAttribute="centerX" id="mY9-3B-D3O"/>
