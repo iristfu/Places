@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *increasingFavoritesButton;
 @property (weak, nonatomic) IBOutlet UIButton *decreasingFavoritesButton;
 @property (nonatomic, strong) NSMutableArray *existingPlacesToGo; // array of Place objectIDs
+@property (nonatomic, strong) UISearchController *searchController;
 
 // specific to places to go
 - (IBAction)didTapCancel:(id)sender;
@@ -38,14 +39,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UISearchController *searchController = [[UISearchController alloc] init];
-    searchController.searchBar.placeholder = @"Top food, hikes in SF, classy hotels...";
-    
     self.title = @"Discover";
-    self.navigationItem.searchController = searchController;
-    self.navigationItem.hidesSearchBarWhenScrolling = YES;
     
-    searchController.searchBar.delegate = self;
+    self.searchController = [[UISearchController alloc] init];
+    self.searchController.searchBar.placeholder = @"Top food, hikes in SF, classy hotels...";
+    self.navigationItem.searchController = self.searchController;
+    self.navigationItem.hidesSearchBarWhenScrolling = YES;
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchBar.showsBookmarkButton = YES;g
+    [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"heart"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
@@ -135,14 +137,18 @@
 
 #pragma mark - UISearchBarDelegate
 
+- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"click");
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    self.searchBar.showsCancelButton = YES;
+    self.searchController.searchBar.showsCancelButton = YES;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    self.searchBar.showsCancelButton = NO;
-    self.searchBar.text = @"";
-    [self.searchBar resignFirstResponder];
+    self.searchController.searchBar.showsCancelButton = NO;
+    self.searchController.searchBar.text = @"";
+    [self.searchController.searchBar resignFirstResponder];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -150,7 +156,7 @@
         self.currentQuery = searchBar.text;
         [self fetchPlaces:searchBar.text];
     }
-    [self.searchBar resignFirstResponder];
+    [self.searchController.searchBar resignFirstResponder];
     [self.searchResults reloadData];
 }
 
