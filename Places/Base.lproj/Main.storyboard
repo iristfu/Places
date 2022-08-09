@@ -306,7 +306,7 @@
             </objects>
             <point key="canvasLocation" x="-1984.057971014493" y="2514.5089285714284"/>
         </scene>
-        <!--Favorites-->
+        <!--Favorites View Controller-->
         <scene sceneID="rpY-sJ-Dru">
             <objects>
                 <tableViewController id="UaK-LD-c3F" customClass="FavoritesViewController" sceneMemberID="viewController">
@@ -323,52 +323,51 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="djX-re-s0x">
-                                            <rect key="frame" x="10" y="10" width="150" height="150"/>
+                                            <rect key="frame" x="10" y="10" width="210" height="164"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="150" id="IbH-Ta-C8Z"/>
-                                                <constraint firstAttribute="height" constant="150" id="RPZ-NV-6HW"/>
+                                                <constraint firstAttribute="width" constant="210" id="IbH-Ta-C8Z"/>
+                                                <constraint firstAttribute="height" constant="210" id="RPZ-NV-6HW"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5B-tM-unM">
-                                            <rect key="frame" x="170" y="10" width="88" height="20.5"/>
+                                            <rect key="frame" x="230" y="10" width="101.5" height="24"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place ratings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RBh-LU-Rx4">
+                                            <rect key="frame" x="230" y="39" width="98.5" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorited by x other users" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Air-Fu-RUO">
-                                            <rect key="frame" x="170" y="72" width="125.5" height="12"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" name="AccentColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place ratings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RBh-LU-Rx4">
-                                            <rect key="frame" x="170" y="35.5" width="73.5" height="14.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place address" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oob-ey-S4E">
-                                            <rect key="frame" x="170" y="55" width="68" height="12"/>
+                                            <rect key="frame" x="230" y="64.5" width="68" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="❤️ 12" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Air-Fu-RUO">
+                                            <rect key="frame" x="338.5" y="39" width="45" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Oob-ey-S4E" firstAttribute="leading" secondItem="RBh-LU-Rx4" secondAttribute="leading" id="3wx-N3-WNk"/>
+                                        <constraint firstItem="Air-Fu-RUO" firstAttribute="centerY" secondItem="RBh-LU-Rx4" secondAttribute="centerY" id="522-uT-02a"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="djX-re-s0x" secondAttribute="bottom" constant="10" id="7jl-J6-aWb"/>
-                                        <constraint firstItem="Air-Fu-RUO" firstAttribute="leading" secondItem="Oob-ey-S4E" secondAttribute="leading" id="KzV-5g-jgb"/>
                                         <constraint firstItem="djX-re-s0x" firstAttribute="top" secondItem="Z43-25-NSp" secondAttribute="top" constant="10" id="TxZ-I9-eYP"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Y5B-tM-unM" secondAttribute="trailing" constant="10" id="UQl-VU-us5"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Air-Fu-RUO" secondAttribute="bottom" constant="10" id="Y6P-Hs-Slq"/>
                                         <constraint firstItem="RBh-LU-Rx4" firstAttribute="top" secondItem="Y5B-tM-unM" secondAttribute="bottom" constant="5" id="YJV-sL-WDA"/>
                                         <constraint firstItem="Oob-ey-S4E" firstAttribute="leading" secondItem="RBh-LU-Rx4" secondAttribute="leading" id="dxb-b0-rLc"/>
                                         <constraint firstItem="Oob-ey-S4E" firstAttribute="top" secondItem="RBh-LU-Rx4" secondAttribute="bottom" constant="5" id="fE2-DX-vdo"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Air-Fu-RUO" secondAttribute="trailing" constant="10" id="gkd-he-XWx"/>
                                         <constraint firstItem="djX-re-s0x" firstAttribute="leading" secondItem="Z43-25-NSp" secondAttribute="leading" constant="10" id="kEb-Xh-JhC"/>
-                                        <constraint firstItem="Air-Fu-RUO" firstAttribute="top" secondItem="Oob-ey-S4E" secondAttribute="bottom" constant="5" id="krB-wt-Z8N"/>
+                                        <constraint firstItem="Air-Fu-RUO" firstAttribute="leading" secondItem="RBh-LU-Rx4" secondAttribute="trailing" constant="10" id="n8j-OH-vv9"/>
                                         <constraint firstItem="Y5B-tM-unM" firstAttribute="leading" secondItem="djX-re-s0x" secondAttribute="trailing" constant="10" id="tef-8i-a7L"/>
                                         <constraint firstItem="Y5B-tM-unM" firstAttribute="top" secondItem="djX-re-s0x" secondAttribute="top" id="tfU-JQ-G56"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Air-Fu-RUO" secondAttribute="trailing" constant="10" id="uAR-NI-JFg"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RBh-LU-Rx4" secondAttribute="trailing" constant="10" id="v6j-kL-5YA"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Oob-ey-S4E" secondAttribute="trailing" constant="10" id="wLd-2v-QwS"/>
                                         <constraint firstItem="RBh-LU-Rx4" firstAttribute="leading" secondItem="Y5B-tM-unM" secondAttribute="leading" id="wrr-Xo-Op0"/>
@@ -384,7 +383,7 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Favorites" id="Rl1-st-9Re"/>
+                    <navigationItem key="navigationItem" id="Rl1-st-9Re"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VvQ-DG-rGm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -395,8 +394,8 @@
             <objects>
                 <navigationController id="QYy-yK-Nxx" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favorites" image="heart" catalog="system" id="eT0-aS-uRm"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vHs-tz-Oa9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="vHs-tz-Oa9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

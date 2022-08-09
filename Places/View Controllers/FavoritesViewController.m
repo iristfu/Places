@@ -21,6 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"Favorites";
+    
     // Initialize a UIRefreshControl
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(loadFavoritedPlaces) forControlEvents:UIControlEventValueChanged];
@@ -68,16 +70,20 @@
 
 - (void)setAttributesOfPlaceCell:(NSDictionary *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
     placeTableViewCell.placeName.text = place[@"name"];
-    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
+    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"⭐️ %@", place[@"rating"]];
     placeTableViewCell.placeAddress.text = place[@"address"];
     NSLog(@"The formatted addres is %@", place[@"address"]);
-    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]]; 
+    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"❤️ %@", place[@"favoriteCount"]];
     
     // get first photo to display
     NSString *firstPhotoReference = ((place[@"photos"])[0])[@"photo_reference"];
     NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
     NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
     [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
+    placeTableViewCell.placeImage.layer.cornerRadius = placeTableViewCell.placeImage.frame.size.height / 16;
+    placeTableViewCell.placeImage.layer.masksToBounds = YES;
+    placeTableViewCell.placeImage.layer.borderWidth = 0;
+    placeTableViewCell.placeImage.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
