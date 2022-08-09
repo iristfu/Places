@@ -46,8 +46,8 @@
     self.navigationItem.searchController = self.searchController;
     self.navigationItem.hidesSearchBarWhenScrolling = YES;
     self.searchController.searchBar.delegate = self;
-    self.searchController.searchBar.showsBookmarkButton = YES;g
-    [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"heart"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
+    self.searchController.searchBar.showsBookmarkButton = YES;
+    [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.up.arrow.down"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
@@ -138,7 +138,23 @@
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
-    NSLog(@"click");
+    if (!self.sortByIncreasingFavorites && !self.sortByDecreasingFavorites) {
+        NSLog(@"set to decreasing");
+        [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.down"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
+        self.sortByDecreasingFavorites = YES;
+        self.sortByIncreasingFavorites = NO;
+    } else if (self.sortByDecreasingFavorites) {
+        NSLog(@"set to increasing");
+        [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.up"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
+        self.sortByIncreasingFavorites = YES;
+        self.sortByDecreasingFavorites = NO;
+    } else if (self.sortByDecreasingFavorites) {
+        NSLog(@"set to not increasing or decreasing");
+        [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.up.arrow.down"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
+        self.sortByDecreasingFavorites = NO;
+        self.sortByIncreasingFavorites = NO;
+    }
+    [self fetchPlaces:self.currentQuery];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
