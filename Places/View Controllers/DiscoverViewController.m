@@ -38,9 +38,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Discover";
+    UISearchController *searchController = [[UISearchController alloc] init];
+    searchController.searchBar.placeholder = @"Top food, hikes in SF, classy hotels...";
     
-    self.searchBar.delegate = self;
+    self.title = @"Discover";
+    self.navigationItem.searchController = searchController;
+    self.navigationItem.hidesSearchBarWhenScrolling = YES;
+    
+    searchController.searchBar.delegate = self;
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
@@ -167,7 +172,7 @@
                 newPlace.lat = place[@"geometry"][@"location"][@"lat"];
                 newPlace.lng = place[@"geometry"][@"location"][@"lng"];
                 newPlace.favoriteCount = 0;
-                [newPlace saveInBackground];
+                [newPlace save];
                 NSLog(@"Created new Place model for %@", place[@"name"]);
             }
         }
@@ -206,6 +211,7 @@
         PFUser *currentUser = [PFUser currentUser];
         if ([self notFavoritedBy:currentUser forPlaceID:place[@"placeID"]]) {
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart"] forState:UIControlStateNormal];
+            placeTableViewCell.addToButton.tintColor = [UIColor grayColor];
         } else {
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
             placeTableViewCell.addToButton.tintColor = [UIColor redColor];

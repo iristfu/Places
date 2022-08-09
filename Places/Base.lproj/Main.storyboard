@@ -192,7 +192,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="onh-dv-iNd">
-                                <rect key="frame" x="0.0" y="152" width="414" height="661"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="757"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceCell" rowHeight="469" id="02U-Pg-wkZ" customClass="PlaceTableViewCell">
@@ -279,56 +279,14 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <searchBar contentMode="redraw" placeholder="Top food, hikes in SF, classy hotels..." translatesAutoresizingMaskIntoConstraints="NO" id="Ohj-g5-9Me">
-                                <rect key="frame" x="0.0" y="56" width="414" height="51"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3J-cV-ZD5">
-                                <rect key="frame" x="0.0" y="107" width="414" height="45"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0r-57-fjA">
-                                        <rect key="frame" x="10" y="5" width="102.5" height="35"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="gray" image="arrow.up" catalog="system" title="Favorited"/>
-                                        <connections>
-                                            <action selector="didTapSortByIncreasingFavorites:" destination="HV6-B5-JQC" eventType="touchUpInside" id="yKf-6c-vYK"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SbI-Ej-FGg">
-                                        <rect key="frame" x="120.5" y="5" width="102.5" height="35"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="gray" image="arrow.down" catalog="system" title="Favorited"/>
-                                        <connections>
-                                            <action selector="didTapSortByDecreasingFavorites:" destination="HV6-B5-JQC" eventType="touchUpInside" id="gba-Cw-Xei"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="SbI-Ej-FGg" firstAttribute="leading" secondItem="A0r-57-fjA" secondAttribute="trailing" constant="8" symbolic="YES" id="1Sh-G8-JJa"/>
-                                    <constraint firstItem="A0r-57-fjA" firstAttribute="leading" secondItem="f3J-cV-ZD5" secondAttribute="leading" constant="10" id="A0s-hP-NgA"/>
-                                    <constraint firstAttribute="bottom" secondItem="A0r-57-fjA" secondAttribute="bottom" constant="5" id="JHv-4e-Fqz"/>
-                                    <constraint firstItem="A0r-57-fjA" firstAttribute="top" secondItem="f3J-cV-ZD5" secondAttribute="top" constant="5" id="Kgp-oT-zOC"/>
-                                    <constraint firstItem="SbI-Ej-FGg" firstAttribute="top" secondItem="A0r-57-fjA" secondAttribute="top" id="N7q-F0-ybK"/>
-                                    <constraint firstAttribute="height" constant="45" id="T9X-IX-bWC"/>
-                                    <constraint firstAttribute="bottom" secondItem="SbI-Ej-FGg" secondAttribute="bottom" constant="5" id="efH-OF-HD9"/>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SbI-Ej-FGg" secondAttribute="trailing" constant="10" id="lXC-8L-Do6"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Z8x-UA-SPz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="onh-dv-iNd" firstAttribute="top" secondItem="f3J-cV-ZD5" secondAttribute="bottom" id="Aw9-NQ-RWe"/>
-                            <constraint firstItem="f3J-cV-ZD5" firstAttribute="top" secondItem="Ohj-g5-9Me" secondAttribute="bottom" id="H1M-sT-aMD"/>
                             <constraint firstItem="onh-dv-iNd" firstAttribute="bottom" secondItem="Z8x-UA-SPz" secondAttribute="bottom" id="NnG-so-1I0"/>
-                            <constraint firstItem="f3J-cV-ZD5" firstAttribute="leading" secondItem="Ohj-g5-9Me" secondAttribute="leading" id="ZRd-bi-2VD"/>
-                            <constraint firstItem="f3J-cV-ZD5" firstAttribute="trailing" secondItem="Ohj-g5-9Me" secondAttribute="trailing" id="aFz-jR-QrN"/>
                             <constraint firstItem="onh-dv-iNd" firstAttribute="leading" secondItem="Z8x-UA-SPz" secondAttribute="leading" id="doV-vO-fyc"/>
-                            <constraint firstItem="Ohj-g5-9Me" firstAttribute="leading" secondItem="Z8x-UA-SPz" secondAttribute="leading" id="ghr-9z-31A"/>
-                            <constraint firstItem="Z8x-UA-SPz" firstAttribute="trailing" secondItem="Ohj-g5-9Me" secondAttribute="trailing" id="ksL-dB-yNO"/>
+                            <constraint firstItem="onh-dv-iNd" firstAttribute="top" secondItem="Z8x-UA-SPz" secondAttribute="top" id="oSi-Tr-M3S"/>
                             <constraint firstItem="Z8x-UA-SPz" firstAttribute="trailing" secondItem="onh-dv-iNd" secondAttribute="trailing" id="q5b-al-I6u"/>
-                            <constraint firstItem="Ohj-g5-9Me" firstAttribute="top" secondItem="Z8x-UA-SPz" secondAttribute="top" id="sNV-Ah-W9v"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="80M-Zo-ZwF">
@@ -344,9 +302,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="decreasingFavoritesButton" destination="SbI-Ej-FGg" id="1EP-kF-sc3"/>
-                        <outlet property="increasingFavoritesButton" destination="A0r-57-fjA" id="EU7-64-9f8"/>
-                        <outlet property="searchBar" destination="Ohj-g5-9Me" id="gOb-lQ-ECc"/>
                         <outlet property="searchResults" destination="onh-dv-iNd" id="dOo-j6-qLI"/>
                     </connections>
                 </viewController>
@@ -1479,8 +1434,6 @@
         <segue reference="jge-a7-93w"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="arrow.down" catalog="system" width="120" height="128"/>
-        <image name="arrow.up" catalog="system" width="120" height="128"/>
         <image name="eyes" catalog="system" width="128" height="99"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
