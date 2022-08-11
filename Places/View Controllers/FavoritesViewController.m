@@ -11,7 +11,7 @@
 @import Parse;
 
 @interface FavoritesViewController ()
-@property (nonatomic, strong) NSArray *favoritedPlaces;
+@property (nonatomic, strong) NSMutableArray *favoritedPlaces;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
@@ -38,7 +38,7 @@
 
 - (void)loadFavoritedPlaces {
     PFUser *currentUser = [PFUser currentUser];
-    self.favoritedPlaces = [[currentUser[@"favoritedPlaces"] reverseObjectEnumerator] allObjects];
+    self.favoritedPlaces = [[[currentUser[@"favoritedPlaces"] mutableCopy] reverseObjectEnumerator] allObjects];
     NSLog(@"The current user's favorited places are %@", self.favoritedPlaces); // an array of place IDs
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
@@ -88,6 +88,39 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.favoritedPlaces.count;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+   if (editingStyle == UITableViewCellEditingStyleDelete) {
+       PFUser *currentUser = [PFUser currentUser];
+       NSString *placeIDToUnfavorite = [self.favoritedPlaces objectAtIndex:[indexPath row]];
+
+       // decrement favorite count for place
+       PFQuery *query = [PFQuery queryWithClassName:@"Place"];
+       [query whereKey:@"placeID" equalTo:placeIDToUnfavorite];
+       [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
+           if (error) {
+               NSLog(@"Got an error while fetching place to unfavorite");
+           } else {
+               if ([places count] == 1) {
+                   Place *placeToUnfavorite = places[0];
+                   [placeToUnfavorite incrementKey:@"favoriteCount" byAmount:[NSNumber numberWithInt:-1]];
+                   [placeToUnfavorite saveInBackground];
+               }
+           }
+       }];
+       
+       [self.favoritedPlaces removeObject:placeIDToUnfavorite];
+       [currentUser[@"favoritedPlaces"] removeObject:placeIDToUnfavorite];
+       [currentUser saveInBackground];
+       
+       [tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+   }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
 }
 
 
