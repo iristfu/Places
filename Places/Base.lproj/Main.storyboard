@@ -1422,7 +1422,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="6sg-rd-xbH">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="tYz-Wd-bBF">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="bAG-fc-9i9">
-                                <rect key="frame" x="20" y="11" width="92" height="34.5"/>
+                                <rect key="frame" x="302" y="11" width="92" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Logout"/>
