@@ -127,6 +127,56 @@
     return itineraryCell;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+   if (editingStyle == UITableViewCellEditingStyleDelete) {
+       PFUser *currentUser = [PFUser currentUser];
+       Itinerary *itineraryToDelete = [self.itinerariesToDisplay objectAtIndex:[indexPath row]];
+       itineraryToDelete.fetchIfNeeded;
+       NSLog(@"The itinerary to delete is %@", itineraryToDelete);
+
+       // if current user is the author, remove itinerary for author and all users with view and editing access
+       if ([itineraryToDelete.author isEqualToString:currentUser.username]) {
+           [currentUser removeObject:itineraryToDelete forKey:@"itineraries"];
+           [currentUser saveInBackground];
+           [itineraryToDelete deleteInBackground];
+       } else {
+           // if current user is not author but has view/edit access, it will only be deleted for them, but not for other users
+           for(PFUser *user in itineraryToDelete.usersWithEditAccess) {
+               user.fetchIfNeeded;
+               if ([user.username isEqualToString:currentUser.username]) {
+                   [itineraryToDelete removeObject:user forKey:@"usersWithEditAccess"];
+                   [itineraryToDelete saveInBackground];
+               } else {
+                   [itineraryToDelete removeObject:user forKey:@"usersWithViewAccess"];
+                   [itineraryToDelete saveInBackground];
+               }
+           }
+           [self showWillNotBeDeletedForOtherUsersAlert];
+       }
+       [self.itinerariesToDisplay removeObject:itineraryToDelete];
+       [tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+   }
+}
+
+- (void)showWillNotBeDeletedForOtherUsersAlert {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"This itinerary will only be deleted for you"
+                                                                               message:@"Because you're not the author of this itinerary, this itinerary will only be deleted for you, and still be available for other users with access."
+                                                                        preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{}];
+}
+
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
+}
+
+
+
 - (void)didComposeItinerary:(Itinerary *)itinerary {
     NSLog(@"did compose itinerary called with %@", itinerary);
     [self.itinerariesToDisplay insertObject:itinerary atIndex:0]; // newly created itineraries show up at the top of the page
