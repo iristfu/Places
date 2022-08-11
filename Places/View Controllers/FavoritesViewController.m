@@ -118,11 +118,19 @@
    }
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleDelete;
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewCellEditingStyleNone;
+}
+//
+- (BOOL)tableView:(UITableView *)tableview shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
 }
 
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    NSString *favoritedPlaceID = [self.favoritedPlaces objectAtIndex:fromIndexPath.row];
+    [self.favoritedPlaces removeObjectAtIndex:fromIndexPath.row];
+    [self.favoritedPlaces insertObject:favoritedPlaceID atIndex:toIndexPath.row];
+}
 
 
 @end

@@ -127,7 +127,9 @@
     return itineraryCell;
 }
 
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+// TODO: figure out why deleting first itinerary of table view is buggy
    if (editingStyle == UITableViewCellEditingStyleDelete) {
        PFUser *currentUser = [PFUser currentUser];
        Itinerary *itineraryToDelete = [self.itinerariesToDisplay objectAtIndex:[indexPath row]];
