@@ -411,8 +411,8 @@
             <objects>
                 <navigationController id="nUy-f2-Ymc" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="GId-Js-gBR"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="78b-gZ-o60">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="78b-gZ-o60">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -1371,30 +1371,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uMS-vv-fWl" customClass="PFImageView">
-                                <rect key="frame" x="33" y="118" width="133" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uMS-vv-fWl" customClass="PFImageView">
+                                <rect key="frame" x="33" y="128" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="fe9-V1-TeA"/>
+                                    <constraint firstAttribute="height" constant="120" id="ydN-Dh-xoS"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is a bio." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="35P-2F-T5P">
-                                <rect key="frame" x="200" y="147" width="164" height="70"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a bio." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="35P-2F-T5P">
+                                <rect key="frame" x="187" y="157" width="94.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HmA-mK-eLo">
-                                <rect key="frame" x="200" y="118" width="91" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HmA-mK-eLo">
+                                <rect key="frame" x="187" y="128" width="91" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ymq-59-B3s">
+                                <rect key="frame" x="113" y="208" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="348-n2-xdj"/>
+                                    <constraint firstAttribute="height" constant="40" id="Jne-dy-QMX"/>
+                                    <constraint firstAttribute="width" secondItem="Ymq-59-B3s" secondAttribute="height" multiplier="1:1" id="VYo-0R-aoB"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="pencil.circle.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="didTapEditProfilePictureButton:" destination="vXL-3Y-hcP" eventType="touchUpInside" id="G7G-Gd-iB7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ow6-MG-KDj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="uMS-vv-fWl" firstAttribute="top" secondItem="ow6-MG-KDj" secondAttribute="top" constant="20" id="3v5-QJ-EI2"/>
+                            <constraint firstItem="ow6-MG-KDj" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="HmA-mK-eLo" secondAttribute="trailing" constant="10" id="BWb-p1-aqn"/>
+                            <constraint firstItem="35P-2F-T5P" firstAttribute="leading" secondItem="HmA-mK-eLo" secondAttribute="leading" id="E18-i6-WwJ"/>
+                            <constraint firstItem="HmA-mK-eLo" firstAttribute="top" secondItem="uMS-vv-fWl" secondAttribute="top" id="Kle-J2-NQN"/>
+                            <constraint firstItem="35P-2F-T5P" firstAttribute="top" secondItem="HmA-mK-eLo" secondAttribute="bottom" constant="8" symbolic="YES" id="KtW-Ze-scF"/>
+                            <constraint firstItem="Ymq-59-B3s" firstAttribute="bottom" secondItem="uMS-vv-fWl" secondAttribute="bottom" id="WZi-d3-eHk"/>
+                            <constraint firstItem="ow6-MG-KDj" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="35P-2F-T5P" secondAttribute="trailing" constant="10" id="diW-d8-Hc8"/>
+                            <constraint firstItem="HmA-mK-eLo" firstAttribute="leading" secondItem="uMS-vv-fWl" secondAttribute="trailing" constant="34" id="gN0-f0-88d"/>
+                            <constraint firstItem="Ymq-59-B3s" firstAttribute="trailing" secondItem="uMS-vv-fWl" secondAttribute="trailing" id="uuq-Oh-qlf"/>
+                            <constraint firstItem="uMS-vv-fWl" firstAttribute="leading" secondItem="ow6-MG-KDj" secondAttribute="leading" constant="33" id="xdr-2k-QfI"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="6sg-rd-xbH">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="tYz-Wd-bBF">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="tYz-Wd-bBF">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="bAG-fc-9i9">
                                 <rect key="frame" x="20" y="11" width="92" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1408,6 +1434,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bio" destination="35P-2F-T5P" id="Td8-Lm-jTq"/>
+                        <outlet property="editProfilePictureButton" destination="Ymq-59-B3s" id="EW8-AF-J6u"/>
                         <outlet property="profilePicture" destination="uMS-vv-fWl" id="q6T-5d-fj8"/>
                         <outlet property="username" destination="HmA-mK-eLo" id="CJU-0y-2nL"/>
                     </connections>
@@ -1445,6 +1472,7 @@
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="network" catalog="system" width="128" height="121"/>
+        <image name="pencil.circle.fill" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="person.badge.plus" catalog="system" width="128" height="124"/>
         <image name="plus" catalog="system" width="128" height="113"/>
