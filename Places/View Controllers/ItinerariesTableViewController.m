@@ -26,6 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    self.title = @"Itineraries";
     
     // Initialize a UIRefreshControl
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -102,10 +103,15 @@
     
     itineraryCell.itinerary = itinerary;
     itineraryCell.itineraryName.text = itinerary[@"name"];
-    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"%@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]];
+    itineraryCell.itineraryDates.text = [NSString stringWithFormat:@"🗓 %@ - %@", itinerary[@"startDate"], itinerary[@"endDate"]];
+    itineraryCell.itineraryAuthor.text = [NSString stringWithFormat:@"✍️ %@", itinerary[@"author"]];
 
     itineraryCell.itineraryImage.image = [UIImage imageNamed:@"placeholder"]; // placeholder image
     itineraryCell.itineraryImage.file = itinerary[@"image"]; // remote image
+    itineraryCell.itineraryImage.layer.cornerRadius = itineraryCell.itineraryImage.frame.size.height / 16;
+    itineraryCell.itineraryImage.layer.masksToBounds = YES;
+    itineraryCell.itineraryImage.layer.borderWidth = 0;
+    itineraryCell.itineraryImage.contentMode = UIViewContentModeScaleAspectFill;
     
     // this part is janky rn - completion block only executes when tap on cell / lightly nudge table view. Why is this?
     [itineraryCell.itineraryImage loadInBackground:^(UIImage * _Nullable image, NSError * _Nullable error) {

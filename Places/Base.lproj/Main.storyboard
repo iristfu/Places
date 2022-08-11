@@ -423,7 +423,7 @@
             </objects>
             <point key="canvasLocation" x="5272" y="1696"/>
         </scene>
-        <!--My Itineraries-->
+        <!--Itineraries Table View Controller-->
         <scene sceneID="lZK-ba-NeA">
             <objects>
                 <tableViewController id="g0x-kb-0km" customClass="ItinerariesTableViewController" sceneMemberID="viewController">
@@ -447,13 +447,19 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Itinerary Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3W-PE-v89">
-                                            <rect key="frame" x="220" y="10" width="117" height="20.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <rect key="frame" x="220" y="10" width="139" height="26.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="start date - end date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeQ-mY-yhR">
-                                            <rect key="frame" x="220" y="40.5" width="117" height="15"/>
+                                            <rect key="frame" x="220" y="46.5" width="139" height="15"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✍️ username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4X7-KF-vLc">
+                                            <rect key="frame" x="220" y="71.5" width="77" height="15"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -464,16 +470,20 @@
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Y3W-PE-v89" secondAttribute="trailing" constant="10" id="BZV-Qt-Rsb"/>
                                         <constraint firstItem="QeQ-mY-yhR" firstAttribute="leading" secondItem="Y3W-PE-v89" secondAttribute="leading" id="De5-Q0-UAp"/>
                                         <constraint firstAttribute="bottom" secondItem="KQS-wx-Lxs" secondAttribute="bottom" constant="10" id="EDH-4W-7oK"/>
+                                        <constraint firstItem="4X7-KF-vLc" firstAttribute="leading" secondItem="QeQ-mY-yhR" secondAttribute="leading" id="Jqj-Xu-LKd"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4X7-KF-vLc" secondAttribute="trailing" constant="10" id="N5j-V1-RW5"/>
                                         <constraint firstItem="QeQ-mY-yhR" firstAttribute="trailing" secondItem="Y3W-PE-v89" secondAttribute="trailing" id="Pyx-BC-n3n"/>
                                         <constraint firstItem="KQS-wx-Lxs" firstAttribute="top" secondItem="xFk-1e-QkO" secondAttribute="top" constant="10" id="YCg-Ve-671"/>
                                         <constraint firstItem="Y3W-PE-v89" firstAttribute="top" secondItem="xFk-1e-QkO" secondAttribute="top" constant="10" id="ZDo-FB-8FG"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QeQ-mY-yhR" secondAttribute="bottom" constant="10" id="aVy-m3-6Kn"/>
+                                        <constraint firstItem="4X7-KF-vLc" firstAttribute="top" secondItem="QeQ-mY-yhR" secondAttribute="bottom" constant="10" id="bEG-9Q-3ln"/>
                                         <constraint firstItem="Y3W-PE-v89" firstAttribute="leading" secondItem="KQS-wx-Lxs" secondAttribute="trailing" constant="10" id="uzc-eF-I9a"/>
                                         <constraint firstItem="KQS-wx-Lxs" firstAttribute="leading" secondItem="xFk-1e-QkO" secondAttribute="leading" constant="10" id="ynA-hC-xDh"/>
                                         <constraint firstItem="QeQ-mY-yhR" firstAttribute="top" secondItem="Y3W-PE-v89" secondAttribute="bottom" constant="10" id="zck-Ao-HcO"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="itineraryAuthor" destination="4X7-KF-vLc" id="N1V-Hq-uzr"/>
                                     <outlet property="itineraryDates" destination="QeQ-mY-yhR" id="V4D-yr-Bhp"/>
                                     <outlet property="itineraryImage" destination="KQS-wx-Lxs" id="UiE-Ca-IjA"/>
                                     <outlet property="itineraryName" destination="Y3W-PE-v89" id="ipl-v1-33J"/>
@@ -486,7 +496,7 @@
                             <outlet property="delegate" destination="g0x-kb-0km" id="jNP-6d-n9m"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="My Itineraries" id="yZF-WW-h45">
+                    <navigationItem key="navigationItem" id="yZF-WW-h45">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="56e-nv-8k9">
                             <connections>
                                 <segue destination="UrR-5c-aj0" kind="presentation" identifier="ComposeItinerarySegue" id="gmm-SR-1l6"/>
@@ -1425,7 +1435,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hiJ-s2-rp9"/>
+        <segue reference="gmm-SR-1l6"/>
         <segue reference="LQT-IR-rHR"/>
         <segue reference="jge-a7-93w"/>
     </inferredMetricsTieBreakers>
