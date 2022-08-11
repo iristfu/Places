@@ -127,6 +127,16 @@
     return itineraryCell;
 }
 
+- (BOOL)tableView:(UITableView *)tableview shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    Itinerary *itinerary = [self.itinerariesToDisplay objectAtIndex:fromIndexPath.row];
+    [self.itinerariesToDisplay removeObjectAtIndex:fromIndexPath.row];
+    [self.itinerariesToDisplay insertObject:itinerary atIndex:toIndexPath.row];
+}
+
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 // TODO: figure out why deleting first itinerary of table view is buggy
