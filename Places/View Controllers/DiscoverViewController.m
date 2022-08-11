@@ -193,7 +193,7 @@
                 newPlace.categories = place[@"types"];
                 newPlace.lat = place[@"geometry"][@"location"][@"lat"];
                 newPlace.lng = place[@"geometry"][@"location"][@"lng"];
-                newPlace.favoriteCount = 0;
+                newPlace.favoriteCount = [NSNumber numberWithInt:0];
                 [newPlace save];
                 NSLog(@"Created new Place model for %@", place[@"name"]);
             }

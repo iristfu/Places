@@ -15,7 +15,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
     self.place.fetchIfNeeded;
 }
 
@@ -49,17 +48,32 @@
             [self.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
             self.addToButton.tintColor = [UIColor redColor];
           } completion:nil];
-
-        // Update favorite count label
-        [UIView transitionWithView:self.placeFavoriteCount
+    } else {
+        NSLog(@"%@ already favorited by user", self.place[@"name"]);
+        // Remove from user's favoritedPlaces array
+        [currentUser removeObject:self.place[@"placeID"] forKey:@"favoritedPlaces"];
+        [currentUser saveInBackground];
+        
+        // Decrement Place's favorite count
+        [self.place incrementKey:@"favoriteCount" byAmount:[NSNumber numberWithInt:-1]];
+        [self.place saveInBackground];
+        
+        // Change button UI
+        [UIView transitionWithView:self.addToButton
                           duration:0.25f
                            options:UIViewAnimationOptionTransitionFlipFromBottom
                         animations:^{
-            self.placeFavoriteCount.text = [NSString stringWithFormat:@"❤️ %@", self.place[@"favoriteCount"]];
+            [self.addToButton setImage:[UIImage systemImageNamed:@"heart"] forState:UIControlStateNormal];
+            self.addToButton.tintColor = [UIColor grayColor];
           } completion:nil];
-    } else {
-        NSLog(@"%@ already favorited by user", self.place[@"name"]);
     }
+    // Update favorite count label
+    [UIView transitionWithView:self.placeFavoriteCount
+                      duration:0.25f
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    animations:^{
+        self.placeFavoriteCount.text = [NSString stringWithFormat:@"❤️ %@", self.place[@"favoriteCount"]];
+      } completion:nil];
 }
 
 - (void)handleAddToPlacesToGoButtonFunctionalities {
