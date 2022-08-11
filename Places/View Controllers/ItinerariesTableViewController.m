@@ -62,12 +62,12 @@
 - (void)fetchItineraries {
     PFUser *user = [PFUser currentUser];
     if ([self.typeOfItineraries  isEqual: @"My Itineraries"]) {
+        self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
         if (user[@"itineraries"]) {
             NSLog(@"The user's itineraries are: %@", self.itinerariesToDisplay);
         } else {
             NSLog(@"The user currently has no itineraries");
         }
-        self.itinerariesToDisplay = [[[user[@"itineraries"] reverseObjectEnumerator] allObjects] mutableCopy]; // display from most to least recently created
     } else {
         NSLog(@"Going to load shared itineraries");
     
