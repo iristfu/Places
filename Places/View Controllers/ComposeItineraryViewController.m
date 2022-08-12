@@ -25,6 +25,8 @@
 @property (nonatomic, getter=isEditing) BOOL editing;
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated;
 
+@property (strong, nonatomic) NSMutableArray *allPlaces;
+@property (strong, nonatomic) NSMutableArray *trimmedPlacesToGo;
 
 @end
 
@@ -85,8 +87,119 @@
     [self.startDatePicker setDate:startDate];
     [self.endDatePicker setDate:endDate];
     
+    if (self.autogenerateForPlaceTypes) {
+        NSLog(@"There are autogenerateForPlaceTypes %@", self.autogenerateForPlaceTypes);
+        [self fetchAllPlacesIn:self.region withTypes:self.autogenerateForPlaceTypes callback:^(NSError *error, BOOL success) {
+            if (success) {
+                NSLog(@"self.allPlaceIDs after fetch method %@", self.allPlaces);
+                [self trimPlacesEvenlyAcrossTypesTo:[self.numPlacesToGenerate intValue] callback:^(NSError *error, BOOL success) {
+                    if (success) {
+                        NSLog(@"trimmed successfully and table view should be reloaded");
+                    }
+                }];
+            }
+        }];
+    }
     NSLog(@"The %lu places to go for this existing itinerary are %@",  (unsigned long)self.itinerary.placesToGo.count, self.itinerary.placesToGo);
     [self.placesToGoTableView reloadData];
+}
+
+- (void)trimPlacesEvenlyAcrossTypesTo:(int)numPlaces callback:(void (^)(NSError *error, BOOL success))callback {
+    self.trimmedPlacesToGo = [[NSMutableArray alloc]init];
+    NSLog(@"self.allPlaces.count %lu", (unsigned long)self.allPlaces.count);
+    NSLog(@"numPlaces %lu", (unsigned long)numPlaces);
+    unsigned long selectionIndex = self.allPlaces.count / numPlaces;
+    NSLog(@"selectionIndex %lu", selectionIndex);
+    dispatch_group_t group = dispatch_group_create();
+    for (int i = 0; i < self.allPlaces.count; i += selectionIndex) {
+        dispatch_group_enter(group);
+        NSDictionary *googlePlaceObject = self.allPlaces[i];
+
+        PFQuery *query = [PFQuery queryWithClassName:@"Place"];
+        [query whereKey:@"placeID" equalTo:googlePlaceObject[@"place_id"]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
+            if (error) {
+                NSLog(@"Got an error while fetching places");
+            } else {
+                if ([places count] == 0) {
+                    Place *newPlace = [Place new];
+                    newPlace.placeID = googlePlaceObject[@"place_id"];
+                    newPlace.name = googlePlaceObject[@"name"];
+                    newPlace.address = googlePlaceObject[@"formatted_address"];
+                    newPlace.photos = googlePlaceObject[@"photos"];
+                    newPlace.rating = googlePlaceObject[@"rating"];
+                    newPlace.categories = googlePlaceObject[@"types"];
+                    newPlace.lat = googlePlaceObject[@"geometry"][@"location"][@"lat"];
+                    newPlace.lng = googlePlaceObject[@"geometry"][@"location"][@"lng"];
+                    newPlace.favoriteCount = [NSNumber numberWithInt:0];
+                    [newPlace save];
+                    NSLog(@"Created new Place model for %@", googlePlaceObject[@"name"]);
+                    [self.trimmedPlacesToGo addObject:newPlace];
+                } else {
+                    // place already a Parse object
+                    [self.trimmedPlacesToGo addObject:places[0]];
+                }
+                dispatch_group_leave(group);
+            }
+        }];
+    }
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        NSLog(@"all groups completed in trimPlacesEvenlyAcrossTypesTo!");
+        if (self.trimmedPlacesToGo.count > [self.numPlacesToGenerate intValue]) {
+            self.trimmedPlacesToGo = [[self.trimmedPlacesToGo subarrayWithRange:NSMakeRange(0, [self.numPlacesToGenerate intValue])] mutableCopy];
+        }
+        NSLog(@"trimmedPlacesToGo %@", self.trimmedPlacesToGo);
+        self.itinerary.placesToGo = self.trimmedPlacesToGo;
+        [self.placesToGoTableView reloadData];
+        callback(nil, YES);
+    });
+}
+
+- (void)fetchAllPlacesIn:(NSString *)query withTypes:(NSArray *)placeTypes callback:(void (^)(NSError *error, BOOL success))callback {
+    self.allPlaces = [[NSMutableArray alloc]init];
+    NSString *unreserved = @"-._~/?";
+    NSMutableCharacterSet *allowed = [NSMutableCharacterSet alphanumericCharacterSet];
+    [allowed addCharactersInString:unreserved];
+    NSString *formattedQuery = [query stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+    NSLog(@"formattedQuery: %@", formattedQuery);
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    for (NSString *type in placeTypes) {
+        dispatch_group_enter(group);
+        NSString *formattedType = [type stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/textsearch/json?query=%@&type=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", formattedQuery, formattedType]];
+        NSLog(@"the url: %@", url);
+        NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+               if (error != nil) {
+                   NSLog(@"%@", [error localizedDescription]);
+                   // TODO: can implement [self showAlertError];
+               }
+               else {
+                   NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                   if (dataDictionary[@"results"]) {
+                       NSArray *resultsAsGooglePlaceObjects = dataDictionary[@"results"];
+                       NSMutableArray *searchResultPlaces = [[NSMutableArray alloc] init];
+                       
+                       for (NSDictionary *googlePlaceObject in resultsAsGooglePlaceObjects) {
+                           [searchResultPlaces addObject:googlePlaceObject];
+                       }
+                       [self.allPlaces addObjectsFromArray:[searchResultPlaces copy]];
+                       NSLog(@"just added to allPlaces %@", self.allPlaces);
+                       dispatch_group_leave(group);
+                   }
+                   else {
+                       NSLog(@"Did not get valid json");
+                   }
+               }
+           }];
+        [task resume];
+    }
+    dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        callback(nil, YES);
+    });
     
 }
 
@@ -141,8 +254,8 @@
     self.itinerary.endDate = [dateFormatter stringFromDate:[self.endDatePicker date]];
     
     // set image
-    if (self.itinerary.placesToGo) {
-        NSLog(@"There are placesToGo for this itinerary filled out");
+    if (self.itinerary.placesToGo.count > 0) {
+        NSLog(@"There are %lu placesToGo for this itinerary filled out", (unsigned long)self.itinerary.placesToGo.count);
         [self setItineraryImageToBeFirstImageOfFirstPlaceToGo];
     }
     
@@ -189,7 +302,7 @@
     self.creatingNewItineraryIndicator.hidden = NO;
     [self.creatingNewItineraryIndicator startAnimating];
     
-    if (self.editingMode) {
+    if (self.editingMode && !self.autogenerateForPlaceTypes) { // this is an existing itinerary
         [self updateItineraryInParse];
         NSLog(@"About to call didEditItinerary on %@", self.itinerary);
         [self.editDelegate didEditItinerary:self.itinerary];
@@ -200,9 +313,15 @@
         // Add Itinerary to User[@"itineraries"]
         [self addItineraryForCurrentUser:self.itinerary];
         [self.delegate didComposeItinerary:self.itinerary];
+        
     }
     [self.creatingNewItineraryIndicator stopAnimating];
     [self dismissViewControllerAnimated:true completion:nil];
+    
+    if (self.autogenerateForPlaceTypes) {
+        NSLog(@"About to call didSaveAutogeneratedItinerary");
+        [self.saveAutogeneratedDelegate didSaveAutogeneratedItinerary];
+    }
 }
 
 - (IBAction)didTapClose:(id)sender {

@@ -148,7 +148,7 @@
         [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.up"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
         self.sortByIncreasingFavorites = YES;
         self.sortByDecreasingFavorites = NO;
-    } else if (self.sortByDecreasingFavorites) {
+    } else if (self.sortByIncreasingFavorites) {
         NSLog(@"set to not increasing or decreasing");
         [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.up.arrow.down"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
         self.sortByDecreasingFavorites = NO;
