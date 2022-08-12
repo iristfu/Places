@@ -11,7 +11,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
     self.layer.masksToBounds = true;
     self.layer.cornerRadius = 16;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
