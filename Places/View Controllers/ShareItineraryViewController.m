@@ -13,7 +13,6 @@
 - (IBAction)didTapShareViewOnlyLink:(id)sender;
 - (IBAction)didTapShareEditLink:(id)sender;
 - (IBAction)didTapDone:(id)sender;
-
 @property (strong, nonatomic) IBOutlet UIButton *accessPermissionsButton;
 @property (strong, nonatomic) IBOutlet UIMenu *accessPermissionsMenu;
 @property (strong, nonatomic) NSString *accessPermission;
