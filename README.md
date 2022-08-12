@@ -271,7 +271,7 @@ User
 ## Weekly Milestones
 https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/edit?usp=sharing
 
-## Demos
+## Progress Demos
 **Discover Page V1**
 
 <img src="https://github.com/iristfu/Places/blob/main/discover_v1.gif" width=400>
@@ -342,3 +342,6 @@ https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/
 **Autogenerate Itinerary**
 
 <img src="https://github.com/iristfu/Places/blob/main/autogenerate.gif" width=400>
+
+## Full Demo
+https://drive.google.com/file/d/1nIC4y2shoAzNTk-6BNKKXcsFLeQKA5OV/view?usp=sharing
