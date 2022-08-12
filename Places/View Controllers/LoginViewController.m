@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 - (IBAction)didTapLogin:(id)sender;
+@property (strong, nonatomic) IBOutlet UIImageView *logo;
 
 @end
 
@@ -21,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.logo.image = [UIImage imageNamed:@"places_logo"];
     
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
                 initWithTarget:self action:@selector(handleSingleTap:)];

@@ -43,7 +43,7 @@ An app that helps you plan, track, and share the places you go.
             * current results will unsort
             * future results will not be sorted by previous preference
         * User should not be able to select both increasing and decreasing at the same time. Selecting one will undo the other, kind of like a toggle. User can also deselect both and revert to default sorting. 
-* User can share and collaborate on itineraries - *planned technical challenge*.
+* User can share and collaborate on itineraries with access level control and activity tracking - *planned technical challenge*.
     * In an itinerary’s detail view, upon hitting share, an action sheet pops up and a custom link will be generated (e.g. places://itinerary/YBzt5P1gRI).
     * The itinerary will be stored in the Parse database.
     * The user can send a text of the URL with the itinerary, and only those with the URL can access the itinerary.
@@ -56,11 +56,12 @@ An app that helps you plan, track, and share the places you go.
         * User can toggle between "My itineraries" and "Shared itineraries" in the itineraries table view
         * User can unshare an itinerary by removing any viewers or editors
 * User can map the shortest route to travel through an itinerary's places to go - *planned technical challenge*
-    * Through an itinerary's detail view the user can touch a "map shortest route" button, which will prompt a new screen. Here, it will ask the user for a travel mode.
-    * Upon entering the travel mode, the app will display a map with the shortest route through the places to go
-    * The app uses the Google Map Distance Matrix API to get the travel time duration between all paired combinations of places to go
+    * Through an itinerary's detail view the user can touch a "map shortest route" button, which will prompt a new screen. 
+        * The user is prompted by pop up buttons to select a travel mode (driving, walking, biking) and criteria (duration or distance) to determine the shortest route by 
+    * The app uses the Google Map Distance Matrix API to get the travel time duration or distance (depending on user selection) between all paired combinations of places to go
     * The app leverages the traveling salesman algorithm to get the ordering of places to go 
-    * Knowing the ordering of places to go, the app uses the Google Map Routing API with the appropriate starting, waypoint, and ending locations to display to the user the route and navigation directions between all of their places to go
+    * Knowing the ordering of places to go and the selected travel mode, the app uses the Google Map Routing API with the appropriate starting, waypoint, and ending locations to display to the user the route between all of their places to go
+    * There is a "Open in Google Maps" button that opens the Google Maps app with the route inputted
 * The app leverages the Google Maps and Place API to get more information about a place. 
 * User has a unique profile that includes a profile picture, name, username, and bio.
 * There is a tab navigation controller that switches between the user's discover tab, saved itineraries, favorited places, and profile.
@@ -68,38 +69,45 @@ An app that helps you plan, track, and share the places you go.
 
 **Optional Nice-to-have Stories**
 
-* “Add to Favorites”, visually looks different depending on whether or not the place has already been favorited
-    * If the place is in the User's favorites list, the button UI changes to "Added to Favorites" with a red heart; otherwise, it is a white heart with "Add to Favorites"
-* User can unfavorite locations from the favorite list and reorder items on the favorite list.
-* Display the number of favorites the user has on the favorites view, and update this number as the user adds or removes favorites from the list.
-* User can unfavorite locations from the Discover view and from the Favorites list.
-* User can add a "liked" place to a chosen itinerary.
-* User can edit profile image and bio.
-* For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
-* User profile page includes a scrolling view of their favorited places and itineraries that they've created.
-* The detail view of location includes notes added by the user, including photos they've taken.
+* Discover View
+    * Add to favorites button is layered on top of the image
+        * There is an animation when the user adds to place to favorites
+    * * “Add to Favorites” button visually looks different depending on whether or not the place has already been favorited and this change is animated
+    * User can unfavorite locations from the Discover view.
+* Favorites View
+    * User can delete and reorder items on the favorite list.
+    * Display the number of favorites the user has on the favorites view, and update this number as the user adds or removes favorites from the list.
+    * User can add a "liked" place to a chosen itinerary.
+    * For each place, the user can click to see a detail view of the place including the name, location on the map, a description, reviews, etc.
+        * The detail view of location includes notes added by the user, including photos they've taken.
+* Profile View
+    * User can edit profile image.
+* The app generates suggested itineraries
+    * The user can input, preferred locations, duration, etc. to get a suggested itinerary  
 * Feed sharing -- *technical challenge*
     * There is a home feed of lists and itineraries that were posted by accounts the user followers.
     * The user can share itineraries with their followers.
     * The user can filter for friends to share a certain list or itinerary with (e.g. sharing to a "close friends" list). They can keep a list/itinerary they've created private, only viewable for a certain group of followers, or public.
     * The user can see on their profile feed which lists/itineraries are private, shared to close friends, or public.
     * The app leverages the Facebook API to get friends information.
-* The app generates suggested itineraries
-    * The user can input price, preferred locations, duration, etc. to get a suggested itinerary  
 * Itinerary list view
+    * The user can edit an itinerary
+    * The user can delete an itinerary
+        * If the user is the author, then the itinerary will also be deleted for all users with whom the itinerary is shared 
+        * Otherwise, the itienrary will only be deleted for the current user, and still be accessible by other users with whom the itinerary is shared
     * When a photo is loading, the user sees a spinner on top of the placeholder image to indicate that the image is still loading
     * Loaded/cached photos show up immediately without a spinner
 * Maps view of an itinerary
     * The user can see all the locations within an itinerary in a maps view.
     * The user can filter in this maps view for specific types of locations, dates planned for locations, etc.
     * The user can generate shortest routes between locations.
-* Sharing itinerary 
+* Sharing itinerary - *planned technical challenge continued*
     * Access permissions
         * Author can restrict access to specified accounts
         * Author can set access permissions to viewer or editor
     * Sharer of itinerary will get notified when the receiver has viewed their itinerary.
     * If receiver currently doesn't have the app and they click on a link, they will be prompted to download and sign up for the app.
-    * If receiver does have the app, clicking the link will open up the app and prompt the user to login if they aren't signed in.
+    * If receiver does have the app, clicking the link will open up the app and prompt the user to login if they aren't signed in. 
 * The app can authenticate with biometrics.
 
 ### 2. Screen Archetypes
@@ -258,39 +266,68 @@ User
 | location | GMSPlaceFieldCoordinate or GMSPlaceFieldViewport | longtitude and latitude in map or viewport for the map |
 
 ##### Google Maps API
-* for displayig a map with a pinned location (provide latitude and longitude)
+* for displaying a map with a pinned location (provide latitude and longitude)
 
 ## Weekly Milestones
 https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/edit?usp=sharing
 
 ## Demos
-Discover Page V1
+**Discover Page V1**
 
 <img src="https://github.com/iristfu/Places/blob/main/discover_v1.gif" width=400>
 
-Favoriting V1
+**Favoriting V1**
 
 <img src="https://github.com/iristfu/Places/blob/main/favorites_v1.gif" width=400>
 
-Discover Page V2 - with sorting by favorite count
+**Discover Page V2 - with sorting by favorite count**
 
 <img src="https://github.com/iristfu/Places/blob/main/discover_v2_with_sorting.gif" width=400>
 
-Itineraries V1 - table, compose, add places to go views
+**Itineraries V1 - table, compose, add places to go views**
 
 <img src="https://github.com/iristfu/Places/blob/main/itineraries_v1.gif" width=400>
 
-Itinerary Detail V1
+**Itinerary Detail V1**
 
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_detail_v1.gif" width=400>
 
-Itinerary Sharing V1
+**Itinerary Sharing V1**
 
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_sharing_v1.gif" width=400>
 
-Itinerary Activity Tracking - creation and views
+**Itinerary Activity Tracking - creation and views**
 
 *From the creator's account:*
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_activity_tracking_creator.gif" width=300>
 *From the viewer's account:*
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_activity_tracking_viewer.gif" width=300>
+
+**Map Shortest Route**
+<img src="https://github.com/iristfu/Places/blob/main/Map Shortest Route.gif" width=400>
+
+
+**Itinerary Sharing/Collaboration V2**
+*Can set access permission to viewer/editor. Author and many editors can collaborate on the same itinerary. Changes update across all accounts with view access.*
+<img src="https://github.com/iristfu/Places/blob/main/Can set access permission.gif" width=300>
+
+*Users with view-only access or link can only view an itinerary, but not edit it.*
+<img src="https://github.com/iristfu/Places/blob/main/Users with view-only.gif" width=300>
+
+*Non authors can only delete a shared itinerary for themselves. Other users with view/edit permission will still have access. Author of itinerary can delete the itinerary for everyone with access.*
+<img src="https://github.com/iristfu/Places/blob/main/Non authors can.gif" width=300>
+
+**Favoriting V2**
+*User can reorder and delete favorites, and also unfavorite from the discover view.*
+<img src="https://github.com/iristfu/Places/blob/main/Favoriting V2.gif" width=400>
+
+**Discover Page V3**
+*Sort button is embedded within the search bar. More polished UI.*
+<img src="https://github.com/iristfu/Places/blob/main/Discover Page V3.gif" width=400>
+
+**Itinerary Detail V2**
+*Edit itinerary. More polished UI*
+<img src="https://github.com/iristfu/Places/blob/main/Itinerary Detail V2.gif" width=400>
+
+**Autogenerate Itinerary**
+<img src="https://github.com/iristfu/Places/blob/main/autogenerate.gif" width=400>

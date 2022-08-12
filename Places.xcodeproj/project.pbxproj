@@ -32,9 +32,17 @@
 		7B297EB62881365000B5BCB4 /* ItineraryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EB52881365000B5BCB4 /* ItineraryTableViewCell.m */; };
 		7B297EB92881374A00B5BCB4 /* Itinerary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EB82881374A00B5BCB4 /* Itinerary.m */; };
 		7B297EBC28813E2E00B5BCB4 /* ComposeItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B297EBB28813E2E00B5BCB4 /* ComposeItineraryViewController.m */; };
+		7B2F65272898465D000C3D9C /* PlaceTuple.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F65262898465D000C3D9C /* PlaceTuple.m */; };
+		7B2F652E28984796000C3D9C /* ExactOptimalRouteAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F652D28984796000C3D9C /* ExactOptimalRouteAlgorithm.m */; };
+		7B2F6531289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F6530289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m */; };
+		7B2F653528985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F653428985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m */; };
+		7B2F6538289B0144000C3D9C /* ShareItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F6537289B0144000C3D9C /* ShareItineraryViewController.m */; };
+		7B2F653B289C4F30000C3D9C /* ShareWithUsernameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F653A289C4F30000C3D9C /* ShareWithUsernameCell.m */; };
 		7B39FC19288797A5002D3607 /* ItineraryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */; };
 		7B39FC1C288A315D002D3607 /* ActivityHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC1B288A315D002D3607 /* ActivityHistoryViewController.m */; };
 		7B39FC1F288F03F7002D3607 /* ShortestRouteMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39FC1E288F03F7002D3607 /* ShortestRouteMapViewController.m */; };
+		7B94A95628A5EBCD002DEC1F /* SuggestItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B94A95528A5EBCD002DEC1F /* SuggestItineraryViewController.m */; };
+		7B94A95928A5F358002DEC1F /* PlaceTypeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B94A95828A5F358002DEC1F /* PlaceTypeCell.m */; };
 		7BF917982877DB800042641C /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF917972877DB800042641C /* SignUpViewController.m */; };
 		CFB9F1394D47D15BCD660DA3 /* Pods_Places_PlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E0034AF7CD8494A82B4735 /* Pods_Places_PlacesUITests.framework */; };
 /* End PBXBuildFile section */
@@ -103,12 +111,30 @@
 		7B297EB82881374A00B5BCB4 /* Itinerary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Itinerary.m; sourceTree = "<group>"; };
 		7B297EBA28813E2E00B5BCB4 /* ComposeItineraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeItineraryViewController.h; sourceTree = "<group>"; };
 		7B297EBB28813E2E00B5BCB4 /* ComposeItineraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeItineraryViewController.m; sourceTree = "<group>"; };
+		7B2F65252898465D000C3D9C /* PlaceTuple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaceTuple.h; sourceTree = "<group>"; };
+		7B2F65262898465D000C3D9C /* PlaceTuple.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaceTuple.m; sourceTree = "<group>"; };
+		7B2F6528289846AE000C3D9C /* Route.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Route.h; sourceTree = "<group>"; };
+		7B2F652C28984796000C3D9C /* ExactOptimalRouteAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExactOptimalRouteAlgorithm.h; sourceTree = "<group>"; };
+		7B2F652D28984796000C3D9C /* ExactOptimalRouteAlgorithm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExactOptimalRouteAlgorithm.m; sourceTree = "<group>"; };
+		7B2F652F289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApproximateOptimalRouteAlgorithm.h; sourceTree = "<group>"; };
+		7B2F6530289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApproximateOptimalRouteAlgorithm.m; sourceTree = "<group>"; };
+		7B2F653228984E8E000C3D9C /* OptimalRouteAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptimalRouteAlgorithm.h; sourceTree = "<group>"; };
+		7B2F653328985BF1000C3D9C /* OptimalRouteAlgorithmFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptimalRouteAlgorithmFactory.h; sourceTree = "<group>"; };
+		7B2F653428985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptimalRouteAlgorithmFactory.m; sourceTree = "<group>"; };
+		7B2F6536289B0144000C3D9C /* ShareItineraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareItineraryViewController.h; sourceTree = "<group>"; };
+		7B2F6537289B0144000C3D9C /* ShareItineraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareItineraryViewController.m; sourceTree = "<group>"; };
+		7B2F6539289C4F30000C3D9C /* ShareWithUsernameCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareWithUsernameCell.h; sourceTree = "<group>"; };
+		7B2F653A289C4F30000C3D9C /* ShareWithUsernameCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareWithUsernameCell.m; sourceTree = "<group>"; };
 		7B39FC17288797A5002D3607 /* ItineraryDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItineraryDetailViewController.h; sourceTree = "<group>"; };
 		7B39FC18288797A5002D3607 /* ItineraryDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItineraryDetailViewController.m; sourceTree = "<group>"; };
 		7B39FC1A288A315D002D3607 /* ActivityHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityHistoryViewController.h; sourceTree = "<group>"; };
 		7B39FC1B288A315D002D3607 /* ActivityHistoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityHistoryViewController.m; sourceTree = "<group>"; };
 		7B39FC1D288F03F7002D3607 /* ShortestRouteMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShortestRouteMapViewController.h; sourceTree = "<group>"; };
 		7B39FC1E288F03F7002D3607 /* ShortestRouteMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShortestRouteMapViewController.m; sourceTree = "<group>"; };
+		7B94A95428A5EBCD002DEC1F /* SuggestItineraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SuggestItineraryViewController.h; sourceTree = "<group>"; };
+		7B94A95528A5EBCD002DEC1F /* SuggestItineraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuggestItineraryViewController.m; sourceTree = "<group>"; };
+		7B94A95728A5F358002DEC1F /* PlaceTypeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaceTypeCell.h; sourceTree = "<group>"; };
+		7B94A95828A5F358002DEC1F /* PlaceTypeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaceTypeCell.m; sourceTree = "<group>"; };
 		7BF917962877DB800042641C /* SignUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		7BF917972877DB800042641C /* SignUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		97FFA15AC131F6C43064546D /* Pods-PlacesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacesTests.debug.xcconfig"; path = "Target Support Files/Pods-PlacesTests/Pods-PlacesTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -183,6 +209,7 @@
 			children = (
 				7BF917992877DB880042641C /* View Controllers */,
 				7B297EA6287CD5E200B5BCB4 /* Views */,
+				7B2F652B28984733000C3D9C /* Algorithms */,
 				7B297EAA287CDB1800B5BCB4 /* Models */,
 				7B297EA2287C8A1400B5BCB4 /* API */,
 				7B1A979E2874F7A8007D53F1 /* AppDelegate.h */,
@@ -232,6 +259,10 @@
 				7B297EA8287CD61800B5BCB4 /* PlaceTableViewCell.m */,
 				7B297EB42881365000B5BCB4 /* ItineraryTableViewCell.h */,
 				7B297EB52881365000B5BCB4 /* ItineraryTableViewCell.m */,
+				7B2F6539289C4F30000C3D9C /* ShareWithUsernameCell.h */,
+				7B2F653A289C4F30000C3D9C /* ShareWithUsernameCell.m */,
+				7B94A95728A5F358002DEC1F /* PlaceTypeCell.h */,
+				7B94A95828A5F358002DEC1F /* PlaceTypeCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -245,8 +276,25 @@
 				7B297EB82881374A00B5BCB4 /* Itinerary.m */,
 				7B03FF5A2891E1D600F2E80B /* Activity.h */,
 				7B03FF5B2891E1D600F2E80B /* Activity.m */,
+				7B2F65252898465D000C3D9C /* PlaceTuple.h */,
+				7B2F65262898465D000C3D9C /* PlaceTuple.m */,
+				7B2F6528289846AE000C3D9C /* Route.h */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		7B2F652B28984733000C3D9C /* Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				7B2F653228984E8E000C3D9C /* OptimalRouteAlgorithm.h */,
+				7B2F653328985BF1000C3D9C /* OptimalRouteAlgorithmFactory.h */,
+				7B2F653428985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m */,
+				7B2F652C28984796000C3D9C /* ExactOptimalRouteAlgorithm.h */,
+				7B2F652D28984796000C3D9C /* ExactOptimalRouteAlgorithm.m */,
+				7B2F652F289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.h */,
+				7B2F6530289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m */,
+			);
+			path = Algorithms;
 			sourceTree = "<group>";
 		};
 		7BF917992877DB880042641C /* View Controllers */ = {
@@ -274,6 +322,10 @@
 				7B39FC1B288A315D002D3607 /* ActivityHistoryViewController.m */,
 				7B39FC1D288F03F7002D3607 /* ShortestRouteMapViewController.h */,
 				7B39FC1E288F03F7002D3607 /* ShortestRouteMapViewController.m */,
+				7B2F6536289B0144000C3D9C /* ShareItineraryViewController.h */,
+				7B2F6537289B0144000C3D9C /* ShareItineraryViewController.m */,
+				7B94A95428A5EBCD002DEC1F /* SuggestItineraryViewController.h */,
+				7B94A95528A5EBCD002DEC1F /* SuggestItineraryViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -567,10 +619,14 @@
 			files = (
 				7B297E9B2877E82900B5BCB4 /* TabBarController.m in Sources */,
 				7B297EA1287C00EF00B5BCB4 /* DiscoverViewController.m in Sources */,
+				7B2F653B289C4F30000C3D9C /* ShareWithUsernameCell.m in Sources */,
+				7B2F6538289B0144000C3D9C /* ShareItineraryViewController.m in Sources */,
 				7B39FC1F288F03F7002D3607 /* ShortestRouteMapViewController.m in Sources */,
 				7B1A97B42874F7A9007D53F1 /* main.m in Sources */,
+				7B2F65272898465D000C3D9C /* PlaceTuple.m in Sources */,
 				7B297EAD287CDB4700B5BCB4 /* Place.m in Sources */,
 				7B297EB32881325100B5BCB4 /* ItinerariesTableViewController.m in Sources */,
+				7B2F653528985BF1000C3D9C /* OptimalRouteAlgorithmFactory.m in Sources */,
 				7B297E9E28789D2500B5BCB4 /* ProfileViewController.m in Sources */,
 				7B297EA5287C907E00B5BCB4 /* APIManager.m in Sources */,
 				7B297EA9287CD61800B5BCB4 /* PlaceTableViewCell.m in Sources */,
@@ -579,8 +635,12 @@
 				7B297EB0287E420B00B5BCB4 /* FavoritesViewController.m in Sources */,
 				7BF917982877DB800042641C /* SignUpViewController.m in Sources */,
 				7B297E952877E33900B5BCB4 /* LoginViewController.m in Sources */,
+				7B2F6531289847A8000C3D9C /* ApproximateOptimalRouteAlgorithm.m in Sources */,
 				7B1A97A02874F7A8007D53F1 /* AppDelegate.m in Sources */,
+				7B2F652E28984796000C3D9C /* ExactOptimalRouteAlgorithm.m in Sources */,
 				7B39FC1C288A315D002D3607 /* ActivityHistoryViewController.m in Sources */,
+				7B94A95928A5F358002DEC1F /* PlaceTypeCell.m in Sources */,
+				7B94A95628A5EBCD002DEC1F /* SuggestItineraryViewController.m in Sources */,
 				7B297EB92881374A00B5BCB4 /* Itinerary.m in Sources */,
 				7B297EBC28813E2E00B5BCB4 /* ComposeItineraryViewController.m in Sources */,
 				7B1A97A32874F7A8007D53F1 /* SceneDelegate.m in Sources */,

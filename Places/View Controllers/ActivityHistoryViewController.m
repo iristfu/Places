@@ -32,10 +32,19 @@
         dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
         NSString *timestampString = [dateFormatter stringFromDate:timestamp];
         
-        NSString *activityAsText = [NSString stringWithFormat:@"%@ by %@ on %@\n", activity.activityType, activity.user.username, timestampString];
+        NSString *activityEmoji;
+        NSString *activityType = activity.activityType;
+        if ([activityType isEqualToString:@"Created"]) {
+            activityEmoji = @"✅";
+        } else if ([activityType isEqualToString:@"Viewed"]) {
+            activityEmoji = @"👀";
+        } else if ([activityType isEqualToString:@"Edited"]) {
+            activityEmoji = @"✍️";
+        }
+            
+        NSString *activityAsText = [NSString stringWithFormat:@"%@ %@ by %@ on %@\n", activityEmoji, activityType, activity.user.username, timestampString];
         allActivityHistory = [allActivityHistory stringByAppendingString:activityAsText];
     }
-    NSLog(@"allActivityHistory is: %@", allActivityHistory);
     self.activityHistoryText.text = allActivityHistory;
 }
 
