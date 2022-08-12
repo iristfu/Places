@@ -49,11 +49,6 @@
     self.profilePicture.layer.borderWidth = 0;
     self.profilePicture.contentMode = UIViewContentModeScaleAspectFill;
     
-//    self.editProfilePictureButton.layer.cornerRadius = self.editProfilePictureButton.frame.size.width / 2;
-//    self.editProfilePictureButton.layer.masksToBounds = YES;
-//    self.editProfilePictureButton.layer.borderWidth = 0;
-//    self.editProfilePictureButton.contentMode = UIViewContentModeScaleAspectFill;
-    
     if (currentUser[@"bio"]) {
         self.bio.text = currentUser[@"bio"];
     } else {

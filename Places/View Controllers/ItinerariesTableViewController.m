@@ -113,13 +113,9 @@
     itineraryCell.itineraryImage.layer.borderWidth = 0;
     itineraryCell.itineraryImage.contentMode = UIViewContentModeScaleAspectFill;
     
-    // this part is janky rn - completion block only executes when tap on cell / lightly nudge table view. Why is this?
     [itineraryCell.itineraryImage loadInBackground:^(UIImage * _Nullable image, NSError * _Nullable error) {
         if (indexPath.row == 0) {
             NSLog(@"Finished loading first itinerary's image");
-            // reload the top most table view cell for when this needs to happen after just having added a new itinerary
-            // could add logic here to only do the following line if a new itinerary was just added, but shouldn't be a huge cost as is because
-            // only reloading the first row, and if not new itinerary, image for first row will be cached
             [self.itinerariesTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         }
     }];
