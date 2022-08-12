@@ -299,35 +299,46 @@ https://docs.google.com/document/d/1zah_j6tPScta1o0TNdDxV8jFPsqdVW8BAHkeB3kaB6Q/
 **Itinerary Activity Tracking - creation and views**
 
 *From the creator's account:*
+
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_activity_tracking_creator.gif" width=300>
+
 *From the viewer's account:*
+
 <img src="https://github.com/iristfu/Places/blob/main/itinerary_activity_tracking_viewer.gif" width=300>
 
 **Map Shortest Route**
+
 <img src="https://github.com/iristfu/Places/blob/main/Map Shortest Route.gif" width=400>
 
 
 **Itinerary Sharing/Collaboration V2**
 *Can set access permission to viewer/editor. Author and many editors can collaborate on the same itinerary. Changes update across all accounts with view access.*
+
 <img src="https://github.com/iristfu/Places/blob/main/Can set access permission.gif" width=300>
 
 *Users with view-only access or link can only view an itinerary, but not edit it.*
+
 <img src="https://github.com/iristfu/Places/blob/main/Users with view-only.gif" width=300>
 
 *Non authors can only delete a shared itinerary for themselves. Other users with view/edit permission will still have access. Author of itinerary can delete the itinerary for everyone with access.*
+
 <img src="https://github.com/iristfu/Places/blob/main/Non authors can.gif" width=300>
 
 **Favoriting V2**
 *User can reorder and delete favorites, and also unfavorite from the discover view.*
+
 <img src="https://github.com/iristfu/Places/blob/main/Favoriting V2.gif" width=400>
 
 **Discover Page V3**
 *Sort button is embedded within the search bar. More polished UI.*
+
 <img src="https://github.com/iristfu/Places/blob/main/Discover Page V3.gif" width=400>
 
 **Itinerary Detail V2**
 *Edit itinerary. More polished UI*
+
 <img src="https://github.com/iristfu/Places/blob/main/Itinerary Detail V2.gif" width=400>
 
 **Autogenerate Itinerary**
+
 <img src="https://github.com/iristfu/Places/blob/main/autogenerate.gif" width=400>
