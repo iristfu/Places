@@ -45,25 +45,6 @@
     // In future PR: may need to handle custom URL here for when the app isn't launched and the user clicks a custom URL
 }
 
-- (NSArray<NSString *> *)getCurrentSharedItinerariesObjectIDs {
-    NSMutableArray<NSString *> *objectIDs = [[NSMutableArray alloc] init];
-    PFUser *currentUser = [PFUser currentUser];
-    for (Itinerary *itinerary in currentUser[@"sharedItineraries"]) {
-        [objectIDs addObject:itinerary.objectId];
-    }
-    return [objectIDs copy];
-}
-
-- (void)addSharedItineraryForCurrentUser:(Itinerary *)newItinerary {
-    PFUser *currentUser = [PFUser currentUser];
-    NSArray<NSString *> *currentSharedItinerariesObjectIDS = [self getCurrentSharedItinerariesObjectIDs];
-    if (![currentSharedItinerariesObjectIDS containsObject:newItinerary.objectId]) {
-        [currentUser addObject:newItinerary forKey:@"sharedItineraries"];
-        [currentUser saveInBackground];
-    } else {
-        NSLog(@"Already stored shared itinerary");
-    }
-}
 
 - (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts {
     NSLog(@"This should be called if app opens a URL while running or suspended in memory");
@@ -71,17 +52,22 @@
     NSLog(@"url recieved: %@", url.absoluteString);
     NSLog(@"host: %@", [url host]);
     NSLog(@"url path: %@", [url path]);
+    NSString *access = [[url query] componentsSeparatedByString: @"="][1];
+    NSLog(@"access is: %@", access);
     NSString *itineraryObjectID = [[url path] substringFromIndex:1]; // remove "/" from path
     NSLog(@"itineraryObjectID: %@", itineraryObjectID);
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ItineraryDetailViewController *itineraryDetailViewController =[storyboard instantiateViewControllerWithIdentifier:@"ItineraryDetailView"];
+    itineraryDetailViewController.accessPermission = access;
     NSLog(@"Have an itinerary Detail View Controller %@", itineraryDetailViewController);
     
     PFQuery *query = [PFQuery queryWithClassName:@"Itinerary"];
     [query getObjectInBackgroundWithId:itineraryObjectID block:^(PFObject *itinerary, NSError *error) {
         if (!error) {
-            [self addSharedItineraryForCurrentUser:itinerary];
+            PFUser *currentUser = [PFUser currentUser];
+            [access isEqualToString:@"view"] ? [itinerary addObject:currentUser forKey:@"usersWithViewAccess"] : [itinerary addObject:currentUser forKey:@"usersWithEditAccess"];
+            [itinerary saveInBackground];
             itineraryDetailViewController.itinerary = itinerary;
             NSLog(@"Got the itinerary to set the detail view with itinerary %@", itineraryDetailViewController.itinerary);
             

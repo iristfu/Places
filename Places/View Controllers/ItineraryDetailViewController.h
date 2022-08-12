@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) Itinerary *itinerary;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mapLoadingIndicator;
+@property (strong, nonatomic) NSString *accessPermission;
 
 @end
 
