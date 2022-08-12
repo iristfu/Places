@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *increasingFavoritesButton;
 @property (weak, nonatomic) IBOutlet UIButton *decreasingFavoritesButton;
 @property (nonatomic, strong) NSMutableArray *existingPlacesToGo; // array of Place objectIDs
+@property (nonatomic, strong) UISearchController *searchController;
 
 // specific to places to go
 - (IBAction)didTapCancel:(id)sender;
@@ -38,7 +39,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.searchBar.delegate = self;
+    self.title = @"Discover";
+    
+    self.searchController = [[UISearchController alloc] init];
+    self.searchController.searchBar.placeholder = @"Top food, hikes in SF, classy hotels...";
+    self.navigationItem.searchController = self.searchController;
+    self.navigationItem.hidesSearchBarWhenScrolling = YES;
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchBar.showsBookmarkButton = YES;
+    [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.up.arrow.down"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
     self.searchResults.dataSource = self;
     self.searchResults.delegate = self;
     self.searchResults.rowHeight = UITableViewAutomaticDimension;
@@ -128,14 +137,34 @@
 
 #pragma mark - UISearchBarDelegate
 
+- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
+    if (!self.sortByIncreasingFavorites && !self.sortByDecreasingFavorites) {
+        NSLog(@"set to decreasing");
+        [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.down"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
+        self.sortByDecreasingFavorites = YES;
+        self.sortByIncreasingFavorites = NO;
+    } else if (self.sortByDecreasingFavorites) {
+        NSLog(@"set to increasing");
+        [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.up"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
+        self.sortByIncreasingFavorites = YES;
+        self.sortByDecreasingFavorites = NO;
+    } else if (self.sortByIncreasingFavorites) {
+        NSLog(@"set to not increasing or decreasing");
+        [self.searchController.searchBar setImage:[UIImage systemImageNamed:@"arrow.up.arrow.down"] forSearchBarIcon:UISearchBarIconBookmark state:UIControlStateNormal];
+        self.sortByDecreasingFavorites = NO;
+        self.sortByIncreasingFavorites = NO;
+    }
+    [self fetchPlaces:self.currentQuery];
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    self.searchBar.showsCancelButton = YES;
+    self.searchController.searchBar.showsCancelButton = YES;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    self.searchBar.showsCancelButton = NO;
-    self.searchBar.text = @"";
-    [self.searchBar resignFirstResponder];
+    self.searchController.searchBar.showsCancelButton = NO;
+    self.searchController.searchBar.text = @"";
+    [self.searchController.searchBar resignFirstResponder];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -143,7 +172,7 @@
         self.currentQuery = searchBar.text;
         [self fetchPlaces:searchBar.text];
     }
-    [self.searchBar resignFirstResponder];
+    [self.searchController.searchBar resignFirstResponder];
     [self.searchResults reloadData];
 }
 
@@ -164,8 +193,8 @@
                 newPlace.categories = place[@"types"];
                 newPlace.lat = place[@"geometry"][@"location"][@"lat"];
                 newPlace.lng = place[@"geometry"][@"location"][@"lng"];
-                newPlace.favoriteCount = 0;
-                [newPlace saveInBackground];
+                newPlace.favoriteCount = [NSNumber numberWithInt:0];
+                [newPlace save];
                 NSLog(@"Created new Place model for %@", place[@"name"]);
             }
         }
@@ -181,6 +210,10 @@
     NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
     NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
     [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
+    placeTableViewCell.placeImage.layer.cornerRadius = placeTableViewCell.placeImage.frame.size.height / 16;
+    placeTableViewCell.placeImage.layer.masksToBounds = YES;
+    placeTableViewCell.placeImage.layer.borderWidth = 0;
+    placeTableViewCell.placeImage.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)configureAddToButton:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
@@ -189,30 +222,28 @@
         placeTableViewCell.delegate = self;
         
         if (![self.existingPlacesToGo containsObject:place.objectId]) {
-            [placeTableViewCell.addToButton setTitle:@" Add to places to go" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"plus"] forState:UIControlStateNormal];
         } else {
-            [placeTableViewCell.addToButton setTitle:@" Going" forState:UIControlStateNormal];
             [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
         }
         
     } else {
         PFUser *currentUser = [PFUser currentUser];
         if ([self notFavoritedBy:currentUser forPlaceID:place[@"placeID"]]) {
-            [placeTableViewCell.addToButton setTitle:@" Add to Favorites" forState:UIControlStateNormal];
-            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart"] forState:UIControlStateNormal];
+            placeTableViewCell.addToButton.tintColor = [UIColor grayColor];
         } else {
-            [placeTableViewCell.addToButton setTitle:@" Added to Favorites" forState:UIControlStateNormal];
-            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"checkmark"] forState:UIControlStateNormal];
+            [placeTableViewCell.addToButton setImage:[UIImage systemImageNamed:@"heart.fill"] forState:UIControlStateNormal];
+            placeTableViewCell.addToButton.tintColor = [UIColor redColor];
         }
     }
 }
 
 - (void)setAttributesOfPlaceCell:(Place *)place placeTableViewCell:(PlaceTableViewCell *)placeTableViewCell {
     placeTableViewCell.placeName.text = place[@"name"];
-    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"%@ out of 5 stars", place[@"rating"]];
+    placeTableViewCell.placeRatings.text = [NSString stringWithFormat:@"⭐️ %@", place[@"rating"]];
     placeTableViewCell.placeAddress.text = place[@"address"];
-    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"Favorited by %@ other users", place[@"favoriteCount"]];
+    placeTableViewCell.placeFavoriteCount.text = [NSString stringWithFormat:@"❤️ %@", place[@"favoriteCount"] ? place[@"favoriteCount"] : @"0"];
     [self displayFirstPhotoOf:place placeTableViewCell:placeTableViewCell];
     [self configureAddToButton:place placeTableViewCell:placeTableViewCell];
 }
@@ -229,70 +260,6 @@
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.placesToDisplay.count;
-}
-
-
-- (void)setIncreasingFavoriteButtonToSelected {
-    [self.increasingFavoritesButton setConfiguration:[UIButtonConfiguration filledButtonConfiguration]];
-    [self.increasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
-    [self.increasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.up"] forState:UIControlStateNormal];
-}
-
-- (void)setIncreasingFavoriteButtonToDeselected {
-    [self.increasingFavoritesButton setConfiguration:[UIButtonConfiguration grayButtonConfiguration]];
-    [self.increasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
-    [self.increasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.up"] forState:UIControlStateNormal];
-}
-
-- (void)setDecreasingFavoriteButtonToDeselected {
-    [self.decreasingFavoritesButton setConfiguration:[UIButtonConfiguration grayButtonConfiguration]];
-    [self.decreasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
-    [self.decreasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.down"] forState:UIControlStateNormal];
-}
-
-- (void)setDecreasingFavoriteButtonToSelected {
-    [self.decreasingFavoritesButton setConfiguration:[UIButtonConfiguration filledButtonConfiguration]];
-    [self.decreasingFavoritesButton setTitle:@"Favorited" forState:UIControlStateNormal];
-    [self.decreasingFavoritesButton setImage:[UIImage systemImageNamed:@"arrow.down"] forState:UIControlStateNormal];
-}
-
-- (IBAction)didTapSortByDecreasingFavorites:(id)sender {
-    if (!self.sortByDecreasingFavorites) {
-        // Change button UI
-        [self setDecreasingFavoriteButtonToSelected];
-        self.sortByDecreasingFavorites = YES;
-    } else {
-        // Change button UI
-        [self setDecreasingFavoriteButtonToDeselected];
-        self.sortByDecreasingFavorites = NO;
-    }
-    // reset increasing button UI and effect
-    [self setIncreasingFavoriteButtonToDeselected];
-    self.sortByIncreasingFavorites = NO;
-    
-    // refresh results
-    [self fetchPlaces:self.currentQuery];
-}
-
-
-- (IBAction)didTapSortByIncreasingFavorites:(id)sender {
-    if (!self.sortByIncreasingFavorites) {
-        // Change button UI
-        [self setIncreasingFavoriteButtonToSelected];
-        // Change search results
-        self.sortByIncreasingFavorites = YES;
-    } else {
-        // Change button UI
-        [self setIncreasingFavoriteButtonToDeselected];
-        // Change search results
-        self.sortByIncreasingFavorites = NO;
-    }
-    // reset decreasing button UI and effect
-    [self setDecreasingFavoriteButtonToDeselected];
-    self.sortByDecreasingFavorites = NO;
-    
-    // refresh results
-    [self fetchPlaces:self.currentQuery];
 }
 
 - (IBAction)didTapDone:(id)sender {
