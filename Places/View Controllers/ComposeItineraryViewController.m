@@ -179,16 +179,20 @@
                }
                else {
                    NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                   // TODO: add check to ensure that this is a valid json
-                   NSArray *resultsAsGooglePlaceObjects = dataDictionary[@"results"];
-                   NSMutableArray *searchResultPlaces = [[NSMutableArray alloc] init];
-                   
-                   for (NSDictionary *googlePlaceObject in resultsAsGooglePlaceObjects) {
-                       [searchResultPlaces addObject:googlePlaceObject];
+                   if (dataDictionary[@"results"]) {
+                       NSArray *resultsAsGooglePlaceObjects = dataDictionary[@"results"];
+                       NSMutableArray *searchResultPlaces = [[NSMutableArray alloc] init];
+                       
+                       for (NSDictionary *googlePlaceObject in resultsAsGooglePlaceObjects) {
+                           [searchResultPlaces addObject:googlePlaceObject];
+                       }
+                       [self.allPlaces addObjectsFromArray:[searchResultPlaces copy]];
+                       NSLog(@"just added to allPlaces %@", self.allPlaces);
+                       dispatch_group_leave(group);
                    }
-                   [self.allPlaces addObjectsFromArray:[searchResultPlaces copy]];
-                   NSLog(@"just added to allPlaces %@", self.allPlaces);
-                   dispatch_group_leave(group);
+                   else {
+                       NSLog(@"Did not get valid json");
+                   }
                }
            }];
         [task resume];
