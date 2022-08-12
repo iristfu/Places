@@ -9,8 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SuggestItineraryViewController : UIViewController
+@protocol SuggestItineraryViewControllerDelegate
 
+@end
+
+@interface SuggestItineraryViewController : UIViewController
+@property (nonatomic, weak) id<SuggestItineraryViewControllerDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

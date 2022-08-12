@@ -15,7 +15,7 @@
 #import "SuggestItineraryViewController.h"
 @import Parse;
 
-@interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, SuggestItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *itinerariesTableView;
 @property (strong, nonatomic) NSMutableArray* itinerariesToDisplay; // Array of Itinerary Parse objects
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -34,7 +34,7 @@
     [self.refreshControl addTarget:self action:@selector(fetchItineraries) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
     
-    self.navigationItem.rightBarButtonItems= [self.navigationItem.rightBarButtonItems arrayByAddingObject:self.editButtonItem];
+    self.navigationItem.rightBarButtonItems = [@[self.editButtonItem] arrayByAddingObjectsFromArray:self.navigationItem.rightBarButtonItems];
     [self setupNavigationDropdownMenu];
     
     self.itinerariesTableView.dataSource = self;
@@ -213,7 +213,8 @@
         itineraryDetailViewController.itinerary = tappedItinerary.itinerary;
     } else if ([segue.identifier isEqualToString:@"SuggestItinerarySegue"]) {
         UINavigationController *navigationController = [segue destinationViewController];
-//        SuggestItineraryViewController *suggestItineraryViewController = (SuggestItineraryViewController *)navigationController.topViewController;
+        SuggestItineraryViewController *suggestItineraryViewController = (SuggestItineraryViewController *)navigationController.topViewController;
+        suggestItineraryViewController.delegate = self;
     }
 }
 
