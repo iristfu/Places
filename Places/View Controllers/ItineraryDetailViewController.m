@@ -12,6 +12,7 @@
 #import "ActivityHistoryViewController.h"
 #import "ShortestRouteMapViewController.h"
 #import "ComposeItineraryViewController.h"
+#import "ShareItineraryViewController.h"
 
 @interface ItineraryDetailViewController () <UITableViewDelegate, UITableViewDataSource, MapShortestRouteDelegate, EditItineraryViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *itineraryNameLabel;
@@ -19,8 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *transportationDetailsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lodgingDetailsLabel;
 @property (weak, nonatomic) IBOutlet UITableView *placesToGoTableView;
-- (IBAction)didTapShare:(id)sender;
-
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *editItineraryButton;
 
 @end
 
@@ -28,6 +28,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setAccessPermission];
     
     self.mapLoadingIndicator.hidden = YES;
     self.mapLoadingIndicator.hidesWhenStopped = YES;
@@ -51,61 +53,32 @@
     [self.itinerary saveInBackground];
 }
 
-- (void)presentActivityController:(UIActivityViewController *)controller {
-    // for iPad: make the presentation a Popover
-    controller.modalPresentationStyle = UIModalPresentationPopover;
-    [self presentViewController:controller animated:YES completion:nil];
-
-    UIPopoverPresentationController *popController = [controller popoverPresentationController];
-    popController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    popController.barButtonItem = self.navigationItem.leftBarButtonItem;
-
-    
-    // set up alerts for post share
-    UIAlertController *successAlert = [UIAlertController alertControllerWithTitle:@"Success"
-                                                                               message:@"Shared successfully!"
-                                                                        preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertController *failureAlert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                               message:@"Couldn't share itinerary. Try again later."
-                                                                        preferredStyle:(UIAlertControllerStyleAlert)];
-
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:^(UIAlertAction * _Nonnull action) {}];
-    [successAlert addAction:okAction];
-    [failureAlert addAction:okAction];
-    
-    // access the completion handler
-    controller.completionWithItemsHandler = ^(NSString *activityType,
-                                              BOOL completed,
-                                              NSArray *returnedItems,
-                                              NSError *error){
-        // react to the completion
-        if (completed) {
-            // user shared an item
-            NSLog(@"We used activity type%@", activityType);
-            [self presentViewController:successAlert animated:YES completion:^{}];
-        } else if (error == nil) {
-            // user cancelled
-            NSLog(@"We didn't want to share anything after all.");
-        } else {
-            NSLog(@"An Error occured: %@, %@", error.localizedDescription, error.localizedFailureReason);
-            [self presentViewController:failureAlert animated:YES completion:^{}];
-        }
-    };
+- (NSArray<NSString *> *)getEditAccessUserObjectIDs {
+    NSMutableArray *userObjectIDs = [[NSMutableArray alloc] init];
+    for (PFUser *user in self.itinerary.usersWithEditAccess) {
+        [userObjectIDs addObject:user.objectId];
+    }
+    return [userObjectIDs copy];
 }
 
--(void)shareItinerary {
-    //create a message
-    NSURL *itineraryURL = [NSURL URLWithString:[NSString stringWithFormat:@"places://itinerary/%@", self.itinerary.objectId]];
-    NSString *theMessage = [NSString stringWithFormat:@"Checkout my itinerary %@ that I created in the Places app! %@", self.itinerary.name, itineraryURL];
-    NSArray *items = @[theMessage];
-
-    // build an activity view controller
-    UIActivityViewController *controller = [[UIActivityViewController alloc]initWithActivityItems:items applicationActivities:nil];
-
-    // and present it
-    [self presentActivityController:controller];
+- (void)setAccessPermission {
+    NSLog(@"Access permission for this itinerary is %@", self.accessPermission);
+    
+    if (!self.accessPermission) {
+        NSArray<NSString *> *editAccessUserObjectIDs = [self getEditAccessUserObjectIDs];
+        if ([editAccessUserObjectIDs containsObject:[PFUser currentUser].objectId] || [self.itinerary.author isEqual:[PFUser currentUser].username]) {
+            self.accessPermission = @"edit";
+        } else {
+            self.accessPermission = @"view";
+        }
+    }
+    
+    if ([self.accessPermission isEqualToString:@"view"]) {
+        // Remove edit button
+        NSMutableArray *rightBarButtonItems = [self.navigationItem.rightBarButtonItems mutableCopy];
+        [rightBarButtonItems removeObject:self.editItineraryButton];
+        [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:NO];
+    }
 }
 
 
@@ -125,6 +98,11 @@
     NSLog(@"This is the first photo's reference: %@", firstPhotoReference);
     NSString *requestURLString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photo_reference=%@&key=AIzaSyA2kTwxS9iiwWd3ydaxxwdewfAjZdKJeDE", firstPhotoReference];
     [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
+    [placeTableViewCell.placeImage setImageWithURL:[NSURL URLWithString:requestURLString]];
+    placeTableViewCell.placeImage.layer.cornerRadius = placeTableViewCell.placeImage.frame.size.height / 16;
+    placeTableViewCell.placeImage.layer.masksToBounds = YES;
+    placeTableViewCell.placeImage.layer.borderWidth = 0;
+    placeTableViewCell.placeImage.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -141,9 +119,6 @@
 }
 
 
-- (IBAction)didTapShare:(id)sender {
-    [self shareItinerary];
-}
 
 #pragma mark - Navigation
 
@@ -169,6 +144,11 @@
         composeItineraryViewController.editDelegate = self;
         composeItineraryViewController.editingMode = YES;
         composeItineraryViewController.itinerary = self.itinerary;
+    } else if ([[segue identifier] isEqualToString:@"ShareItinerarySegue"]) {
+        NSLog(@"Preparing for ShareItinerarySegue");
+        UINavigationController *navigationController = [segue destinationViewController];
+        ShareItineraryViewController *shareItineraryViewController = (ShareItineraryViewController *)navigationController.topViewController;
+        shareItineraryViewController.itinerary = self.itinerary;
     }
 }
 

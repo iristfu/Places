@@ -17,6 +17,7 @@ target 'Places' do
   pod 'RSKPlaceholderTextView'
   pod 'GooglePlaces', '7.0.0'
   pod 'GoogleMaps', '7.0.0'
+  pod "PFNavigationDropdownMenu"
 
   target 'PlacesTests' do
     inherit! :search_paths

@@ -44,6 +44,7 @@ PODS:
     - Bolts/Tasks (= 1.9.1)
   - Parse/UI (1.19.3):
     - Parse/Core
+  - PFNavigationDropdownMenu (0.1.1)
   - Reachability (3.2)
   - RSKPlaceholderTextView (6.1.0)
   - SVPullToRefresh (0.4.1)
@@ -58,6 +59,7 @@ DEPENDENCIES:
   - MBProgressHUD
   - Parse
   - Parse/UI
+  - PFNavigationDropdownMenu
   - RSKPlaceholderTextView
   - SVPullToRefresh
 
@@ -72,6 +74,7 @@ SPEC REPOS:
     - GooglePlaces
     - MBProgressHUD
     - Parse
+    - PFNavigationDropdownMenu
     - Reachability
     - RSKPlaceholderTextView
     - SVPullToRefresh
@@ -86,10 +89,11 @@ SPEC CHECKSUMS:
   GooglePlaces: 8dba710bed6160a2e4b85e84aaafdbcc0b4010d8
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
+  PFNavigationDropdownMenu: 135e0f460958407661cc95e201223c1fad79f543
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   RSKPlaceholderTextView: 52f26e643b6f9bbf16f45cd2bbe2181b6dfe090c
   SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
 
-PODFILE CHECKSUM: 7adf6e3e6ae78fdbaf9cb387762b03100b767ed2
+PODFILE CHECKSUM: 9f149114cb672d1405200c2034154e95e027af9b
 
 COCOAPODS: 1.11.3

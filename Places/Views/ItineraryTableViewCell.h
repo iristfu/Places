@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet PFImageView *itineraryImage;
 @property (weak, nonatomic) IBOutlet UILabel *itineraryName;
 @property (weak, nonatomic) IBOutlet UILabel *itineraryDates;
+@property (strong, nonatomic) IBOutlet UILabel *itineraryAuthor;
 @property (nonatomic,strong) Itinerary *itinerary;
 @end
 
