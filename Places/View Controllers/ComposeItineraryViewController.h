@@ -29,7 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic) BOOL editingMode;
 @property (strong, nonatomic) Itinerary *itinerary;
-
+@property (strong, nonatomic) NSArray *autogenerateForPlaceTypes;
+@property (strong, nonatomic) NSString *region;
+@property (strong, nonatomic) NSNumber *numPlacesToGenerate;
 @end
 
 NS_ASSUME_NONNULL_END

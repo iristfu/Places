@@ -12,6 +12,7 @@
 #import "UIKit+AFNetworking.h"
 #import "ItineraryDetailViewController.h"
 #import "PFNavigationDropdownMenu.h"
+#import "SuggestItineraryViewController.h"
 @import Parse;
 
 @interface ItinerariesTableViewController () <ComposeItineraryViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
@@ -33,7 +34,7 @@
     [self.refreshControl addTarget:self action:@selector(fetchItineraries) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
     
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItems= [self.navigationItem.rightBarButtonItems arrayByAddingObject:self.editButtonItem];
     [self setupNavigationDropdownMenu];
     
     self.itinerariesTableView.dataSource = self;
@@ -210,6 +211,9 @@
         ItineraryTableViewCell *tappedItinerary = sender;
         ItineraryDetailViewController *itineraryDetailViewController = [segue destinationViewController];
         itineraryDetailViewController.itinerary = tappedItinerary.itinerary;
+    } else if ([segue.identifier isEqualToString:@"SuggestItinerarySegue"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+//        SuggestItineraryViewController *suggestItineraryViewController = (SuggestItineraryViewController *)navigationController.topViewController;
     }
 }
 
